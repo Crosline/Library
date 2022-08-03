@@ -10,6 +10,20 @@ namespace Crosline.DebugTools.Log
         {
             get
             {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                var testTrace = StackTraceUtility.ExtractStackTrace();
+                int spaceIndex = testTrace.IndexOf(' ');
+
+                for (int i = spaceIndex; i >= 0; i--) {
+                    char c = testTrace[i];
+                    if (c.Equals('.'))
+                        break;
+                    sb.Append(c);
+                }
+
+                return sb.ToString();
+                
+                    
                 var stackTrace = StackTraceUtility.ExtractStackTrace().Split('\n');
                 return stackTrace[4].Split('(')[0].Split('.')[^1];
             }
