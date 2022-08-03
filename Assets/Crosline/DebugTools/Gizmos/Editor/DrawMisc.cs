@@ -10,25 +10,29 @@ namespace Crosline.DebugTools.Gizmos.Editor {
             UnityEngine.Gizmos.DrawLine(p + Vector3.back * d, p + Vector3.forward * d);
         }
         
-        public static void DrawArrow(Vector3 position, Vector3 direction, float size = 0.05f) {
-            float d = size / 2.0f;
-            direction = direction.normalized;
-            
-            UnityEngine.Gizmos.DrawLine(position + direction * d, position + Vector3.right * d);
-            UnityEngine.Gizmos.DrawLine(position + Vector3.up * d, position + Vector3.down * d);
-            UnityEngine.Gizmos.DrawLine(position + Vector3.back * d, position + Vector3.forward * d);
-        }
-
-        public static void DrawTriangle(Vector3 position, Vector3 direction, float size = 0.05f) {
-            float k = 1.175f * 0.333f;
+        public static void DrawArrow(Vector3 position, Vector3 direction, float size = 0.1f) {
+            float k = 1.175f * 0.33f;
             Vector3 right = GizmosUtils.GetRightFromNormal(direction);
             
-            direction = direction.normalized * size;
-            right = right.normalized * size;
+            direction = direction.normalized * size * k;
+            right = right.normalized * size * k;
 
-            UnityEngine.Gizmos.DrawLine(position - direction * k - right, position + direction * k * 2);
-            UnityEngine.Gizmos.DrawLine(position + direction * k * 2, position - direction * k + right);
-            UnityEngine.Gizmos.DrawLine(position - direction * k + right, position - direction * k - right);
+            UnityEngine.Gizmos.DrawLine(position - direction - right, position + direction * 2);
+            UnityEngine.Gizmos.DrawLine(position + direction * 2, position - direction + right);
+            UnityEngine.Gizmos.DrawLine(position - direction + right, position - direction * 0.33f);
+            UnityEngine.Gizmos.DrawLine(position - direction * 0.33f, position - direction - right);
+        }
+
+        public static void DrawTriangle(Vector3 position, Vector3 direction, float size = 0.1f) {
+            float k = 1.175f * 0.33f;
+            Vector3 right = GizmosUtils.GetRightFromNormal(direction);
+            
+            direction = direction.normalized * size * k;
+            right = right.normalized * size * k;
+
+            UnityEngine.Gizmos.DrawLine(position - direction - right, position + direction * 2);
+            UnityEngine.Gizmos.DrawLine(position + direction * 2, position - direction + right);
+            UnityEngine.Gizmos.DrawLine(position - direction + right, position - direction - right);
         }
         
         public static void DrawTriangle(Vector3 position1, Vector3 position2, Vector3 position3) {

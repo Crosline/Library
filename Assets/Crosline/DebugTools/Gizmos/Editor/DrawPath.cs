@@ -12,10 +12,16 @@ namespace Crosline.DebugTools.Gizmos.Editor {
                 
                 if (drawPoints) {
                     if (arrowPoints) {
-                        DrawTriangle(points[i], points[i + 1] - points[i]);
+                        if (i == 0) {
+                            DrawTriangle(points[i], points[i + 1] - points[i]);
+                        }
+                        DrawTriangle(points[i + 1], points[i + 1] - points[i]);
                         continue;
                     }
-                    DrawPoint(points[i]);
+                    if (i == 0) {
+                        DrawPoint(points[i]);
+                    }
+                    DrawPoint(points[i + 1]);
                 }
             }
         }
