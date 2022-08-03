@@ -1,4 +1,5 @@
 using Crosline.DebugTools.Gizmos.Editor;
+using Crosline.DebugTools.Log;
 using UnityEngine;
 
 namespace Crosline
@@ -10,11 +11,14 @@ namespace Crosline
             Vector3.one * 2f,
             Vector3.one * 3f
         };
-        
+
+        private void Start() {
+            CroslineDebug.LogError("hi");
+        }
+
         private void OnDrawGizmosSelected() {
-            //CroslineGizmos.DrawCircle(transform.position, transform.up)
             Gizmos.color = Color.blue;
-            CroslineGizmos.DrawPath(testPath, true);
+            CroslineGizmos.DrawPath(testPath, true, true);
         }
     }
 }
