@@ -1,7 +1,9 @@
 {
     "name": "Crosline.DebugTools.Gizmos.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:15325c45dbcdc774a9b63b9a72cbc664"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
