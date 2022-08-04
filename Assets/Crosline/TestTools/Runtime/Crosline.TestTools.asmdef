@@ -1,7 +1,9 @@
 {
     "name": "Crosline.TestTools",
     "rootNamespace": "Crosline",
-    "references": [],
+    "references": [
+        "GUID:d12252c115dd9b94694c08b232bc638f"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

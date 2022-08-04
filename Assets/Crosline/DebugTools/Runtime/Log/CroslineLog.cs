@@ -2,7 +2,7 @@
 using UnityEngine;
 #endif
 
-namespace Crosline.DebugTools.Log {
+namespace Crosline.DebugTools {
     public static partial class CroslineDebug {
         private static string DefaultPrefix
         {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Crosline.DebugTools {
-    public static partial class CroslineDebug {
+    public static partial class CroslineGizmos {
 
         /// <param name="normalSize">
         /// Specifies the normal with magnitude being the size of the sides.

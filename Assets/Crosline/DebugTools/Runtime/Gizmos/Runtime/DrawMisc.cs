@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Crosline.DebugTools {
-    public static partial class CroslineDebug {
+    public static partial class CroslineGizmos {
         public static void DrawCross(Vector3 position, float size) {
             float d = size / 2.0f;
             Vector3 p = position;

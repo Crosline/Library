@@ -35,7 +35,7 @@ namespace Crosline
 
         private void OnDrawGizmosSelected() {
             Gizmos.color = Color.blue;
-            CroslineDebug.DrawPath(testPath, true, true);
+            CroslineGizmos.DrawPath(testPath, true, true);
         }
     }
 }

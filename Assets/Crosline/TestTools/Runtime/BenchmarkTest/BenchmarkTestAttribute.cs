@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using Crosline.DebugTools.Log;
+using Crosline.DebugTools;
 using UnityEngine;
 
 namespace Crosline.TestTools {
