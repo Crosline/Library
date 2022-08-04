@@ -83,7 +83,7 @@ namespace Crosline.Builder.Editor.Settings {
             }
 
             if (GUILayout.Button("Build", EditorStyles.toolbarButton)) {
-                _error = "Build is not implemented yet."; //TODO - Çağkan: Don't forget to connect build to here.
+                _error = "Build is not implemented yet."; //TODO - Crosline: Don't forget to connect build to here.
             }
 
             if (GUILayout.Button("Create", EditorStyles.toolbarButton)) {
