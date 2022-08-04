@@ -1,5 +1,5 @@
 {
-    "name": "Crosline.Builder.Editor",
+    "name": "Crosline.BuildTools.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [

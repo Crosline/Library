@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Crosline.Builder.Editor.Settings {
+namespace Crosline.BuildTools.Editor.Settings {
     public class BuildConfigDrawer {
         private BuildConfigAsset _buildConfigAsset;
 
