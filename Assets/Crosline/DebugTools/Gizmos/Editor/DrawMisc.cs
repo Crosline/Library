@@ -9,11 +9,11 @@ namespace Crosline.DebugTools.Gizmos.Editor {
             UnityEngine.Gizmos.DrawLine(p + Vector3.up * d, p + Vector3.down * d);
             UnityEngine.Gizmos.DrawLine(p + Vector3.back * d, p + Vector3.forward * d);
         }
-        
+
         public static void DrawArrow(Vector3 position, Vector3 direction, float size = 0.1f) {
             float k = 1.175f * 0.33f;
             Vector3 right = GizmosUtils.GetRightFromNormal(direction);
-            
+
             direction = direction.normalized * size * k;
             right = right.normalized * size * k;
 
@@ -26,7 +26,7 @@ namespace Crosline.DebugTools.Gizmos.Editor {
         public static void DrawTriangle(Vector3 position, Vector3 direction, float size = 0.1f) {
             float k = 1.175f * 0.33f;
             Vector3 right = GizmosUtils.GetRightFromNormal(direction);
-            
+
             direction = direction.normalized * size * k;
             right = right.normalized * size * k;
 
@@ -34,9 +34,9 @@ namespace Crosline.DebugTools.Gizmos.Editor {
             UnityEngine.Gizmos.DrawLine(position + direction * 2, position - direction + right);
             UnityEngine.Gizmos.DrawLine(position - direction + right, position - direction - right);
         }
-        
+
         public static void DrawTriangle(Vector3 position1, Vector3 position2, Vector3 position3) {
-            
+
         }
     }
 }

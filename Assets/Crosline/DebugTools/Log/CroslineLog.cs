@@ -2,15 +2,14 @@
 using UnityEngine;
 #endif
 
-namespace Crosline.DebugTools.Log
-{
-    public static partial class CroslineDebug
-    {
+namespace Crosline.DebugTools.Log {
+    public static partial class CroslineDebug {
         private static string DefaultPrefix
         {
             get
             {
                 var stackTrace = StackTraceUtility.ExtractStackTrace().Split('\n');
+
                 return stackTrace[4].Split('(')[0].Split('.')[^1];
             }
         }
@@ -20,11 +19,13 @@ namespace Crosline.DebugTools.Log
             Debug.Log($"[{GetPrefix(prefix)}]: {log}");
 #endif
         }
+
         public static void LogWarning(string log, string prefix = "") {
 #if CROSLINE_DEBUG
             Debug.LogWarning($"[{GetPrefix(prefix)}]: {log}");
 #endif
         }
+
         public static void LogError(string log, string prefix = "") {
 #if CROSLINE_DEBUG
             Debug.LogError($"[{GetPrefix(prefix)}]: {log}");
