@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace Crosline.DebugTools.Gizmos.Editor {
-    public static partial class CroslineGizmos {
+namespace Crosline.DebugTools {
+    public static partial class CroslineDebug {
 
         public static void DrawPath(Vector3[] points, bool drawPoints = false, bool arrowPoints = false) {
             if (points == null)

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Crosline.DebugTools.Gizmos.Editor {
-    public static partial class CroslineGizmos {
+namespace Crosline.DebugTools {
+    public static partial class CroslineDebug {
         /// <param name="normalRadius">
         /// Specifies the normal with magnitude being the radius.
         /// </param>

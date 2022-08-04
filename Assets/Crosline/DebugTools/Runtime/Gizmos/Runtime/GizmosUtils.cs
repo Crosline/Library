@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Crosline.DebugTools.Gizmos {
-    public static class GizmosUtils {
+namespace Crosline.DebugTools {
+    public static partial class GizmosUtils {
         public static (Vector3 left, Vector3 up) GetComponentsFromNormal(Vector3 normal, Transform t = null) {
             Vector3 left = GetRightFromNormal(normal, t) * -1f;
             Vector3 up = GetUpFromNormal(normal, t);

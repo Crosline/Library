@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace Crosline.DebugTools.Gizmos.Editor {
-    public static partial class CroslineGizmos {
+namespace Crosline.DebugTools {
+    public static partial class CroslineDebug {
 
         /// <param name="normalSize">
         /// Specifies the normal with magnitude being the size of the sides.
@@ -19,10 +19,10 @@ namespace Crosline.DebugTools.Gizmos.Editor {
             float width, float height) {
             (Vector3 left, Vector3 up) = GizmosUtils.GetComponentsFromNormal(normal);
 
-            UnityEngine.Gizmos.DrawLine(origin - up * height - left * width, origin - up * height + left * width);
-            UnityEngine.Gizmos.DrawLine(origin - up * height + left * width, origin + up * height + left * width);
-            UnityEngine.Gizmos.DrawLine(origin + up * height + left * width, origin + up * height - left * width);
-            UnityEngine.Gizmos.DrawLine(origin + up * height - left * width, origin - up * height - left * width);
+            Gizmos.DrawLine(origin - up * height - left * width, origin - up * height + left * width);
+            Gizmos.DrawLine(origin - up * height + left * width, origin + up * height + left * width);
+            Gizmos.DrawLine(origin + up * height + left * width, origin + up * height - left * width);
+            Gizmos.DrawLine(origin + up * height - left * width, origin - up * height - left * width);
         }
     }
 }

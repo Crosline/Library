@@ -2,17 +2,22 @@
 using UnityEngine;
 #endif
 
-namespace Crosline.DebugTools.Log {
+namespace Crosline.DebugTools {
     public static partial class CroslineDebug {
+#if CROSLINE_DEBUG
         private static string DefaultPrefix
         {
             get
             {
                 var stackTrace = StackTraceUtility.ExtractStackTrace().Split('\n');
 
+                Debug.Log("stackTrace");
+                
                 return stackTrace[4].Split('(')[0].Split('.')[^1];
+                return "";
             }
         }
+#endif
 
         public static void Log(string log, string prefix = "") {
 #if CROSLINE_DEBUG
@@ -20,7 +25,7 @@ namespace Crosline.DebugTools.Log {
 #endif
         }
 
-        public static void LogWarning(string log, string prefix = "") {
+        public static void Warning(string log, string prefix = "") {
 #if CROSLINE_DEBUG
             Debug.LogWarning($"[{GetPrefix(prefix)}]: {log}");
 #endif
@@ -31,9 +36,11 @@ namespace Crosline.DebugTools.Log {
             Debug.LogError($"[{GetPrefix(prefix)}]: {log}");
 #endif
         }
-
+#if CROSLINE_DEBUG
         private static string GetPrefix(string prefix) {
             return string.IsNullOrEmpty(prefix) ? DefaultPrefix : prefix;
         }
+        
+#endif
     }
 }
