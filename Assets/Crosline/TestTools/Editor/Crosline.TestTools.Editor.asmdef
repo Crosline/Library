@@ -1,0 +1,16 @@
+{
+    "name": "Crosline.TestTools.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:da06f5e5f43205a4db2895d0bd1e8ada"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

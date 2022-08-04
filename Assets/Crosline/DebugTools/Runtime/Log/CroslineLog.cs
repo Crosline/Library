@@ -2,45 +2,56 @@
 using UnityEngine;
 #endif
 
-namespace Crosline.DebugTools {
+namespace Crosline.DebugTools.Log {
     public static partial class CroslineDebug {
-#if CROSLINE_DEBUG
         private static string DefaultPrefix
         {
             get
             {
-                var stackTrace = StackTraceUtility.ExtractStackTrace().Split('\n');
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                var testTrace = StackTraceUtility.ExtractStackTrace().Split('\n')[4];
+                int spaceIndex = testTrace.IndexOf(' ');
 
-                Debug.Log("stackTrace");
-                
-                return stackTrace[4].Split('(')[0].Split('.')[^1];
-                return "";
+                for (int i = spaceIndex; i >= 0; i--) {
+                    char c = testTrace[i];
+
+                    if (c.Equals('.'))
+                        break;
+                    sb.Append(c);
+                }
+
+                return sb.ToString().Reverse();
             }
         }
-#endif
 
         public static void Log(string log, string prefix = "") {
 #if CROSLINE_DEBUG
-            Debug.Log($"[{GetPrefix(prefix)}]: {log}");
+            Debug.Log($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 
-        public static void Warning(string log, string prefix = "") {
+        public static void LogWarning(string log, string prefix = "") {
 #if CROSLINE_DEBUG
-            Debug.LogWarning($"[{GetPrefix(prefix)}]: {log}");
+            Debug.LogWarning($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 
         public static void LogError(string log, string prefix = "") {
 #if CROSLINE_DEBUG
-            Debug.LogError($"[{GetPrefix(prefix)}]: {log}");
+            Debug.LogError($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 #if CROSLINE_DEBUG
+        private static string Reverse(this string s) {
+            char[] c = s.ToCharArray();
+            System.Array.Reverse(c);
+
+            return new string(c);
+        }
+
         private static string GetPrefix(string prefix) {
             return string.IsNullOrEmpty(prefix) ? DefaultPrefix : prefix;
         }
-        
 #endif
     }
 }
