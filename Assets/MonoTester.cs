@@ -1,5 +1,8 @@
+using System.Diagnostics;
 using Crosline.DebugTools;
+using Crosline.TestTools;
 using Crosline.UnityTools;
+using UnityEditor;
 using UnityEngine;
 
 namespace Crosline
@@ -36,6 +39,51 @@ namespace Crosline
         private void OnDrawGizmosSelected() {
             Gizmos.color = Color.blue;
             CroslineGizmos.DrawPath(testPath, true, true);
+        }
+
+        [MenuItem("Crosline/Test/BenchmarkTest")]
+        public static void TestBenchmarkTest() {
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            CroslineDebug.Log("----------Start----------");
+            BenchmarkTestAttribute.Test();
+            CroslineDebug.Log("----------End----------");
+            s.Stop();
+            CroslineDebug.Log($"Total test time: {s.ElapsedMilliseconds}ms");
+        }       
+        
+        [MenuItem("Crosline/Test/BenchmarkTest Second")]
+        public static void SecondTestBenchmarkTest() {
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            CroslineDebug.Log("----------Start----------");
+            BenchmarkTestAttribute.SecondTest();
+            CroslineDebug.Log("----------End----------");
+            s.Stop();
+            CroslineDebug.Log($"Total secondTest time: {s.ElapsedMilliseconds}ms");
+        }        
+        
+        [BenchmarkTest]
+        private void BenchmarkTestAttributeTest() {
+            byte[] b = new byte[100000000];
+            for (int i = 0; i < 100000000; i++) {
+                b[i] = 0x00000001;
+            }
+        }
+
+        [MenuItem("Crosline/Test/LogDebug")]
+        public static void TestLogDebug() {
+            CroslineDebug.Log("Start");
+        }
+
+        [MenuItem("Crosline/Test/LogWarning")]
+        public static void TestLogWarning() {
+            CroslineDebug.LogWarning("Start");
+        }
+
+        [MenuItem("Crosline/Test/LogError")]
+        public static void TestLogError() {
+            CroslineDebug.LogError("error");
         }
     }
 }

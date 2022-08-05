@@ -1,8 +1,10 @@
 {
-    "name": "Crosline.TestTools.Editor",
+    "name": "Crosline.DebugTools.Editor",
     "rootNamespace": "",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

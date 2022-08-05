@@ -1,28 +1,36 @@
+
 #if CROSLINE_DEBUG
+using System.Collections.Generic;
 using UnityEngine;
 #endif
 
 namespace Crosline.DebugTools {
     public static partial class CroslineDebug {
+#if CROSLINE_DEBUG
         private static string DefaultPrefix
         {
             get
             {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                var testTrace = StackTraceUtility.ExtractStackTrace().Split('\n')[4];
-                int spaceIndex = testTrace.IndexOf(' ');
+                var stackTraceOutput = StackTraceUtility.ExtractStackTrace().Split('\n')[4];
+                int spaceIndex = stackTraceOutput.IndexOf(' ') - 1;
+
+                List<char> prefixList = new List<char>();
 
                 for (int i = spaceIndex; i >= 0; i--) {
-                    char c = testTrace[i];
+                    char c = stackTraceOutput[i];
 
                     if (c.Equals('.'))
                         break;
-                    sb.Append(c);
+                    prefixList.Add(c);
                 }
-
-                return sb.ToString().Reverse();
+                
+                prefixList.Reverse();
+                char[] prefixArray = prefixList.ToArray();
+                
+                return new string(prefixArray);
             }
         }
+#endif
 
         public static void Log(string log, string prefix = "") {
 #if CROSLINE_DEBUG
