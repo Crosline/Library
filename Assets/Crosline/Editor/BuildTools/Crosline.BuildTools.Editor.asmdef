@@ -1,7 +1,9 @@
 {
     "name": "Crosline.BuildTools.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:453fc4f2c24852e4693e279e0c330451"
+    ],
     "includePlatforms": [
         "Editor"
     ],
