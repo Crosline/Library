@@ -22,7 +22,7 @@ namespace Crosline
         [Space]
         [SerializeField]
         private float test3;
-        [Separator()]
+        [Separator]
         [SerializeField]
         private float test4;
         [Separator(20)]
@@ -50,23 +50,29 @@ namespace Crosline
             CroslineDebug.Log("----------End----------");
             s.Stop();
             CroslineDebug.Log($"Total test time: {s.ElapsedMilliseconds}ms");
-        }       
+        }
         
-        [MenuItem("Crosline/Test/BenchmarkTest Second")]
-        public static void SecondTestBenchmarkTest() {
-            Stopwatch s = new Stopwatch();
-            s.Start();
-            CroslineDebug.Log("----------Start----------");
-            BenchmarkTestAttribute.SecondTest();
-            CroslineDebug.Log("----------End----------");
-            s.Stop();
-            CroslineDebug.Log($"Total secondTest time: {s.ElapsedMilliseconds}ms");
-        }        
-        
+
         [BenchmarkTest]
-        private void BenchmarkTestAttributeTest() {
+        public void BenchmarkTest1() {
             byte[] b = new byte[100000000];
             for (int i = 0; i < 100000000; i++) {
+                b[i] = 0x00000001;
+            }
+        }
+        
+        [BenchmarkTest]
+        public void BenchmarkTest2() {
+            byte[] b = new byte[100];
+            for (int i = 0; i < 100; i++) {
+                b[i] = 0x00000001;
+            }
+        }
+        
+        [BenchmarkTest]
+        public void BenchmarkTest3(int size) {
+            byte[] b = new byte[size];
+            for (int i = 0; i < size; i++) {
                 b[i] = 0x00000001;
             }
         }
