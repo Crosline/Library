@@ -9,7 +9,7 @@ namespace Crosline.UnityTools.Editor {
     public class SeparatorDrawer : DecoratorDrawer {
 
         private SeparatorAttribute _separatorAttr;
-        private const float Thickness = 5f;
+        private const float Thickness = 1f;
         private readonly Color _separatorColor = Color.white * 0.6f;
 
         public override void OnGUI(Rect position) {
@@ -24,20 +24,6 @@ namespace Crosline.UnityTools.Editor {
             _separatorAttr ??= attribute as SeparatorAttribute;
 
             return _separatorAttr.Spacing * 2f + Thickness;
-        }
-
-        public void Test() {
-            var methods = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass)
-                .SelectMany(x => x.GetMethods())
-                .Where(x => x.GetCustomAttributes(typeof(SeparatorAttribute), false).FirstOrDefault() != null);
-
-            foreach (var method in methods) {
-                var obj = Activator.CreateInstance(method.DeclaringType);
-
-                method.Invoke(obj, null);
-            }
         }
     }
 }
