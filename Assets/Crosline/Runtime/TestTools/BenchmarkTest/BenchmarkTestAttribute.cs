@@ -3,112 +3,77 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Crosline.DebugTools;
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Crosline.TestTools {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class BenchmarkTestAttribute : Attribute {
 
-        public object[] Parameters;
-        
-        public BenchmarkTestAttribute() {
+        private readonly object[] Parameters;
+
+        private readonly int IterationCount;
+
+        public BenchmarkTestAttribute(int iteration = 1) {
             Parameters = null;
+            IterationCount = iteration;
         }
 
-        public BenchmarkTestAttribute(params object[] parameters)
-        {
+        public BenchmarkTestAttribute(int iteration = 1, params object[] parameters) {
             Parameters = parameters;
-        }
-        
-        [BenchmarkTest]
-        private void BenchmarkTestAttributeTest() {
-            byte[] b = new byte[100000000];
-            for (int i = 0; i < 100000000; i++) {
-                b[i] = 0x00000001;
-            }
+            IterationCount = iteration;
         }
 
-        public static void SecondTest() {
-            Debug.Log(1);
-            var methods = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass)
-                .SelectMany(x => x.GetMethods())
-                .Where(x => x.GetCustomAttributes(typeof(BenchmarkTestAttribute), false).FirstOrDefault() != null);
-
-            Debug.Log(2);
-            foreach (var method in methods) {
-                Debug.Log(3);
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-
-                BenchmarkTestAttribute attribute = method.GetCustomAttribute<BenchmarkTestAttribute>();
-
-                Stopwatch stopWatch = new Stopwatch();
-
-                try {
-                    Debug.Log(4);
-                    stopWatch.Start();
-                    method.Invoke(null, attribute.Parameters);
-                    stopWatch.Stop();
-
-                    CroslineDebug.LogWarning($"[{method.Name}] executed in {stopWatch.ElapsedMilliseconds}ms");
-                }
-                catch (Exception) {
-                    Debug.Log(5);
-                    CroslineDebug.LogError($"[{method.Name}] could not be executed.");
-                }
-                finally {
-                    Debug.Log(6);
-                    if (stopWatch.IsRunning)
-                        stopWatch.Stop();
-
-                    stopWatch.Reset();
-                }
-            }
-        }
+        private static string[] _excludedAssemblies =
+        {
+            "System.",
+            "UnityEngine.",
+            "UnityEditor."
+        };
         
         public static void Test() {
-            Debug.Log(1);
-            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.FullName.).ToArray();
 
-            Debug.Log(2);
-            foreach (var type in types)
-            {
-                Debug.Log(3);
-                MethodInfo[] methods = type.GetMethods();
-                methods = methods.Where(x => x.GetCustomAttribute<BenchmarkTestAttribute>() != null).ToArray();
+            var assemb = _excludedAssemblies.Any(x => AppDomain.CurrentDomain.GetAssemblies().Contains<string>(x));
 
-                foreach (var method in methods)
-                {
-                    Debug.Log(4);
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
+            foreach (var ass in assemblies) {
 
-                    BenchmarkTestAttribute attribute = method.GetCustomAttribute<BenchmarkTestAttribute>();
+                Type[] types = ass.GetTypes();
 
-                    Stopwatch stopWatch = new Stopwatch();
 
-                    try {
-                        Debug.Log(5);
-                        stopWatch.Start();
-                        method.Invoke(null, attribute.Parameters);
-                        stopWatch.Stop();
-                        
-                        CroslineDebug.LogWarning($"[{type.Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds}ms");
-                    }
-                    catch (Exception) {
-                        CroslineDebug.LogError($"[{type.Name}:{method.Name}] could not be executed.");
-                    }
-                    finally {
-                        if (stopWatch.IsRunning)
+                foreach (var type in types) {
+                    MethodInfo[] methods = type.GetMethods();
+                    methods = methods.Where(x => x.GetCustomAttribute<BenchmarkTestAttribute>() != null).ToArray();
+
+                    foreach (var method in methods) {
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        GC.Collect();
+
+                        BenchmarkTestAttribute attribute = method.GetCustomAttribute<BenchmarkTestAttribute>();
+
+                        Stopwatch stopWatch = new Stopwatch();
+
+                        try {
+                            var obj = Activator.CreateInstance(method.DeclaringType);
+                            stopWatch.Start();
+
+                            for (int i = 0; i < attribute.IterationCount; i++) {
+                                
+                            }
+                            method.Invoke(obj, attribute.Parameters);
                             stopWatch.Stop();
-                        
-                        stopWatch.Reset();
+
+                            CroslineDebug.LogWarning($"[{type.Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds}ms");
+                        }
+                        catch (Exception e) {
+                            CroslineDebug.LogError($"[{type.Name}:{method.Name}] could not be executed.\n{e}");
+                        }
+                        finally {
+                            if (stopWatch.IsRunning)
+                                stopWatch.Stop();
+
+                            stopWatch.Reset();
+                        }
                     }
                 }
             }
