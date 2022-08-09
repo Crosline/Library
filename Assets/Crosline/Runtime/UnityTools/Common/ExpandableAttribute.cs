@@ -2,6 +2,6 @@
 
 namespace Crosline.UnityTools {
     [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-    public class SOEditorAttribute : PropertyAttribute {
+    public class ExpandableAttribute : PropertyAttribute {
     }
 }
