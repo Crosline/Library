@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Crosline.BuildTools.Editor.Settings;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.UnityTools;
@@ -31,6 +32,10 @@ namespace Crosline
         [Separator(30)]
         [SerializeField]
         private float test6;
+        [Separator]
+        [Expandable]
+        [SerializeField]
+        private BuildConfigAsset _buildConfigAsset;
 
         private void Start() {
             CroslineDebug.LogError("hi");
@@ -69,7 +74,7 @@ namespace Crosline
             }
         }
         
-        [BenchmarkTest]
+        [BenchmarkTest(parameters: new object [] {50})]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
             for (int i = 0; i < size; i++) {
