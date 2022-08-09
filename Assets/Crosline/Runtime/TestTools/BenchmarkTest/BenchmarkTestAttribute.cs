@@ -30,10 +30,10 @@ namespace Crosline.TestTools {
         };
         
         public static void Test() {
+            Stopwatch stopWatch = new Stopwatch();
+        
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !x.FullName.).ToArray();
-
-            var assemb = _excludedAssemblies.Any(x => AppDomain.CurrentDomain.GetAssemblies().Contains<string>(x));
+                .Where(x => !x.FullName.Contains("System.") || !x.FullName.Contains("UnityEngine.") || !x.FullName.Contains("UnityEditor.")).ToArray();
 
             foreach (var ass in assemblies) {
 
@@ -51,19 +51,16 @@ namespace Crosline.TestTools {
 
                         BenchmarkTestAttribute attribute = method.GetCustomAttribute<BenchmarkTestAttribute>();
 
-                        Stopwatch stopWatch = new Stopwatch();
-
                         try {
                             var obj = Activator.CreateInstance(method.DeclaringType);
                             stopWatch.Start();
 
                             for (int i = 0; i < attribute.IterationCount; i++) {
-                                
+                                method.Invoke(obj, attribute.Parameters);
                             }
-                            method.Invoke(obj, attribute.Parameters);
+                            
                             stopWatch.Stop();
-
-                            CroslineDebug.LogWarning($"[{type.Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds}ms");
+                            CroslineDebug.LogWarning($"[{type.Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds/attribute.IterationCount}ms");
                         }
                         catch (Exception e) {
                             CroslineDebug.LogError($"[{type.Name}:{method.Name}] could not be executed.\n{e}");
