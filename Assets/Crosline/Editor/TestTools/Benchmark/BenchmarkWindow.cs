@@ -12,12 +12,14 @@ namespace Crosline.TestTools.Editor.Benchmark {
             //RefreshAvailableAssets();
         }
         
-        [MenuItem("Crosline/Subsystems/Build Settings")]
+        [MenuItem("Crosline/Subsystems/B")]
         public static void Initialize() {
             benchmarkWindow = (BenchmarkWindow) GetWindow(typeof(BenchmarkWindow), false, "Benchmark");
             benchmarkWindow.Show();
             benchmarkWindow.minSize = new Vector2(720, 360);
             benchmarkWindow.maxSize = new Vector2(740, 420);
+                
+                Debug.Log(BenchmarkManager.MethodInfos);
         }
         
         public static bool IsOpen() {

@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Crosline.DebugTools;
+using Debug = UnityEngine.Debug;
 
 namespace Crosline.TestTools.Editor.Benchmark {
-    public class BenchmarkManager {
-        public List<MethodInfo> MethodInfos
+    public static class BenchmarkManager {
+        public static List<MethodInfo> MethodInfos
         {
             get
             {
@@ -40,12 +41,17 @@ namespace Crosline.TestTools.Editor.Benchmark {
                 var types = ass.GetTypes();
                 foreach (Type type in types) {
                     var methods = type.GetMethods();
-                    foreach (MethodInfo methodInfo in methods) _methodInfos.Add(methodInfo);
+                    foreach (MethodInfo methodInfo in methods)
+                        if (methodInfo.GetCustomAttribute<BenchmarkAttribute>() != null) {
+                            _methodInfos.Add(methodInfo);
+                        }
                 }
             }
+            
+            Debug.Log($"MethodCount is {_methodInfos.Count}");
         }
 
-        public static void Test() {
+        public static void TestCachedMethods() {
             Stopwatch stopWatch = new Stopwatch();
             foreach (MethodInfo method in _methodInfos) {
                 GC.Collect();
