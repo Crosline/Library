@@ -21,9 +21,7 @@ namespace Crosline.BuildTools.Editor.Settings {
             EditorGUILayout.EndVertical();
 
             if (buildConfigName != _buildConfigAsset.name) {
-                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(_buildConfigAsset), buildConfigName);
-                _buildConfigAsset.name = buildConfigName;
-                BuildSettingsWindow.RefreshAvailableAssets();
+                BuildSettingsManager.RenameConfig(_buildConfigAsset, buildConfigName);
             }
         }
     }

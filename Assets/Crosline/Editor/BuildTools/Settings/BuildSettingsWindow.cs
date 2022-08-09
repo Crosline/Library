@@ -120,7 +120,7 @@ namespace Crosline.BuildTools.Editor.Settings {
         }
 
         public static void RefreshAvailableAssets() {
-            _availableAssets = BuildSettingsManager.GetAllAvailableAssets();
+            _availableAssets = BuildSettingsManager.GetAllAvailableConfigs();
         }
 
         private static void GetConfigWithCustomName(string customName, BuildConfigAsset.BuildPlatform buildPlatform = BuildConfigAsset.BuildPlatform.Windows) {

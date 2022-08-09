@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Crosline.BuildTools.Editor.Settings {
     public static class BuildSettingsManager {
-        private const string buildConfigAssetDirectory = "Assets/Crosline/Builder/Editor/BuildConfig/";
+        private const string buildConfigAssetDirectory = "Assets/Crosline/Runtime/BuildTools/BuildConfig/";
 
         internal static BuildConfigAsset TryGetConfig(ref string error, BuildConfigAsset.BuildPlatform buildPlatform = BuildConfigAsset.BuildPlatform.Windows, string customName = "") {
             BuildConfigAsset buildConfigAsset = null;
@@ -52,7 +52,7 @@ namespace Crosline.BuildTools.Editor.Settings {
             }
         }
 
-        internal static string[] GetAllAvailableAssets() {
+        internal static string[] GetAllAvailableConfigs() {
             string[] guids = AssetDatabase.FindAssets("t:BuildConfigAsset", new[] { buildConfigAssetDirectory });
 
             string[] assetNames = new string[guids.Length];
@@ -64,6 +64,11 @@ namespace Crosline.BuildTools.Editor.Settings {
             return assetNames;
         }
 
+        internal static void RenameConfig(ScriptableObject so, string name) {
+            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(so), name);
+            so.name = name;
+            BuildSettingsWindow.RefreshAvailableAssets();
+        }
 
     }
 }
