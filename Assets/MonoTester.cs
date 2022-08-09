@@ -6,8 +6,7 @@ using Crosline.UnityTools;
 using UnityEditor;
 using UnityEngine;
 
-namespace Crosline
-{
+namespace Crosline {
     public class MonoTester : MonoBehaviour {
         private Vector3[] testPath = {
             Vector3.zero,
@@ -45,36 +44,24 @@ namespace Crosline
             Gizmos.color = Color.blue;
             CroslineGizmos.DrawPath(testPath, true, true);
         }
-
-        [MenuItem("Crosline/Test/BenchmarkTest")]
-        public static void TestBenchmarkTest() {
-            Stopwatch s = new Stopwatch();
-            s.Start();
-            CroslineDebug.Log("----------Start----------");
-            BenchmarkTestAttribute.Test();
-            CroslineDebug.Log("----------End----------");
-            s.Stop();
-            CroslineDebug.Log($"Total test time: {s.ElapsedMilliseconds}ms");
-        }
         
-
-        [BenchmarkTest]
+        [Benchmark]
         public void BenchmarkTest1() {
             byte[] b = new byte[100000000];
             for (int i = 0; i < 100000000; i++) {
                 b[i] = 0x00000001;
             }
         }
-        
-        [BenchmarkTest]
+
+        [Benchmark]
         public void BenchmarkTest2() {
             byte[] b = new byte[100];
             for (int i = 0; i < 100; i++) {
                 b[i] = 0x00000001;
             }
         }
-        
-        [BenchmarkTest(parameters: new object [] {50})]
+
+        [Benchmark(parameters: new object[] {50})]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
             for (int i = 0; i < size; i++) {
