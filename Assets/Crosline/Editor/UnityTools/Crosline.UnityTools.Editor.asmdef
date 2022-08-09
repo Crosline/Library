@@ -2,7 +2,8 @@
     "name": "Crosline.UnityTools.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:c3a0a14e82b9deb4ebde6eeaa46f465b"
+        "GUID:c3a0a14e82b9deb4ebde6eeaa46f465b",
+        "GUID:88502a2f462e8ff41be8e59b0be6a136"
     ],
     "includePlatforms": [
         "Editor"
