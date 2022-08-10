@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.Text;
 using Crosline.BuildTools.Editor.Settings;
 using Crosline.DebugTools;
 using Crosline.TestTools;
@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace Crosline {
     public class MonoTester : MonoBehaviour {
-        private Vector3[] testPath = {
+        private Vector3[] testPath =
+        {
             Vector3.zero,
             Vector3.one,
             Vector3.one * 2f,
@@ -44,10 +45,11 @@ namespace Crosline {
             Gizmos.color = Color.blue;
             CroslineGizmos.DrawPath(testPath, true, true);
         }
-        
+
         [Benchmark]
         public void BenchmarkTest1() {
             byte[] b = new byte[100000000];
+
             for (int i = 0; i < 100000000; i++) {
                 b[i] = 0x00000001;
             }
@@ -56,16 +58,78 @@ namespace Crosline {
         [Benchmark]
         public void BenchmarkTest2() {
             byte[] b = new byte[100];
+
             for (int i = 0; i < 100; i++) {
                 b[i] = 0x00000001;
             }
         }
 
-        [Benchmark(parameters: new object[] {50})]
+        [Benchmark(parameters: new object[] { 50 })]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
+
             for (int i = 0; i < size; i++) {
                 b[i] = 0x00000001;
+            }
+        }
+
+        [Benchmark(5)]
+        public void ConcatTest() {
+            for (int i = 0; i < 1000; i++) {
+                var coca = string.Concat("its sometimes so ", 5, " but also ", Color.blue, " but not ", true, 5, " but also ", Color.blue, " but not ", true);
+
+                CroslineDebug.Log(coca);
+            }
+        }
+
+        [Benchmark(5)]
+        public void StringDollarTest() {
+            for (int i = 0; i < 1000; i++) {
+                var x = $"its sometimes so {5} but also {Color.blue} but not {true}{5} but also {Color.blue} but not {true}";
+
+                CroslineDebug.Log(x);
+            }
+        }
+
+        [Benchmark(5)]
+        public void StringBuilderTest() {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < 1000; i++) {
+                sb.Clear();
+                sb.Append("its sometimes so ");
+                sb.Append(5);
+                sb.Append(" but also ");
+                sb.Append(Color.blue);
+                sb.Append(" but not ");
+                sb.Append(true);
+                sb.Append(5);
+                sb.Append(" but also ");
+                sb.Append(Color.blue);
+                sb.Append(" but not ");
+                sb.Append(true);
+
+                CroslineDebug.Log(sb.ToString());
+            }
+        }
+
+        [Benchmark(5)]
+        public void BruteStringTest() {
+            for (int i = 0; i < 1000; i++) {
+                var br = "";
+                br += "its sometimes so ";
+                br += 5;
+                br += " but also ";
+                br += Color.blue;
+                br += " but not ";
+                br += true;
+                br += 5;
+                br += " but also ";
+                br += Color.blue;
+                br += " but not ";
+                br += true;
+
+                CroslineDebug.Log(br);
             }
         }
 
