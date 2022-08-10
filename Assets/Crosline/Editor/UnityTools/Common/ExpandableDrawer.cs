@@ -172,6 +172,11 @@ namespace Crosline.UnityTools.Editor {
 
             EditorGUI.indentLevel--;
         #endregion
+
+
+            if (_editor.serializedObject.hasModifiedProperties) {
+                _editor.serializedObject.ApplyModifiedProperties();
+            }
         }
 
         /// <summary>
