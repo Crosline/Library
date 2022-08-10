@@ -63,8 +63,11 @@ namespace Crosline.BuildTools.Editor.Settings {
             if (!string.IsNullOrEmpty(_error)) {
                 EditorGUILayout.HelpBox(_error, MessageType.Error);
             }
-
+#if !UNITY_2020_3_16
+            AssetDatabase.SaveAssets();
+#else
             AssetDatabase.SaveAssetIfDirty(buildConfigAsset);
+#endif
         }
 
         private void DrawToolbar() {
