@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Crosline.TestTools.Editor.Benchmark {
+namespace Crosline.TestTools.Editor {
     public class BenchmarkWindow : EditorWindow { //TODO - Crosline: You stupid bastard complete this immediately
 
         public static BenchmarkWindow benchmarkWindow;
@@ -73,7 +73,7 @@ namespace Crosline.TestTools.Editor.Benchmark {
                 BenchmarkManager.ResetAllBenchmark();
             }
 
-            if (GUILayout.Button("Refresh", EditorStyles.toolbarButton, GUILayout.Width(60))) {
+            if (GUILayout.Button("Reload", EditorStyles.toolbarButton, GUILayout.Width(60))) {
                 BenchmarkManager.FillMethodInfo();
             }
 

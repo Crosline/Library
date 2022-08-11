@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Crosline.DebugTools;
 
-namespace Crosline.TestTools.Editor.Benchmark {
+namespace Crosline.TestTools.Editor {
     public static class BenchmarkManager {
         public static Dictionary<MethodInfo, long> MethodInfos
         {
