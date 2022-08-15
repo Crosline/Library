@@ -7,13 +7,11 @@ using Crosline.DebugTools;
 
 namespace Crosline.TestTools.Editor {
     public static class BenchmarkManager {
-        public static Dictionary<MethodInfo, long> MethodInfos
-        {
-            get
-            {
+        public static Dictionary<MethodInfo, long> MethodInfos {
+            get {
                 if (_methodInfos == null)
                     _methodInfos = new Dictionary<MethodInfo, long>();
-                
+
                 if (_methodInfos.Count == 0)
                     FillMethodInfo();
 
@@ -38,22 +36,24 @@ namespace Crosline.TestTools.Editor {
 
             foreach (Assembly ass in assemblies) {
                 var types = ass.GetTypes();
+
                 foreach (Type type in types) {
                     var methods = type.GetMethods();
+
                     foreach (MethodInfo methodInfo in methods)
                         if (methodInfo.GetCustomAttribute<BenchmarkAttribute>() != null) {
                             _methodInfos.Add(methodInfo, -1);
                         }
                 }
             }
-            
+
             CroslineDebug.Log($"MethodCount is {_methodInfos.Count}");
         }
 
         public static void ResetBenchmark(MethodInfo method) {
             _methodInfos[method] = -1;
         }
-        
+
         public static void ResetAllBenchmark() {
             foreach (var method in _methodInfos.Keys.ToArray()) {
                 _methodInfos[method] = -1;
@@ -62,6 +62,7 @@ namespace Crosline.TestTools.Editor {
 
         public static void TestCachedMethods() {
             var methods = _methodInfos.Keys.ToArray();
+
             foreach (var method in methods) {
                 TestMethod(method);
             }
@@ -69,7 +70,7 @@ namespace Crosline.TestTools.Editor {
 
         public static void TestMethod(MethodInfo method) {
             Stopwatch stopWatch = new Stopwatch();
-            
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
@@ -87,6 +88,7 @@ namespace Crosline.TestTools.Editor {
                 stopWatch.Stop();
                 CroslineDebug.LogWarning(
                     $"[{method.GetType().Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds / attribute.IterationCount}ms");
+
                 _methodInfos[method] = stopWatch.ElapsedMilliseconds / attribute.IterationCount;
             }
             catch (Exception e) {
@@ -95,8 +97,6 @@ namespace Crosline.TestTools.Editor {
             finally {
                 if (stopWatch.IsRunning)
                     stopWatch.Stop();
-
-                stopWatch.Reset();
             }
         }
     }
