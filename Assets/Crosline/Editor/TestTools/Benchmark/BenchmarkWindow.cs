@@ -13,7 +13,7 @@ namespace Crosline.TestTools.Editor {
         private Dictionary<MethodInfo, long> methodInfos = new();
 
         private bool _isMethodRefreshed = false;
-        
+
         private static Texture2D _startIcon;
         private static Texture2D _refreshIcon;
         private static Texture2D _successIcon;
@@ -21,7 +21,7 @@ namespace Crosline.TestTools.Editor {
 
         private void OnEnable() {
             GetMethodInfos();
-            
+
             _startIcon = Resources.Load("Textures/start-32") as Texture2D;
             _refreshIcon = Resources.Load("Textures/trash-32") as Texture2D;
             _successIcon = Resources.Load("Textures/success-16") as Texture2D;
@@ -53,6 +53,7 @@ namespace Crosline.TestTools.Editor {
             foreach (var method in methodInfos) {
                 DrawMethodInfo(method.Key, method.Value);
             }
+
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
 
@@ -80,6 +81,7 @@ namespace Crosline.TestTools.Editor {
             if (GUILayout.Button("Run All", EditorStyles.toolbarButton, GUILayout.Width(60))) {
                 BenchmarkManager.TestCachedMethods();
             }
+
             EditorGUILayout.EndHorizontal();
 
         }
@@ -101,29 +103,27 @@ namespace Crosline.TestTools.Editor {
 
 
             GUILayout.Label(sec >= 0 ? _successIcon : _failIcon, GUILayout.Width(20), GUILayout.Height(40));
-            
+
             EditorGUILayout.BeginVertical(GUI.skin.box, GUILayout.MaxWidth(240), GUILayout.Height(40));
-            EditorGUILayout.LabelField(method.Name, new GUIStyle()
-            {
+            EditorGUILayout.LabelField(method.Name, new GUIStyle() {
                 fontSize = 15,
-                normal =
-                {
+                normal = {
                     textColor = Color.white
                 }
             });
-            EditorGUILayout.LabelField($"Class: {method.DeclaringType.Name}", new GUIStyle()
-            {
+
+            EditorGUILayout.LabelField($"Class: {method.DeclaringType.Name}", new GUIStyle() {
                 fontSize = 10,
-                normal =
-                {
+                normal = {
                     textColor = Color.white
                 }
             });
+
             EditorGUILayout.EndVertical();
-            
+
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(60), GUILayout.Height(38));
-                EditorGUILayout.LabelField(sec >= 0 ? $"{sec}ms" : string.Empty, GUILayout.Width(55), GUILayout.Height(38));
+                EditorGUILayout.LabelField(sec >= 0 ? $"{sec}ms" : (sec == -1 ? string.Empty : "error"), GUILayout.Width(55), GUILayout.Height(38));
                 EditorGUILayout.EndVertical();
             }
 
@@ -131,6 +131,7 @@ namespace Crosline.TestTools.Editor {
                 selectedMethod = method;
                 EditorApplication.update += RefreshMethodAfterUpdate;
             }
+
             EditorGUILayout.Separator();
 
             if (GUILayout.Button(_startIcon, GUILayout.Width(45), GUILayout.Height(45))) {

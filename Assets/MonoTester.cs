@@ -64,7 +64,7 @@ namespace Crosline {
             }
         }
 
-        [Benchmark(parameters: new object[] { 50 })]
+        [Benchmark]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
 

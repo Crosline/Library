@@ -31,8 +31,8 @@ namespace Crosline.TestTools.Editor {
             _methodInfos.Clear();
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !x.FullName.Contains("System.") || !x.FullName.Contains("UnityEngine.") ||
-                            !x.FullName.Contains("UnityEditor.")).ToArray();
+                .Where(x => !x.FullName.Contains(_excludedAssemblies[0]) || !x.FullName.Contains(_excludedAssemblies[1]) ||
+                            !x.FullName.Contains(_excludedAssemblies[2])).ToArray();
 
             foreach (Assembly ass in assemblies) {
                 var types = ass.GetTypes();
@@ -93,6 +93,8 @@ namespace Crosline.TestTools.Editor {
             }
             catch (Exception e) {
                 CroslineDebug.LogError($"[{method.GetType().Name}:{method.Name}] could not be executed.\n{e}");
+                
+                _methodInfos[method] = -2;
             }
             finally {
                 if (stopWatch.IsRunning)
