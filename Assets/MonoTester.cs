@@ -1,5 +1,5 @@
 using System.Text;
-using Crosline.BuildTools.Editor.Settings;
+using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.UnityTools;
@@ -78,7 +78,12 @@ namespace Crosline {
             for (int i = 0; i < 1000; i++) {
                 var coca = string.Concat("its sometimes so ", 5, " but also ", Color.blue, " but not ", true, 5, " but also ", Color.blue, " but not ", true);
 
-                CroslineDebug.Log(coca);
+            }
+        }
+        
+        public void ConcatTestT() {
+            for (int i = 0; i < 1000; i++) {
+                var coca = string.Concat("its sometimes so ", 5, " but also ", Color.blue, " but not ", true, 5, " but also ", Color.blue, " but not ", true);
             }
         }
 
@@ -86,8 +91,6 @@ namespace Crosline {
         public void StringDollarTest() {
             for (int i = 0; i < 1000; i++) {
                 var x = $"its sometimes so {5} but also {Color.blue} but not {true}{5} but also {Color.blue} but not {true}";
-
-                CroslineDebug.Log(x);
             }
         }
 
@@ -109,7 +112,6 @@ namespace Crosline {
                 sb.Append(" but not ");
                 sb.Append(true);
 
-                CroslineDebug.Log(sb.ToString());
             }
         }
 
@@ -129,7 +131,6 @@ namespace Crosline {
                 br += " but not ";
                 br += true;
 
-                CroslineDebug.Log(br);
             }
         }
 

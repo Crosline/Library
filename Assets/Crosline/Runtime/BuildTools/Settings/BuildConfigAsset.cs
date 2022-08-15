@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Crosline.BuildTools.Editor.Settings {
+namespace Crosline.BuildTools {
     [CreateAssetMenu(fileName = "Build Config", menuName = "Crosline/Build/Build Config Asset")]
     public class BuildConfigAsset : ScriptableObject {
         public enum BuildPlatform {
