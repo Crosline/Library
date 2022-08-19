@@ -3,39 +3,18 @@
 namespace Crosline.BuildTools {
     [CreateAssetMenu(fileName = "Build Config", menuName = "Crosline/Build/Build Config Asset")]
     public class BuildConfigAsset : ScriptableObject {
-        public enum BuildPlatform {
-            Windows = 0,
-            Linux = 1,
-            MacOS = 2,
-            Android = 3,
-            IOS = 4
-        }
-        public enum ScriptingBackend {
-            IL2CPP = 0,
-            Mono = 1
-        }
-        public enum ApiCompability {
-            NetStandard21 = 0,
-            NetFramework = 1
-        }
 
-        public enum BuildMode {
-            DEBUG = 0,
-            RELEASE = 1
-        }
+        public BuildOptions.BuildPlatform platform;
 
-        public BuildPlatform platform;
+        public BuildOptions.ScriptingBackend backend;
 
-        public ScriptingBackend backend;
+        public BuildOptions.BuildMode buildMode;
 
-        public BuildMode buildMode;
-
-        public ApiCompability apiCompability;
+        public BuildOptions.ApiCompability apiCompability;
 
         public string bundle = "com.crosline.projectName";
 
         public string version = "0.1";
-
 
     }
 }

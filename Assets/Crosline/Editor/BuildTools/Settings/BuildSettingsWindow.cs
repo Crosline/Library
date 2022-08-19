@@ -38,7 +38,7 @@ namespace Crosline.BuildTools.Editor.Settings {
             RefreshAvailableAssets();
         }
 
-        private static BuildConfigAsset.BuildPlatform _selectedBuildPlatform = BuildConfigAsset.BuildPlatform.Windows;
+        private static BuildOptions.BuildPlatform _selectedBuildPlatform = BuildOptions.BuildPlatform.Windows;
         private static string _selectedCustomName = "";
 
         private static string[] _availableAssets;
@@ -60,9 +60,8 @@ namespace Crosline.BuildTools.Editor.Settings {
 
             EditorGUILayout.EndHorizontal();
 
-            if (!string.IsNullOrEmpty(_error)) {
+            if (!string.IsNullOrEmpty(_error))
                 EditorGUILayout.HelpBox(_error, MessageType.Error);
-            }
 #if UNITY_2021_1_OR_NEWER
             AssetDatabase.SaveAssetIfDirty(buildConfigAsset);
 #else
@@ -78,24 +77,22 @@ namespace Crosline.BuildTools.Editor.Settings {
             GUILayout.FlexibleSpace();
 
             var oldSelectedPlatform = _selectedBuildPlatform;
-            _selectedBuildPlatform = (BuildConfigAsset.BuildPlatform) EditorGUILayout.EnumPopup(_selectedBuildPlatform, GUILayout.Width(75));
+            _selectedBuildPlatform = (BuildOptions.BuildPlatform) EditorGUILayout.EnumPopup(_selectedBuildPlatform, GUILayout.Width(75));
 
             if (oldSelectedPlatform != _selectedBuildPlatform) {
                 GetConfigWithCustomName("", _selectedBuildPlatform);
                 _selectedCustomName = "";
             }
 
-            if (GUILayout.Button("Build", EditorStyles.toolbarButton)) {
+            if (GUILayout.Button("Build", EditorStyles.toolbarButton))
                 _error = "Build is not implemented yet."; //TODO - Crosline: Don't forget to connect build to here.
-            }
 
-            if (GUILayout.Button("Create", EditorStyles.toolbarButton)) {
+            if (GUILayout.Button("Create", EditorStyles.toolbarButton))
                 GetConfigWithCustomName(_selectedCustomName, _selectedBuildPlatform);
-            }
 
-            if (GUILayout.Button("Remove", EditorStyles.toolbarButton)) {
+            if (GUILayout.Button("Remove", EditorStyles.toolbarButton))
                 RemoveConfigWithCustomName(_selectedCustomName);
-            }
+
             EditorGUILayout.EndHorizontal();
 
         }
@@ -107,14 +104,14 @@ namespace Crosline.BuildTools.Editor.Settings {
             foreach (var asset in _availableAssets) {
                 EditorGUILayout.BeginHorizontal();
 
-                if (GUILayout.Button(asset, GUILayout.MinWidth(200), GUILayout.MaxWidth(300))) {
+                if (GUILayout.Button(asset, GUILayout.MinWidth(200), GUILayout.MaxWidth(300)))
                     GetConfigWithCustomName(asset, _selectedBuildPlatform);
-                }
+
                 GUILayout.FlexibleSpace();
 
-                if (GUILayout.Button("Remove", EditorStyles.toolbarButton, GUILayout.Width(60))) {
+                if (GUILayout.Button("Remove", EditorStyles.toolbarButton, GUILayout.Width(60)))
                     RemoveConfigWithCustomName(asset);
-                }
+
                 EditorGUILayout.EndHorizontal();
             }
 
@@ -126,7 +123,7 @@ namespace Crosline.BuildTools.Editor.Settings {
             _availableAssets = BuildSettingsManager.GetAllAvailableConfigs();
         }
 
-        private static void GetConfigWithCustomName(string customName, BuildConfigAsset.BuildPlatform buildPlatform = BuildConfigAsset.BuildPlatform.Windows) {
+        private static void GetConfigWithCustomName(string customName, BuildOptions.BuildPlatform buildPlatform = BuildOptions.BuildPlatform.Windows) {
             _error = "";
             buildConfigAsset = BuildSettingsManager.TryGetConfig(ref _error, buildPlatform, customName);
             _selectedBuildPlatform = buildConfigAsset.platform;

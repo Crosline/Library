@@ -5,7 +5,7 @@ namespace Crosline.BuildTools.Editor.Settings {
     public static class BuildSettingsManager {
         private const string buildConfigAssetDirectory = "Assets/Crosline/Runtime/BuildTools/BuildConfig/";
 
-        internal static BuildConfigAsset TryGetConfig(ref string error, BuildConfigAsset.BuildPlatform buildPlatform = BuildConfigAsset.BuildPlatform.Windows, string customName = "") {
+        internal static BuildConfigAsset TryGetConfig(ref string error, BuildOptions.BuildPlatform buildPlatform = BuildOptions.BuildPlatform.Windows, string customName = "") {
             BuildConfigAsset buildConfigAsset = null;
 
             var name = string.IsNullOrEmpty(customName) ? $"BuildConfigAsset_{buildPlatform.ToString()}" : customName;
