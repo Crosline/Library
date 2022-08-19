@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Crosline.TestTools.Editor {
-    public class BenchmarkWindow : EditorWindow { //TODO - Crosline: You stupid bastard complete this immediately
+    public class BenchmarkWindow : EditorWindow {
 
         public static BenchmarkWindow benchmarkWindow;
 
