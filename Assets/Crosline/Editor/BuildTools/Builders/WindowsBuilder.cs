@@ -6,5 +6,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.Windows;
         }
         
+        public WindowsBuilder(System.Collections.Generic.List<BuildStates.BuildState> states) : base(states, BuildOptions.BuildPlatform.Windows) { }
     }
 }

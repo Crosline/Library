@@ -2,17 +2,27 @@
 using UnityEngine;
 
 namespace Crosline.BuildTools.Editor.BuildStates {
-    
-    [CreateAssetMenu(fileName = "Build State", menuName = "Crosline/Build/Build State Asset")]
-    public class BuildState : ScriptableObject {
+    public abstract class BuildState {
+        public static BuildState Instance => _instance;
 
-        public string name = "State Name";
+        private static BuildState _instance = null;
 
-        public BuildOptions.BuildPlatform platform = BuildOptions.BuildPlatform.Generic;
+        public string name = "";
 
-        public System.Collections.Generic.List<IBuildStep> buildSteps = new();
+        protected BuildOptions.BuildPlatform _buildPlatform;
+        
+        protected System.Collections.Generic.List<IBuildStep> _buildSteps;
 
         public bool isCritical = false;
 
+        protected BuildState() {
+            
+        }
+
+        public void StartState() {
+            for (int i = 0; i < _buildSteps.Count; i++) {
+                _buildSteps[i].Execute();
+            }
+        }
     }
 }

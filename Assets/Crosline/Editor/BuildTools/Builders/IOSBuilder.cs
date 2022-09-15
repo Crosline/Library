@@ -6,5 +6,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.IOS;
         }
         
+        public IOSBuilder(System.Collections.Generic.List<BuildStates.BuildState> states) : base(states, BuildOptions.BuildPlatform.IOS) { }
     }
 }

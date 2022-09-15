@@ -19,29 +19,30 @@ namespace Crosline.BuildTools.Editor {
         }
         
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform) {
+            _instance = this;
             _buildStates = states;
             _buildPlatform = buildPlatform;
         }
 
 
         public void Execute() {
-            
-            foreach (var buildState in _buildStates) {
-                if (!buildState.platform.HasFlag(_buildPlatform)) {
-                    UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.name}'s is not compatible with {_buildPlatform}.");
-                }
-                
-                var platform = buildState.platform;
-                var buildSteps = buildState.buildSteps;
-                
-                foreach (var buildStep in buildSteps) {
-                    if (!buildStep.platform.HasFlag(_buildPlatform)) {                    
-                        UnityEngine.Debug.Log($"[Builder] Error: Build Step {buildStep.name}'s is not compatible with {_buildPlatform}.");
-                    }
-                    
-                    buildStep.Execute(platform);
-                }
-            }
+            //
+            // foreach (var buildState in _buildStates) {
+            //     if (!buildState.platform.HasFlag(_buildPlatform)) {
+            //         UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.name} is not compatible with {_buildPlatform}.");
+            //     }
+            //     
+            //     var platform = buildState.platform;
+            //     var buildSteps = buildState.buildSteps;
+            //     
+            //     foreach (var buildStep in buildSteps) {
+            //         if (!buildStep.platform.HasFlag(_buildPlatform)) {                    
+            //             UnityEngine.Debug.Log($"[Builder] Error: Build Step {buildStep.name} is not compatible with {_buildPlatform}.");
+            //         }
+            //         
+            //         buildStep.Execute(platform);
+            //     }
+            // }
         }
     }
 }

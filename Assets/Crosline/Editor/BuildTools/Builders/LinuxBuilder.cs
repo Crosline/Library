@@ -6,5 +6,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.Linux;
         }
         
+        public LinuxBuilder(System.Collections.Generic.List<BuildStates.BuildState> states) : base(states, BuildOptions.BuildPlatform.Linux) { }
     }
 }

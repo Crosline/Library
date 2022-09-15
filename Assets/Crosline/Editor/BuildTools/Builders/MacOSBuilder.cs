@@ -6,5 +6,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.MacOS;
         }
         
+        public MacOSBuilder(System.Collections.Generic.List<BuildStates.BuildState> states) : base(states, BuildOptions.BuildPlatform.MacOS) { }
     }
 }

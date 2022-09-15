@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Crosline.BuildTools.Editor.BuildStates;
 using UnityEngine;
 
 namespace Crosline.BuildTools.Editor {
@@ -18,7 +20,9 @@ namespace Crosline.BuildTools.Editor {
                 return;
             }
             
-            Builder = new AndroidBuilder();
+            Builder = new AndroidBuilder( new List<BuildState>() {
+                
+            });
         }
         
         public void IOS() {
