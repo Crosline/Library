@@ -1,9 +1,11 @@
 ﻿namespace Crosline.BuildTools.Editor.BuildSteps {
-    public abstract class IBuildStep {
+    [System.Serializable]
+    public abstract class BuildStep {
         
         public string name;
         
         public BuildOptions.BuildPlatform platform;
+
         public abstract bool Execute();
     }
 }

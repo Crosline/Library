@@ -1,7 +1,4 @@
-﻿using Crosline.BuildTools.Editor.BuildSteps;
-using UnityEngine;
-
-namespace Crosline.BuildTools.Editor.BuildStates {
+﻿namespace Crosline.BuildTools.Editor {
     public abstract class BuildState {
         public static BuildState Instance => _instance;
 
@@ -11,7 +8,7 @@ namespace Crosline.BuildTools.Editor.BuildStates {
 
         protected BuildOptions.BuildPlatform _buildPlatform;
         
-        protected System.Collections.Generic.List<IBuildStep> _buildSteps;
+        protected System.Collections.Generic.List<BuildSteps.BuildStep> _buildSteps;
 
         public bool isCritical = false;
 

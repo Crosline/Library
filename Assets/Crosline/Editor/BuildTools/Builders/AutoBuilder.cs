@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Crosline.BuildTools.Editor.BuildStates;
-using UnityEngine;
 
 namespace Crosline.BuildTools.Editor {
     public class AutoBuilder {
+        
+        private const string buildStateAssetDirectory = "Assets/Crosline/Editor/BuildTools/BuildStates/AutoBuilder/";
         
 #if UNITY_EDITOR_OSX
         private static bool isOSX = true;
@@ -19,10 +19,11 @@ namespace Crosline.BuildTools.Editor {
             if (Builder != null) {
                 return;
             }
+
+            List<BuildState> androidBuildStates = new List<BuildState>() {
+            };
             
-            Builder = new AndroidBuilder( new List<BuildState>() {
-                
-            });
+            Builder = new AndroidBuilder(androidBuildStates);
         }
         
         public void IOS() {
