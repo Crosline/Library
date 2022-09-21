@@ -3,7 +3,7 @@
 
         public static CommonBuilder Instance { get; }
 
-        public void Execute();
+        public void StartBuild();
 
     }
 }

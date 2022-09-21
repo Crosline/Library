@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Crosline.BuildTools.Editor.BuildSteps;
 
 namespace Crosline.BuildTools.Editor {
     public class AutoBuilder {
@@ -21,9 +22,13 @@ namespace Crosline.BuildTools.Editor {
             }
 
             List<BuildState> androidBuildStates = new List<BuildState>() {
+                new TestState(new List<BuildStep>() {
+                    new TestStep()
+                })
             };
             
             Builder = new AndroidBuilder(androidBuildStates);
+            Builder.StartBuild();
         }
         
         public void IOS() {

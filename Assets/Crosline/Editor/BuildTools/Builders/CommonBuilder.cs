@@ -22,6 +22,8 @@ namespace Crosline.BuildTools.Editor {
         private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
 #elif UNITY_STANDALONE_WIN
         private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
+#else
+        private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
 #endif
 #pragma warning restore CS0612
         
@@ -59,24 +61,23 @@ namespace Crosline.BuildTools.Editor {
         }
 
 
-        public void Execute() {
-            //
-            // foreach (var buildState in _buildStates) {
-            //     if (!buildState.platform.HasFlag(_buildPlatform)) {
-            //         UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.name} is not compatible with {_buildPlatform}.");
-            //     }
-            //     
-            //     var platform = buildState.platform;
-            //     var buildSteps = buildState.buildSteps;
-            //     
-            //     foreach (var buildStep in buildSteps) {
-            //         if (!buildStep.platform.HasFlag(_buildPlatform)) {                    
-            //             UnityEngine.Debug.Log($"[Builder] Error: Build Step {buildStep.name} is not compatible with {_buildPlatform}.");
-            //         }
-            //         
-            //         buildStep.Execute(platform);
-            //     }
-            // }
+        public void StartBuild() {
+            foreach (var buildState in _buildStates) {
+                if (!buildState.BuildPlatform.HasFlag(_buildPlatform)) {
+                    UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.Name} is not compatible with {_buildPlatform}.");
+                }
+                
+                var platform = buildState.BuildPlatform;
+                var buildSteps = buildState.BuildSteps;
+                
+                foreach (var buildStep in buildSteps) {
+                    if (!buildStep.Platform.HasFlag(_buildPlatform)) {                    
+                        UnityEngine.Debug.Log($"[Builder] Error: Build Step {buildStep.Name} is not compatible with {_buildPlatform}.");
+                    }
+
+                    buildStep.Execute();
+                }
+            }
         }
     }
 }

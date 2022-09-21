@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Crosline.DebugTools;
 
 namespace Crosline.BuildTools.Editor {
-    public static class CommandLineBuffer {
+    public static class CommandLineUtils {
 
         private const string ARGS = "-args";
         private const char ARGS_SEPARATOR = ';';

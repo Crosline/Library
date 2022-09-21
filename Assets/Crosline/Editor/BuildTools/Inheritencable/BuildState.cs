@@ -4,16 +4,19 @@
 
         private static BuildState _instance = null;
 
-        public string name = "";
+        public string Name => _name;
+        protected string _name = "";
 
+        public BuildOptions.BuildPlatform BuildPlatform => _buildPlatform;
         protected BuildOptions.BuildPlatform _buildPlatform;
         
+        public System.Collections.Generic.List<BuildSteps.BuildStep> BuildSteps => _buildSteps;
         protected System.Collections.Generic.List<BuildSteps.BuildStep> _buildSteps;
 
         public bool isCritical = false;
 
-        protected BuildState() {
-            
+        protected BuildState(System.Collections.Generic.List<BuildSteps.BuildStep> buildSteps) {
+            _buildSteps = buildSteps;
         }
 
         public void StartState() {
