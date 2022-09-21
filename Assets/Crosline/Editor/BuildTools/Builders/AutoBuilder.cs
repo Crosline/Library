@@ -16,7 +16,7 @@ namespace Crosline.BuildTools.Editor {
 
         private static CommonBuilder Builder;
         
-        public void Android() {
+        public static void Android() {
             if (Builder != null) {
                 return;
             }
@@ -31,7 +31,7 @@ namespace Crosline.BuildTools.Editor {
             Builder.StartBuild();
         }
         
-        public void IOS() {
+        public static void IOS() {
             if (Builder != null || !isOSX) {
                 return;
             }
@@ -39,7 +39,7 @@ namespace Crosline.BuildTools.Editor {
             Builder = new IOSBuilder();
         }
         
-        public void Windows() {
+        public static void Windows() {
             if (Builder != null) {
                 return;
             }
@@ -47,7 +47,7 @@ namespace Crosline.BuildTools.Editor {
             Builder = new WindowsBuilder();
         }
         
-        public void MacOS() {
+        public static void MacOS() {
             if (Builder != null || !isOSX) {
                 return;
             }
@@ -55,7 +55,7 @@ namespace Crosline.BuildTools.Editor {
             Builder = new MacOSBuilder();
         }
         
-        public void Linux() {
+        public static void Linux() {
             if (Builder != null) {
                 return;
             }
