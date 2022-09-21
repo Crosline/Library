@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Crosline.DebugTools;
 
 namespace Crosline.BuildTools.Editor {
@@ -16,17 +17,13 @@ namespace Crosline.BuildTools.Editor {
                 if (_commandLineArguments.Count == 0) {
                     var commandLineArgs = Environment.GetCommandLineArgs();
 
-                    for (var i = 0; i < commandLineArgs.Length; i += 1)
-                        if (commandLineArgs[i].Equals(ARGS)) {
-                            var customArgs = commandLineArgs[i + 1].Split(ARGS_SEPARATOR);
-
-                            foreach (var customArg in customArgs) {
-                                var separatedArgs = customArg.Split(ARGS_EQUAL);
-                                _commandLineArguments.Add(separatedArgs[0], separatedArgs[1]);
-                            }
-
-                            break;
-                        }
+                    var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
+                    
+                    foreach (var customArg in customArgs) {
+                        var separatedArgs = customArg.Split(ARGS_EQUAL);
+                        _commandLineArguments.Add(separatedArgs[0], separatedArgs[1]);
+                    }
+                    
                 }
 
                 if (_commandLineArguments.Count == 0)
