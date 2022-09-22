@@ -14,5 +14,9 @@
         protected BuildOptions.BuildPlatform _platform = BuildOptions.BuildPlatform.Generic;
 
         public abstract bool Execute();
+
+        protected BuildStep() {
+            _name = this.GetType().Name;
+        }
     }
 }
