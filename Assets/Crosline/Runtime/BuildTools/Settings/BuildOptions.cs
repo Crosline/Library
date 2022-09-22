@@ -11,13 +11,16 @@
             Standalone = Windows | Linux | MacOS,
             Generic = Standalone | Mobile
         }
-        public enum ScriptingBackend {
-            IL2CPP = 0,
-            Mono = 1
-        }
+        
         public enum ApiCompability {
             NetStandard21 = 0,
             NetFramework = 1
+        }
+        
+        public enum Compression {
+            None = 0,
+            CompressWithLz4 = 1,
+            CompressWithLz4HC = 2
         }
 
         public enum BuildMode {

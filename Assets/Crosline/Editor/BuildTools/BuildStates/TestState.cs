@@ -9,8 +9,8 @@ namespace Crosline.BuildTools.Editor {
         }
 
         public TestState() {
-            
+
         }
-        
+
     }
 }

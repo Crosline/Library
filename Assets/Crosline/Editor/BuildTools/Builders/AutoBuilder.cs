@@ -17,7 +17,11 @@ namespace Crosline.BuildTools.Editor {
             if (Builder != null)
                 return;
 
-            Builder = new AndroidBuilder(new TestState());
+            Builder = new AndroidBuilder(
+                new AndroidPreBuild(),
+                new Build(),
+                new AndroidPostBuild(1000)
+            );
 
             Builder.StartBuild();
         }

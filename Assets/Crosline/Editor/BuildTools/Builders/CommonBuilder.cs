@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Crosline.BuildTools.Editor.Settings;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
@@ -15,7 +16,6 @@ namespace Crosline.BuildTools.Editor {
         private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
 
         #region Build Path and Name
-
         [Obsolete] private static string MainBuildFolder => $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}Builds";
 
 #pragma warning disable CS0612
@@ -37,12 +37,12 @@ namespace Crosline.BuildTools.Editor {
                 var tempProductName = PlayerSettings.productName.Split(charsToClean, StringSplitOptions.RemoveEmptyEntries);
                 var cleanProductName = string.Join(string.Empty, tempProductName);
 
-                return $"{cleanProductName}-{CommandLineHelper.Arguments["buildNumber"]}";
+                return $"{cleanProductName}-{CommandLineHelper.Argument("buildNumber")}";
             }
         }
-        
-                
-        
+
+
+
 #if UNITY_ANDROID
         public static string BuildPath {
             get {
@@ -69,23 +69,37 @@ namespace Crosline.BuildTools.Editor {
 #else
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #endif
-
         #endregion
+
+        public BuildConfigAsset buildConfig;
 
         public BuildReport buildReport;
 
-        public UnityEditor.BuildOptions buildOptions;
+        public UnityEditor.BuildOptions buildOptions = UnityEditor.BuildOptions.None;
 
         public BuildOptions.BuildPlatform BuildPlatform => _buildPlatform;
 
-        protected BuildOptions.BuildPlatform _buildPlatform;
+        protected BuildOptions.BuildPlatform _buildPlatform = BuildOptions.BuildPlatform.Generic;
 
-        protected List<BuildState> _buildStates;
+        protected List<BuildState> _buildStates = new List<BuildState>();
 
         protected CommonBuilder() {
             _instance = this;
-            _buildStates = new List<BuildState>();
-            _buildPlatform = BuildOptions.BuildPlatform.Generic;
+            string error = null;
+            buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
+            buildConfig.platform = _buildPlatform;
+        }
+
+        protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform, BuildConfigAsset buildConfigAsset) {
+            _instance = this;
+            _buildStates = states;
+            _buildPlatform = buildPlatform;
+            buildConfig = buildConfigAsset;
+
+            if (!_buildPlatform.HasFlag(buildConfig.platform)) {
+                UnityEngine.Debug.Log($"[Builder] Error: Builder {nameof(CommonBuilder)} is not compatible with build config {buildConfig.name}.");
+                EditorApplication.Exit(2);
+            }
         }
 
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform) {
@@ -109,6 +123,7 @@ namespace Crosline.BuildTools.Editor {
                 var buildSteps = buildState.BuildSteps;
 
                 UnityEngine.Debug.Log($"[Builder] Info: Build State {buildState.Name} is started!");
+
                 foreach (var buildStep in buildSteps) {
                     if (!buildStep.Platform.HasFlag(_buildPlatform)) {
                         UnityEngine.Debug.LogError($"[Builder] Error: Build Step {buildStep.Name} is not compatible with {_buildPlatform}.");
@@ -121,6 +136,7 @@ namespace Crosline.BuildTools.Editor {
                     }
                     else {
                         UnityEngine.Debug.Log($"[Builder] Warning: Build Step {buildStep.Name} could not be completed!");
+
                         if (buildStep.IsCritical) {
                             UnityEngine.Debug.LogError($"[Builder] Error: Build Step {buildStep.Name} is Critical! Failing the build.");
                             EditorApplication.Exit(2);

@@ -8,6 +8,7 @@ namespace Crosline.BuildTools.Editor.Settings {
         public static BuildConfigAsset buildConfigAsset;
 
         private BuildConfigDrawer _buildConfigDrawer;
+
         private SerializedObject _serializedObject;
 
         [MenuItem("Crosline/Subsystems/Build Settings")]
@@ -39,6 +40,7 @@ namespace Crosline.BuildTools.Editor.Settings {
         }
 
         private static BuildOptions.BuildPlatform _selectedBuildPlatform = BuildOptions.BuildPlatform.Windows;
+
         private static string _selectedCustomName = "";
 
         private static string[] _availableAssets;

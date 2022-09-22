@@ -5,15 +5,19 @@
         private static BuildState _instance = null;
 
         public string Name => _name;
+
         protected string _name = "";
 
         public BuildOptions.BuildPlatform BuildPlatform => _buildPlatform;
+
         protected BuildOptions.BuildPlatform _buildPlatform;
-        
+
         public System.Collections.Generic.List<BuildSteps.BuildStep> BuildSteps => _buildSteps;
+
         protected System.Collections.Generic.List<BuildSteps.BuildStep> _buildSteps;
 
         public int PostBuildCallback => _postBuildCallback;
+
         protected int _postBuildCallback = -1;
 
         protected BuildState(System.Collections.Generic.List<BuildSteps.BuildStep> buildSteps) {

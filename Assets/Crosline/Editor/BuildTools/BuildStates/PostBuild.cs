@@ -3,15 +3,17 @@ using Crosline.BuildTools.Editor.BuildSteps;
 
 namespace Crosline.BuildTools.Editor {
     public class PostBuild : BuildState {
-        
-        public PostBuild(List<BuildStep> buildSteps) : base(buildSteps) {
+
+        public PostBuild(params BuildStep[] buildSteps) : base(new List<BuildStep>(buildSteps)) {
             _name = nameof(PostBuild);
             _postBuildCallback = 1;
         }
 
-        public PostBuild() {
+        public PostBuild(int postBuildCallback = 1) {
             _name = nameof(PostBuild);
-            _postBuildCallback = 1;
+            _postBuildCallback = postBuildCallback;
+            
+            _buildSteps = new List<BuildStep>();
         }
 
     }

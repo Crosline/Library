@@ -1,19 +1,22 @@
 ﻿using Crosline.BuildTools.Editor.BuildSteps;
 
 namespace Crosline.BuildTools.Editor {
-    public class AndroidPostBuild : PostBuild {
-        public AndroidPostBuild(params BuildStep[] buildSteps) : base(buildSteps) {
+    public class AndroidPreBuild : PreBuild {
+
+        public AndroidPreBuild(params BuildStep[] buildSteps) : base(buildSteps) {
             _buildPlatform = BuildOptions.BuildPlatform.Android;
         }
 
-        public AndroidPostBuild(int postBuildCallback = 1) : base(postBuildCallback) {
+        public AndroidPreBuild() : base() {
             _buildPlatform = BuildOptions.BuildPlatform.Android;
-            
+
             var steps = new BuildStep[] {
-                new EnableAndroidDebug()
+                new SetAndroidSDKVariables(),
+                new SetKeystorePass()
             };
 
             _buildSteps.InsertRange(0, steps);
         }
+
     }
 }

@@ -8,7 +8,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
         public SetKeystorePass() {
             _platform = BuildOptions.BuildPlatform.Android;
         }
-        
+
         public override bool Execute() {
             PlayerSettings.Android.useCustomKeystore = true;
 

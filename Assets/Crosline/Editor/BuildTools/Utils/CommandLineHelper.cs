@@ -7,7 +7,9 @@ namespace Crosline.BuildTools.Editor {
     public static class CommandLineHelper {
 
         private const string ARGS = "-args";
+
         private const char ARGS_SEPARATOR = ';';
+
         private const char ARGS_EQUAL = '=';
 
         public static Dictionary<string, string> Arguments {
@@ -18,12 +20,12 @@ namespace Crosline.BuildTools.Editor {
                     var commandLineArgs = Environment.GetCommandLineArgs();
 
                     var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
-                    
+
                     foreach (var customArg in customArgs) {
                         var separatedArgs = customArg.Split(ARGS_EQUAL);
                         _commandLineArguments.Add(separatedArgs[0], separatedArgs[1]);
                     }
-                    
+
                 }
 
                 if (_commandLineArguments.Count == 0)
@@ -31,6 +33,15 @@ namespace Crosline.BuildTools.Editor {
 
                 return _commandLineArguments;
             }
+        }
+
+        public static string Argument(string arg) {
+            return Arguments.ContainsKey(arg) ? Arguments[arg] : default;
+        }
+
+        public static bool ArgumentTrue(string arg) {
+            return Arguments.ContainsKey(arg) && (Arguments[arg].Equals("true") || Arguments[arg].Equals("1"));
+
         }
 
         private static Dictionary<string, string> _commandLineArguments;

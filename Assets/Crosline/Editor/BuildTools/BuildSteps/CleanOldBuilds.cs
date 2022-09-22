@@ -10,9 +10,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
         private int _buildAmountToKeep = 10;
 
-        public CleanOldBuilds() {
+        public CleanOldBuilds(int buildAmountToKeep = 0) {
             _platform = BuildOptions.BuildPlatform.Generic;
             _buildFolder = CommonBuilder.BuildFolder;
+            _buildAmountToKeep = buildAmountToKeep;
         }
 
         public override bool Execute() {
