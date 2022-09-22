@@ -85,10 +85,10 @@ namespace Crosline.BuildTools.Editor {
 
         protected CommonBuilder() {
             _instance = this;
+            buildConfig.platform = _buildPlatform;
             string error = null;
             buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
             UnityEngine.Debug.Log(error);
-            buildConfig.platform = _buildPlatform;
         }
 
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform, BuildConfigAsset buildConfigAsset) {
@@ -107,6 +107,10 @@ namespace Crosline.BuildTools.Editor {
             _instance = this;
             _buildStates = states;
             _buildPlatform = buildPlatform;
+            
+            string error = null;
+            buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
+            UnityEngine.Debug.Log(error);
         }
 
         public void StartBuild() {
