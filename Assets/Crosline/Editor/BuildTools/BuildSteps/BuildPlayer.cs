@@ -1,10 +1,15 @@
 ﻿using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class BuildPlayer : BuildStep {
+
+        public BuildPlayer() {
+            _isCritical = true;
+        }
 
         public override bool Execute() {
 
@@ -20,17 +25,21 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 Directory.CreateDirectory(buildPath);
             }
 
+            if (ActiveScenes == null || ActiveScenes.Length == 0) {
+                Debug.LogError($"[Builder][BuildPlayer] Scenes are empty.");
+                return false;
+            }
 
             CommonBuilder.Instance.buildReport = BuildPipeline.BuildPlayer(ActiveScenes, buildPath, target, buildOptions);
 
             var summary = CommonBuilder.Instance.buildReport.summary;
 
             Debug.Log($"[Builder][BuildPlayer] Build is completed in {summary.totalTime.Minutes} minutes\n" +
-                      $"Build Size: {summary.totalSize}" +
-                      $"Total errors: {summary.totalErrors}" +
-                      $"Total warnings: {summary.totalWarnings}");
+                      $"Build Size: {summary.totalSize}\n" +
+                      $"Total errors: {summary.totalErrors}\n" +
+                      $"Total warnings: {summary.totalWarnings}\n");
 
-            return true;
+            return CommonBuilder.Instance.buildReport.summary.result.HasFlag(BuildResult.Succeeded);
         }
 
         private static string[] ActiveScenes {
