@@ -84,11 +84,8 @@ namespace Crosline.BuildTools.Editor {
         protected List<BuildState> _buildStates = new List<BuildState>();
 
         protected CommonBuilder() {
-            _instance = this;
+            SetupCommon();
             buildConfig.platform = _buildPlatform;
-            string error = null;
-            buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
-            UnityEngine.Debug.Log(error);
         }
 
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform, BuildConfigAsset buildConfigAsset) {
@@ -104,10 +101,13 @@ namespace Crosline.BuildTools.Editor {
         }
 
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform) {
-            _instance = this;
+            SetupCommon();
             _buildStates = states;
             _buildPlatform = buildPlatform;
-            
+        }
+
+        private void SetupCommon() {
+            _instance = this;
             string error = null;
             buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
             UnityEngine.Debug.Log(error);
