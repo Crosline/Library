@@ -3,6 +3,7 @@
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class AdjustPlayerSettings : BuildStep {
         public override bool Execute() {
+            PlayerSettings.bundleVersion = CommonBuilder.Instance.buildConfig.version;
             PlayerSettings.SetScriptingBackend(CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup(), CommonBuilder.Instance.buildConfig.backend);
 
             switch (CommonBuilder.Instance.BuildPlatform) {
