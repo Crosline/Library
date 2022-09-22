@@ -25,9 +25,9 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             var summary = CommonBuilder.Instance.buildReport.summary;
 
-            Debug.Log($"[Builder][BuildPlayer] Build is completed in {summary.totalTime.Minutes} minutes\n"+
-                      $"Build Size: {summary.totalSize}"+
-                      $"Total errors: {summary.totalErrors}"+
+            Debug.Log($"[Builder][BuildPlayer] Build is completed in {summary.totalTime.Minutes} minutes\n" +
+                      $"Build Size: {summary.totalSize}" +
+                      $"Total errors: {summary.totalErrors}" +
                       $"Total warnings: {summary.totalWarnings}");
 
             return true;

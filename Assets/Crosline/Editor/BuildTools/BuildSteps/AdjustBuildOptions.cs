@@ -5,18 +5,22 @@
             switch (CommandLineHelper.Argument("development")) {
                 case "Development":
                     CommonBuilder.Instance.buildOptions |= UnityEditor.BuildOptions.Development;
+
                     break;
                 case "DeepProfiling":
                     CommonBuilder.Instance.buildOptions |= UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.EnableDeepProfilingSupport;
+
                     break;
             }
 
             switch (CommonBuilder.Instance.buildConfig.compression) {
                 case BuildOptions.Compression.CompressWithLz4:
                     CommonBuilder.Instance.buildOptions |= UnityEditor.BuildOptions.CompressWithLz4;
+
                     break;
                 case BuildOptions.Compression.CompressWithLz4HC:
                     CommonBuilder.Instance.buildOptions |= UnityEditor.BuildOptions.CompressWithLz4HC;
+
                     break;
             }
 
@@ -36,6 +40,7 @@
                         CommonBuilder.Instance.buildOptions |= UnityEditor.BuildOptions.SymlinkLibraries;
 #endif
                     }
+
                     break;
 
                 case BuildOptions.BuildPlatform.Windows:

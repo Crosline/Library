@@ -86,6 +86,7 @@ namespace Crosline.TestTools.Editor {
                 }
 
                 stopWatch.Stop();
+
                 CroslineDebug.LogWarning(
                     $"[{method.GetType().Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds / attribute.IterationCount}ms");
 
@@ -93,7 +94,7 @@ namespace Crosline.TestTools.Editor {
             }
             catch (Exception e) {
                 CroslineDebug.LogError($"[{method.GetType().Name}:{method.Name}] could not be executed.\n{e}");
-                
+
                 _methodInfos[method] = -2;
             }
             finally {

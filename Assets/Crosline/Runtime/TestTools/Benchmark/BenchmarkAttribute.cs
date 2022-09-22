@@ -3,7 +3,7 @@
 namespace Crosline.TestTools {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class BenchmarkAttribute : Attribute {
-        
+
         public readonly object[] Parameters;
 
         public readonly int IterationCount;

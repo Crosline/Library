@@ -1,4 +1,3 @@
-
 #if CROSLINE_DEBUG
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +6,8 @@ using UnityEngine;
 namespace Crosline.DebugTools {
     public static partial class CroslineDebug {
 #if CROSLINE_DEBUG
-        private static string DefaultPrefix
-        {
-            get
-            {
+        private static string DefaultPrefix {
+            get {
                 var stackTraceOutput = StackTraceUtility.ExtractStackTrace().Split('\n')[4];
                 int spaceIndex = stackTraceOutput.IndexOf(' ') - 1;
 
@@ -21,12 +18,13 @@ namespace Crosline.DebugTools {
 
                     if (c.Equals('.'))
                         break;
+
                     prefixList.Add(c);
                 }
-                
+
                 prefixList.Reverse();
                 char[] prefixArray = prefixList.ToArray();
-                
+
                 return new string(prefixArray);
             }
         }

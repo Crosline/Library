@@ -12,7 +12,7 @@ namespace Crosline.BuildTools.Editor {
         public PostBuild(int postBuildCallback = 1) {
             _name = nameof(PostBuild);
             _postBuildCallback = postBuildCallback;
-            
+
             _buildSteps = new List<BuildStep>();
         }
 

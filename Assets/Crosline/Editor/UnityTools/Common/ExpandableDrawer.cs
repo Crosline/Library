@@ -116,6 +116,7 @@ namespace Crosline.UnityTools.Editor {
 
             var bodyRect = new Rect(fieldRect);
             bodyRect.xMin += EditorGUI.indentLevel * 18;
+
             bodyRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing
                                                                + OUTER_SPACING;
 
@@ -174,9 +175,8 @@ namespace Crosline.UnityTools.Editor {
         #endregion
 
 
-            if (_editor.serializedObject.hasModifiedProperties) {
+            if (_editor.serializedObject.hasModifiedProperties)
                 _editor.serializedObject.ApplyModifiedProperties();
-            }
         }
 
         /// <summary>

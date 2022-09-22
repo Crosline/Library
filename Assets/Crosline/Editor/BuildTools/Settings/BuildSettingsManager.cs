@@ -20,7 +20,7 @@ namespace Crosline.BuildTools.Editor.Settings {
                 buildConfigAsset.platform = buildPlatform;
 
                 if (!System.IO.Directory.Exists(buildConfigAssetDirectory)) {
-                    System.IO.Directory.CreateDirectory(Application.dataPath+buildConfigAssetDirectory.Remove(0, "Assets".Length));
+                    System.IO.Directory.CreateDirectory(Application.dataPath + buildConfigAssetDirectory.Remove(0, "Assets".Length));
                 }
 
                 AssetDatabase.CreateAsset(buildConfigAsset, assetPath);

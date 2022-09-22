@@ -7,7 +7,7 @@ namespace Crosline.UnityTools.Editor {
     public class DefineSymbolHelper {
 
         private const char ARGS_SEPARATOR = ';';
-        
+
         private const BuildTargetGroup DefaultBuildTargetGroup = BuildTargetGroup.Standalone;
 
         public static List<string> DefineSymbols {
@@ -38,7 +38,7 @@ namespace Crosline.UnityTools.Editor {
             PlayerSettings.SetScriptingDefineSymbolsForGroup(group, defines.ToArray());
 #endif
         }
-        
+
         public static void Set(List<string> defines) {
 #if UNITY_2021_1_OR_NEWER
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, defines.ToArray());
@@ -50,7 +50,7 @@ namespace Crosline.UnityTools.Editor {
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines.ToArray());
 #endif
         }
-        
+
         public static void Set() {
 #if UNITY_2021_1_OR_NEWER
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, DefineSymbols.ToArray());
@@ -74,25 +74,25 @@ namespace Crosline.UnityTools.Editor {
         }
 
         public static void Add(List<string> defines) {
-            foreach (var define in defines) 
-                    Add(define);
+            foreach (var define in defines)
+                Add(define);
         }
 
         public static void Add(string define) {
-            if (!_defineSymbols.Contains(define)) 
+            if (!_defineSymbols.Contains(define))
                 _defineSymbols.Add(define);
             else {
                 CroslineDebug.Log($"Symbol: {define} already exists.");
             }
         }
-        
+
         public static void Remove(List<string> defines) {
-            foreach (var define in defines) 
-                    Remove(define);
+            foreach (var define in defines)
+                Remove(define);
         }
-        
+
         public static void Remove(string define) {
-            if (_defineSymbols.Contains(define)) 
+            if (_defineSymbols.Contains(define))
                 _defineSymbols.Remove(define);
             else {
                 CroslineDebug.Log($"Symbol: {define} doesn't exist.");

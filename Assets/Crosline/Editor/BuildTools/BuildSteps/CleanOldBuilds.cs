@@ -36,7 +36,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
 
             if (files.Count >= _buildAmountToKeep)
-                for (var i = files.Count-_buildAmountToKeep; i > 0; i--)
+                for (var i = files.Count - _buildAmountToKeep; i > 0; i--)
                     if (CommonBuilder.Instance.BuildPlatform.HasFlag(BuildOptions.BuildPlatform.Mobile)) {
                         File.Delete(files[i]);
                     }

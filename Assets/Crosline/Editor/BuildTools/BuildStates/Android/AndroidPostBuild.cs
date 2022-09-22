@@ -8,7 +8,7 @@ namespace Crosline.BuildTools.Editor {
 
         public AndroidPostBuild(int postBuildCallback = 1) : base(postBuildCallback) {
             _buildPlatform = BuildOptions.BuildPlatform.Android;
-            
+
             var steps = new BuildStep[] {
                 new EnableAndroidDebug()
             };

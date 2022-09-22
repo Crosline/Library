@@ -35,9 +35,9 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 EditorPrefs.GetString("AndroidNdkR16B", androidNdkR16B);
             }
 
-            Debug.Log("[SetAndroidSDKVariables] AndroidSdk: "+androidSdk);
-            Debug.Log("[SetAndroidSDKVariables] AndroidNdk: "+androidNdk);
-            Debug.Log("[SetAndroidSDKVariables] AndroidNdkR16B: "+androidNdkR16B);
+            Debug.Log($"[SetAndroidSDKVariables] AndroidSdk: {androidSdk}");
+            Debug.Log($"[SetAndroidSDKVariables] AndroidNdk: {androidNdk}");
+            Debug.Log($"[SetAndroidSDKVariables] AndroidNdkR16B: {androidNdkR16B}");
 
             return true;
         }

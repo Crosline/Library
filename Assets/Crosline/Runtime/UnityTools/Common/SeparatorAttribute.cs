@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Crosline.UnityTools {
-    
+
     [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true)]
     public class SeparatorAttribute : PropertyAttribute {
 
