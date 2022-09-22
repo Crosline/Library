@@ -12,7 +12,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             switch (CommonBuilder.Instance.BuildPlatform) {
                 case BuildOptions.BuildPlatform.Android:
-                    PlayerSettings.Android.targetArchitectures = ((AndroidBuildConfigAsset) CommonBuilder.Instance.buildConfig).architecture;
+                    PlayerSettings.Android.targetArchitectures = (CommonBuilder.Instance.buildConfig as AndroidBuildConfigAsset).architecture;
 
                     break;
 
