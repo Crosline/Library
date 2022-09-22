@@ -3,8 +3,10 @@ using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.UnityTools;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Crosline {
     public class MonoTester : MonoBehaviour {
@@ -134,6 +136,7 @@ namespace Crosline {
             }
         }
 
+#if UNITY_EDITOR
         [MenuItem("Crosline/Test/LogDebug")]
         public static void TestLogDebug() {
             CroslineDebug.Log("Start");
@@ -148,5 +151,6 @@ namespace Crosline {
         public static void TestLogError() {
             CroslineDebug.LogError("error");
         }
+#endif
     }
 }
