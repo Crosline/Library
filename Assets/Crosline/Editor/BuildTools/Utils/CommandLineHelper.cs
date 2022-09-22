@@ -36,7 +36,7 @@ namespace Crosline.BuildTools.Editor {
         }
 
         public static string Argument(string arg) {
-            return Arguments.ContainsKey(arg) ? Arguments[arg] : default;
+            return Arguments.ContainsKey(arg) ? Arguments[arg] : "";
         }
 
         public static bool ArgumentTrue(string arg) {
