@@ -12,7 +12,7 @@ namespace Crosline.BuildTools.Editor {
 
             var steps = new BuildStep[] {
                 new SetAndroidSDKVariables(),
-                new SetKeystorePass()
+                // new SetKeystorePass()
             };
 
             _buildSteps.InsertRange(0, steps);
