@@ -87,6 +87,7 @@ namespace Crosline.BuildTools.Editor {
             _instance = this;
             string error = null;
             buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
+            UnityEngine.Debug.Log(error);
             buildConfig.platform = _buildPlatform;
         }
 
