@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
+using UnityEditor.Callbacks;
 
 namespace Crosline.BuildTools.Editor {
     public abstract class CommonBuilder : IBuilder {
@@ -13,36 +14,69 @@ namespace Crosline.BuildTools.Editor {
 
         private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
 
-        [System.Obsolete] private static string MainBuildFolder = "Build"; 
+        #region Build Path and Name
+
+        [Obsolete] private static string MainBuildFolder => $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}Builds";
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
-        private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Android";
+        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Android";
 #elif UNITY_IOS
-        private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
+        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
 #elif UNITY_STANDALONE_WIN
-        private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
+        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
 #else
-        private static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
+        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
 #endif
 #pragma warning restore CS0612
-        
-        private static string BuildName
-        {
-            get
-            {
-                char[] charsToClean = new char[]{' ', ';', ',', '\''};
-                
+
+        private static string BuildName {
+            get {
+                var charsToClean = new char[] { ' ', ';', ',', '\'' };
+
                 var tempProductName = PlayerSettings.productName.Split(charsToClean, StringSplitOptions.RemoveEmptyEntries);
                 var cleanProductName = string.Join(string.Empty, tempProductName);
-                
-                var commandLineArgs = Environment.GetCommandLineArgs();
 
-                return $"{cleanProductName}-{commandLineArgs.SkipWhile(x => !x.Equals("-buildNumber")).Skip(1).FirstOrDefault()}";
+                return $"{cleanProductName}-{CommandLineHelper.Arguments["buildNumber"]}";
             }
         }
         
+                
+        
+#if UNITY_ANDROID
+        public static string BuildPath {
+            get {
+                var path = $"{BuildFolder}{SEPARATOR}{BuildName}";
+                
+                if (CommandLineHelper.Arguments["export"].Equals("true") || CommandLineHelper.Arguments["export"].Equals("1")) {
+                    return $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}{BuildFolder}{SEPARATOR}{BuildName}";
+                }
+                
+                if (CommandLineHelper.Arguments["appBundle"].Equals("true") || CommandLineHelper.Arguments["appBundle"].Equals("1")) {
+                    path += ".abb";
+                }
+                else {
+                    path += ".apk";
+                }
+
+                return path;
+            }
+        }
+#elif !UNITY_IOS
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+#elif UNITY_STANDALONE_WIN
+        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+#else
+        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+#endif
+
+        #endregion
+
+        public BuildReport buildReport;
+
+        public UnityEditor.BuildOptions buildOptions;
+
+        public BuildOptions.BuildPlatform BuildPlatform => _buildPlatform;
 
         protected BuildOptions.BuildPlatform _buildPlatform;
 
@@ -50,34 +84,78 @@ namespace Crosline.BuildTools.Editor {
 
         protected CommonBuilder() {
             _instance = this;
-            _buildStates = new();
+            _buildStates = new List<BuildState>();
             _buildPlatform = BuildOptions.BuildPlatform.Generic;
         }
-        
+
         protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform) {
             _instance = this;
             _buildStates = states;
             _buildPlatform = buildPlatform;
         }
 
-
         public void StartBuild() {
+            StartBuild(-1);
+        }
+
+        public void StartBuild(int callbackOrder) {
             foreach (var buildState in _buildStates) {
-                if (!buildState.BuildPlatform.HasFlag(_buildPlatform)) {
+                if (!buildState.BuildPlatform.HasFlag(_buildPlatform))
                     UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.Name} is not compatible with {_buildPlatform}.");
-                }
-                
-                var platform = buildState.BuildPlatform;
+
+                if (buildState.PostBuildCallback != callbackOrder)
+                    continue;
+
                 var buildSteps = buildState.BuildSteps;
-                
+
+                UnityEngine.Debug.Log($"[Builder] Info: Build State {buildState.Name} is started!");
                 foreach (var buildStep in buildSteps) {
-                    if (!buildStep.Platform.HasFlag(_buildPlatform)) {                    
-                        UnityEngine.Debug.Log($"[Builder] Error: Build Step {buildStep.Name} is not compatible with {_buildPlatform}.");
+                    if (!buildStep.Platform.HasFlag(_buildPlatform)) {
+                        UnityEngine.Debug.LogError($"[Builder] Error: Build Step {buildStep.Name} is not compatible with {_buildPlatform}.");
                     }
 
-                    buildStep.Execute();
+                    UnityEngine.Debug.Log($"[Builder] Info: Build Step {buildStep.Name} is started!");
+
+                    if (buildStep.Execute()) {
+                        UnityEngine.Debug.Log($"[Builder] Debug: Build Step {buildStep.Name} is completed!");
+                    }
+                    else {
+                        UnityEngine.Debug.Log($"[Builder] Warning: Build Step {buildStep.Name} could not be completed!");
+                        if (buildStep.IsCritical) {
+                            UnityEngine.Debug.LogError($"[Builder] Error: Build Step {buildStep.Name} is Critical! Failing the build.");
+                            EditorApplication.Exit(2);
+                        }
+                    }
                 }
             }
         }
+
+        #region PostProcessBuild Starters
+        [PostProcessBuild(1)]
+        public static void OnPostProcessBuild1(BuildTarget target, string pathToBuiltProject) {
+            Instance.StartBuild(1);
+        }
+
+        [PostProcessBuild(100)]
+        public static void OnPostProcessBuild100(BuildTarget target, string pathToBuiltProject) {
+            Instance.StartBuild(100);
+        }
+
+        [PostProcessBuild(300)]
+        public static void OnPostProcessBuild300(BuildTarget target, string pathToBuiltProject) {
+            Instance.StartBuild(300);
+        }
+
+        [PostProcessBuild(500)]
+        public static void OnPostProcessBuild500(BuildTarget target, string pathToBuiltProject) {
+            Instance.StartBuild(500);
+        }
+
+        [PostProcessBuild(1000)]
+        public static void OnPostProcessBuild1000(BuildTarget target, string pathToBuiltProject) {
+            Instance.StartBuild(1000);
+        }
+        #endregion
+
     }
 }

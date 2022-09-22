@@ -13,10 +13,16 @@
         public System.Collections.Generic.List<BuildSteps.BuildStep> BuildSteps => _buildSteps;
         protected System.Collections.Generic.List<BuildSteps.BuildStep> _buildSteps;
 
-        public bool isCritical = false;
+        public int PostBuildCallback => _postBuildCallback;
+        protected int _postBuildCallback = -1;
 
         protected BuildState(System.Collections.Generic.List<BuildSteps.BuildStep> buildSteps) {
             _buildSteps = buildSteps;
+            _instance = this;
+        }
+
+        protected BuildState() {
+            _instance = this;
         }
 
         public void StartState() {

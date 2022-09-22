@@ -7,7 +7,9 @@
             MacOS = 2,
             Android = 3,
             IOS = 4,
-            Generic = Windows | Linux | MacOS | Android | IOS
+            Mobile = Android | IOS,
+            Standalone = Windows | Linux | MacOS,
+            Generic = Standalone | Mobile
         }
         public enum ScriptingBackend {
             IL2CPP = 0,

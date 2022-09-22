@@ -1,4 +1,6 @@
-﻿namespace Crosline.BuildTools.Editor {
+﻿using System.Collections.Generic;
+
+namespace Crosline.BuildTools.Editor {
     public class AndroidBuilder : CommonBuilder {
 
         public AndroidBuilder() : base() {
@@ -6,6 +8,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.Android;
         }
         
-        public AndroidBuilder(System.Collections.Generic.List<BuildState> states) : base(states, BuildOptions.BuildPlatform.Android) { }
+        public AndroidBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.Android) { }
     }
 }

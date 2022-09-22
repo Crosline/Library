@@ -1,4 +1,6 @@
-﻿namespace Crosline.BuildTools.Editor {
+﻿using System.Collections.Generic;
+
+namespace Crosline.BuildTools.Editor {
     public class MacOSBuilder : CommonBuilder {
 
         public MacOSBuilder() : base() {
@@ -6,6 +8,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.MacOS;
         }
         
-        public MacOSBuilder(System.Collections.Generic.List<BuildState> states) : base(states, BuildOptions.BuildPlatform.MacOS) { }
+        public MacOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.MacOS) { }
     }
 }

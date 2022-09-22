@@ -1,4 +1,6 @@
-﻿namespace Crosline.BuildTools.Editor {
+﻿using System.Collections.Generic;
+
+namespace Crosline.BuildTools.Editor {
     public class WindowsBuilder : CommonBuilder {
 
         public WindowsBuilder() : base() {
@@ -6,6 +8,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.Windows;
         }
         
-        public WindowsBuilder(System.Collections.Generic.List<BuildState> states) : base(states, BuildOptions.BuildPlatform.Windows) { }
+        public WindowsBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.Windows) { }
     }
 }

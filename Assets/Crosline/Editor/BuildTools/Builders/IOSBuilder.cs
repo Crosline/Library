@@ -1,4 +1,6 @@
-﻿namespace Crosline.BuildTools.Editor {
+﻿using System.Collections.Generic;
+
+namespace Crosline.BuildTools.Editor {
     public class IOSBuilder : CommonBuilder {
 
         public IOSBuilder() : base() {
@@ -6,6 +8,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.IOS;
         }
         
-        public IOSBuilder(System.Collections.Generic.List<BuildState> states) : base(states, BuildOptions.BuildPlatform.IOS) { }
+        public IOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.IOS) { }
     }
 }

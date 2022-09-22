@@ -1,4 +1,6 @@
-﻿namespace Crosline.BuildTools.Editor {
+﻿using System.Collections.Generic;
+
+namespace Crosline.BuildTools.Editor {
     public class LinuxBuilder : CommonBuilder {
 
         public LinuxBuilder() : base() {
@@ -6,6 +8,6 @@
             _buildPlatform = BuildOptions.BuildPlatform.Linux;
         }
         
-        public LinuxBuilder(System.Collections.Generic.List<BuildState> states) : base(states, BuildOptions.BuildPlatform.Linux) { }
+        public LinuxBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.Linux) { }
     }
 }

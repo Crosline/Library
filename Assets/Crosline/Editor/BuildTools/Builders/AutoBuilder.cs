@@ -1,11 +1,8 @@
 using System.Collections.Generic;
-using Crosline.BuildTools.Editor.BuildSteps;
 
 namespace Crosline.BuildTools.Editor {
     public class AutoBuilder {
-        
-        private const string buildStateAssetDirectory = "Assets/Crosline/Editor/BuildTools/BuildStates/AutoBuilder/";
-        
+
 #if UNITY_EDITOR_OSX
         private static bool isOSX = true;
 #else
@@ -15,51 +12,41 @@ namespace Crosline.BuildTools.Editor {
         //TODO - Crosline: Don't forget to implement an AutoBuilder after the builders.
 
         private static CommonBuilder Builder;
-        
-        public static void Android() {
-            if (Builder != null) {
-                return;
-            }
 
-            List<BuildState> androidBuildStates = new List<BuildState>() {
-                new TestState(new List<BuildStep>() {
-                    new TestStep()
-                })
-            };
-            
-            Builder = new AndroidBuilder(androidBuildStates);
+        public static void Android() {
+            if (Builder != null)
+                return;
+
+            Builder = new AndroidBuilder(new TestState());
+
             Builder.StartBuild();
         }
-        
+
         public static void IOS() {
-            if (Builder != null || !isOSX) {
+            if (Builder != null || !isOSX)
                 return;
-            }
-            
+
             Builder = new IOSBuilder();
         }
-        
+
         public static void Windows() {
-            if (Builder != null) {
+            if (Builder != null)
                 return;
-            }
-            
+
             Builder = new WindowsBuilder();
         }
-        
+
         public static void MacOS() {
-            if (Builder != null || !isOSX) {
+            if (Builder != null || !isOSX)
                 return;
-            }
-            
+
             Builder = new MacOSBuilder();
         }
-        
+
         public static void Linux() {
-            if (Builder != null) {
+            if (Builder != null)
                 return;
-            }
-            
+
             Builder = new LinuxBuilder();
         }
     }

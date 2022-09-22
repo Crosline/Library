@@ -4,7 +4,7 @@ using System.Linq;
 using Crosline.DebugTools;
 
 namespace Crosline.BuildTools.Editor {
-    public static class CommandLineUtils {
+    public static class CommandLineHelper {
 
         private const string ARGS = "-args";
         private const char ARGS_SEPARATOR = ';';

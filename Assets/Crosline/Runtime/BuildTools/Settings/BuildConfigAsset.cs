@@ -6,6 +6,8 @@ namespace Crosline.BuildTools {
 
         public BuildOptions.BuildPlatform platform;
 
+        public ScreenOrientation screenOrientation;
+
         public BuildOptions.ScriptingBackend backend;
 
         public BuildOptions.BuildMode buildMode;
