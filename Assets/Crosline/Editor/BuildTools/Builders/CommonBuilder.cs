@@ -62,7 +62,7 @@ namespace Crosline.BuildTools.Editor {
                 return path;
             }
         }
-#elif !UNITY_IOS
+#elif UNITY_IOS
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #elif UNITY_STANDALONE_WIN
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
