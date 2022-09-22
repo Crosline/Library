@@ -27,17 +27,11 @@ namespace Crosline.BuildTools {
 
     [CreateAssetMenu(fileName = "Build Config - Android", menuName = "Crosline/Build/Build Config Asset - Android")]
     public class AndroidBuildConfigAsset : BuildConfigAsset {
-
-        public BuildOptions.BuildPlatform platform = BuildOptions.BuildPlatform.Android;
-
+        
         public AndroidArchitecture architecture;
-
+        
     }
 
     [CreateAssetMenu(fileName = "Build Config - Android", menuName = "Crosline/Build/Build Config Asset - Android")]
-    public class IOSBuildConfigAsset : BuildConfigAsset {
-
-        public BuildOptions.BuildPlatform platform = BuildOptions.BuildPlatform.IOS;
-
-    }
+    public class IOSBuildConfigAsset : BuildConfigAsset { }
 }

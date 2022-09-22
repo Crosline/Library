@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: BuildConfigAsset_Generic
   m_EditorClassIdentifier: 
   platform: 0
+  screenOrientation: 5
   backend: 0
-  buildMode: 0
+  stripping: 0
+  buildMode: 1
   apiCompability: 0
+  compression: 0
   bundle: com.crosline.projectName
   version: 0.1

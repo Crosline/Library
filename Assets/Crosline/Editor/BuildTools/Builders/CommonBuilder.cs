@@ -88,28 +88,23 @@ namespace Crosline.BuildTools.Editor {
             buildConfig.platform = _buildPlatform;
         }
 
-        protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform, BuildConfigAsset buildConfigAsset) {
+        protected CommonBuilder(List<BuildState> states, BuildConfigAsset buildConfigAsset) {
             _instance = this;
             _buildStates = states;
-            _buildPlatform = buildPlatform;
             buildConfig = buildConfigAsset;
-
-            if (!_buildPlatform.HasFlag(buildConfig.platform)) {
-                UnityEngine.Debug.Log($"[Builder] Error: Builder {nameof(CommonBuilder)} is not compatible with build config {buildConfig.name}.");
-                EditorApplication.Exit(2);
-            }
+            _buildPlatform = buildConfig.platform;
         }
 
-        protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform) {
-            SetupCommon();
+        protected CommonBuilder(List<BuildState> states, BuildOptions.BuildPlatform buildPlatform, string buildConfigAsset = null) {
+            SetupCommon(buildConfigAsset);
             _buildStates = states;
             _buildPlatform = buildPlatform;
         }
 
-        private void SetupCommon() {
+        private void SetupCommon(string buildConfigAsset = null) {
             _instance = this;
             string error = null;
-            buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: "BuildConfigAsset_Generic");
+            buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: string.IsNullOrEmpty(buildConfigAsset) ? "BuildConfigAsset_Generic" : buildConfigAsset);
             UnityEngine.Debug.Log(error);
         }
 
