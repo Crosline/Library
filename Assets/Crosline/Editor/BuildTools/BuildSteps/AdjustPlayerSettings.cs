@@ -5,9 +5,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
     public class AdjustPlayerSettings : BuildStep {
         public override bool Execute() {
             PlayerSettings.bundleVersion = CommonBuilder.Instance.buildConfig.version;
-            PlayerSettings.applicationIdentifier = CommonBuilder.Instance.buildConfig.bundle;
+            var buildTargetGroup = CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup();
+            PlayerSettings.SetApplicationIdentifier(buildTargetGroup, CommonBuilder.Instance.buildConfig.bundle);
             
-            PlayerSettings.SetScriptingBackend(CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup(), CommonBuilder.Instance.buildConfig.backend);
+            PlayerSettings.SetScriptingBackend(buildTargetGroup, CommonBuilder.Instance.buildConfig.backend);
 
             switch (CommonBuilder.Instance.BuildPlatform) {
                 case BuildOptions.BuildPlatform.Android:
@@ -17,7 +18,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
                 case BuildOptions.BuildPlatform.IOS:
                     if (!CommandLineHelper.ArgumentTrue("cleanBuild")) {
-                        PlayerSettings.SetIncrementalIl2CppBuild(CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup(), true);
+                        PlayerSettings.SetIncrementalIl2CppBuild(buildTargetGroup, true);
                     }
 
                     break;
