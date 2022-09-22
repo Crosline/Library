@@ -48,11 +48,11 @@ namespace Crosline.BuildTools.Editor {
             get {
                 var path = $"{BuildFolder}{SEPARATOR}{BuildName}";
                 
-                if (CommandLineHelper.Arguments["export"].Equals("true") || CommandLineHelper.Arguments["export"].Equals("1")) {
+                if (CommandLineHelper.Argument("export").Equals("true") || CommandLineHelper.Argument("export").Equals("1")) {
                     return $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}{BuildFolder}{SEPARATOR}{BuildName}";
                 }
                 
-                if (CommandLineHelper.Arguments["appBundle"].Equals("true") || CommandLineHelper.Arguments["appBundle"].Equals("1")) {
+                if (CommandLineHelper.Argument("appBundle").Equals("true") || CommandLineHelper.Argument("appBundle").Equals("1")) {
                     path += ".abb";
                 }
                 else {
