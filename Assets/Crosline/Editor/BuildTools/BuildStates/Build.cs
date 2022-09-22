@@ -10,6 +10,11 @@ namespace Crosline.BuildTools.Editor {
 
         public Build() {
             _name = nameof(Build);
+            
+            _buildSteps = new List<BuildStep>() {
+                new BuildPlayer(),
+                new BuildReportAnalyzer()
+            };
         }
 
 
