@@ -101,11 +101,11 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = buildPlatform;
         }
 
-        private void SetupCommon(string buildConfigAsset = null) {
+        private void SetupCommon(string buildConfigAsset = "") {
             _instance = this;
             string error = null;
             buildConfig = BuildSettingsManager.TryGetConfig(ref error, customName: string.IsNullOrEmpty(buildConfigAsset) ? "BuildConfigAsset_Generic" : buildConfigAsset);
-            UnityEngine.Debug.Log(error);
+            UnityEngine.Debug.Log(buildConfig.name);
         }
 
         public void StartBuild() {
