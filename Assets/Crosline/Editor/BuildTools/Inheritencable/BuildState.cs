@@ -10,7 +10,7 @@
 
         public BuildOptions.BuildPlatform BuildPlatform => _buildPlatform;
 
-        protected BuildOptions.BuildPlatform _buildPlatform;
+        protected BuildOptions.BuildPlatform _buildPlatform = BuildOptions.BuildPlatform.Generic;
 
         public System.Collections.Generic.List<BuildSteps.BuildStep> BuildSteps => _buildSteps;
 
