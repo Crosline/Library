@@ -79,7 +79,7 @@ namespace Crosline.UnityTools.Editor {
         }
 
         public static void Add(string define) {
-            if (!_defineSymbols.Contains(define))
+            if (!DefineSymbols.Contains(define))
                 _defineSymbols.Add(define);
             else {
                 CroslineDebug.Log($"Symbol: {define} already exists.");
@@ -92,7 +92,7 @@ namespace Crosline.UnityTools.Editor {
         }
 
         public static void Remove(string define) {
-            if (_defineSymbols.Contains(define))
+            if (DefineSymbols.Contains(define))
                 _defineSymbols.Remove(define);
             else {
                 CroslineDebug.Log($"Symbol: {define} doesn't exist.");
