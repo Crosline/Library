@@ -38,8 +38,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                       $"Build Size: {summary.totalSize}\n" +
                       $"Total errors: {summary.totalErrors}\n" +
                       $"Total warnings: {summary.totalWarnings}\n");
+            
+            Debug.Log($"[Builder][BuildPlayer] Build is located at {summary.outputPath}\n");
 
-            return CommonBuilder.Instance.buildReport.summary.result.HasFlag(BuildResult.Succeeded);
+            return summary.result.HasFlag(BuildResult.Succeeded);
         }
 
         private static string[] ActiveScenes {
