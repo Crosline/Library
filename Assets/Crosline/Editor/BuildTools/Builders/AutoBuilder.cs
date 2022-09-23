@@ -30,7 +30,10 @@ namespace Crosline.BuildTools.Editor {
             if (Builder != null || !isOSX)
                 return;
 
-            Builder = new IOSBuilder();
+            Builder = new IOSBuilder(
+                new IOSPreBuild(),
+                new Build(),
+                new IOSPostBuild(1000));
         }
 
         public static void Windows() {

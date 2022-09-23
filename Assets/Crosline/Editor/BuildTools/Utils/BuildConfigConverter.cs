@@ -1,8 +1,9 @@
 ﻿using UnityEditor;
+using UnityEngine;
 using static Crosline.BuildTools.BuildOptions;
 
 namespace Crosline.BuildTools.Editor {
-    public static class BuildPlatformConverter {
+    public static class BuildConfigConverter {
 
         public static BuildTarget ToBuildTarget(this BuildPlatform platform) {
             switch (platform) {
@@ -47,6 +48,23 @@ namespace Crosline.BuildTools.Editor {
 
             }
 
+            return default;
+        }
+
+        public static UIOrientation ToUIOrientation(this ScreenOrientation so) {
+            switch (so) {
+                case ScreenOrientation.Portrait:
+                    return UIOrientation.Portrait;
+                case ScreenOrientation.LandscapeLeft:
+                    return UIOrientation.LandscapeLeft;
+                case ScreenOrientation.LandscapeRight:
+                    return UIOrientation.LandscapeRight;
+                case ScreenOrientation.AutoRotation:
+                    return UIOrientation.AutoRotation;
+                case ScreenOrientation.PortraitUpsideDown:
+                    return UIOrientation.PortraitUpsideDown;
+            }
+            
             return default;
         }
 
