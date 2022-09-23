@@ -33,7 +33,10 @@ namespace Crosline.BuildTools.Editor {
             Builder = new IOSBuilder(
                 new IOSPreBuild(),
                 new Build(),
-                new IOSPostBuild(1000));
+                new IOSPostBuild(1000)
+                );
+
+            Builder.StartBuild();
         }
 
         public static void Windows() {
