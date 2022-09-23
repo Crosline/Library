@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -26,16 +27,23 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             }
 
             if (ActiveScenes == null || ActiveScenes.Length == 0) {
-                Debug.LogError($"[Builder][BuildPlayer] Scenes are empty.");
+                Debug.LogError($"[Builder][BuildPlayer] Error: Scenes are empty.");
                 return false;
             }
 
-            CommonBuilder.Instance.buildReport = BuildPipeline.BuildPlayer(ActiveScenes, buildPath, target, buildOptions);
+            try {
+                CommonBuilder.Instance.buildReport = BuildPipeline.BuildPlayer(ActiveScenes, buildPath, target, buildOptions);
+            }
+            catch (Exception e) {
+                Debug.LogError($"[Builder][BuildPlayer] Error: Build is failed with an exception\n{e}");
+                return false;
+            }
 
             var summary = CommonBuilder.Instance.buildReport.summary;
 
-            Debug.Log($"[Builder][BuildPlayer] Build is completed in {summary.totalTime.Minutes} minutes\n" +
-                      $"Build Size: {summary.totalSize}\n" +
+            Debug.Log($"[Builder][BuildPlayer] Info: Build is completed\n" +
+                      $"in {summary.totalTime.Minutes}minutes {summary.totalTime.Seconds}seconds\n" +
+                      $"Build Size: {summary.totalSize*Mathf.Pow(10, -6):0.00}\n" +
                       $"Total errors: {summary.totalErrors}\n" +
                       $"Total warnings: {summary.totalWarnings}\n");
             
