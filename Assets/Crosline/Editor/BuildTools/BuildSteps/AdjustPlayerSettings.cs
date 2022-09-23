@@ -8,7 +8,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             var buildTargetGroup = CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup();
             PlayerSettings.SetApplicationIdentifier(buildTargetGroup, CommonBuilder.Instance.buildConfig.bundle);
             PlayerSettings.SetScriptingBackend(buildTargetGroup, CommonBuilder.Instance.buildConfig.backend);
-            
+
             PlayerSettings.defaultInterfaceOrientation = CommonBuilder.Instance.buildConfig.screenOrientation.ToUIOrientation();
             Screen.orientation = CommonBuilder.Instance.buildConfig.screenOrientation;
 
@@ -21,13 +21,12 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                     if (CommonBuilder.Instance.buildConfig is AndroidBuildConfigAsset androidConfig) {
                         PlayerSettings.Android.targetArchitectures = androidConfig.architecture;
                     }
+
                     break;
 
                 case BuildOptions.BuildPlatform.IOS:
-                    if (!CommandLineHelper.ArgumentTrue("cleanBuild")) {
-                        PlayerSettings.SetIncrementalIl2CppBuild(buildTargetGroup, true);
-                    }
-                    
+                    PlayerSettings.SetIncrementalIl2CppBuild(buildTargetGroup, !CommandLineHelper.ArgumentTrue("cleanBuild"));
+
                     PlayerSettings.iOS.scriptCallOptimization = ScriptCallOptimizationLevel.FastButNoExceptions;
                     PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                     PlayerSettings.iOS.requiresFullScreen = true;
