@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Crosline.BuildTools:Crosline.BuildTools:AndroidBuildConfigAsset
   platform: 3
   screenOrientation: 3
-  buildMode: 0
+  buildMode: 1
   apiCompability: 0
   compression: 0
   bundle: com.crosline.library
   version: 0.1
   backend: 0
   stripping: 0
-  architecture: 2
+  architecture: 3
