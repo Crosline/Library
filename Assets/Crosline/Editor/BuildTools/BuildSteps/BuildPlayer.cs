@@ -16,13 +16,9 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             var target = CommonBuilder.Instance.BuildPlatform.ToBuildTarget();
             var buildOptions = CommonBuilder.Instance.buildOptions;
-            var buildPath = CommonBuilder.BuildPath;
+            var buildPath = CommonBuilder.BuildFolder;
 
-            if (target.HasFlag(BuildTarget.Android) && (buildPath.Contains(".apk") || buildPath.Contains(".aab"))) {
-                if (!Directory.Exists(Directory.GetParent(buildPath).FullName))
-                    Directory.CreateDirectory(buildPath);
-            }
-            else if (!Directory.Exists(buildPath)) {
+            if (!Directory.Exists(buildPath)) {
                 Directory.CreateDirectory(buildPath);
             }
 
