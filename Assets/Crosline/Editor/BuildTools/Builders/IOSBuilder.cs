@@ -8,6 +8,6 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = BuildOptions.BuildPlatform.IOS;
         }
 
-        public IOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.IOS) { }
+        public IOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), LoadBuildConfig("BuildConfigAsset_IOS")) { }
     }
 }

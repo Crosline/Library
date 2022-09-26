@@ -9,6 +9,6 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = BuildOptions.BuildPlatform.Android;
         }
 
-        public AndroidBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.Android, "BuildConfigAsset_Android") { }
+        public AndroidBuilder(params BuildState[] states) : base(new List<BuildState>(states), "BuildConfigAsset_Android") { }
     }
 }

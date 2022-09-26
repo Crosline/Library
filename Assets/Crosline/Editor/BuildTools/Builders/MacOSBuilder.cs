@@ -8,6 +8,6 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = BuildOptions.BuildPlatform.MacOS;
         }
 
-        public MacOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), BuildOptions.BuildPlatform.MacOS) { }
+        public MacOSBuilder(params BuildState[] states) : base(new List<BuildState>(states), LoadBuildConfig("BuildConfigAsset_MacOS")) { }
     }
 }
