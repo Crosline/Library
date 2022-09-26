@@ -28,16 +28,29 @@ namespace Crosline.BuildTools.Editor {
 #else
         public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
 #endif
+        public static string CleanProductName {
+            get {
+                if (!string.IsNullOrEmpty(_cleanProductName)) {
+                    return _cleanProductName;
+                }
+                var charsToClean = new char[] { ' ', ';', ',', '\'' };
+                
+                var tempProductName = PlayerSettings.productName.Split(charsToClean, StringSplitOptions.RemoveEmptyEntries);
+                _cleanProductName = string.Join(string.Empty, tempProductName);
+
+                return _cleanProductName;
+            }
+        }
+
+        private static string _cleanProductName;
+        
 #pragma warning restore CS0612
 
         private static string BuildName {
             get {
                 var charsToClean = new char[] { ' ', ';', ',', '\'' };
 
-                var tempProductName = PlayerSettings.productName.Split(charsToClean, StringSplitOptions.RemoveEmptyEntries);
-                var cleanProductName = string.Join(string.Empty, tempProductName);
-
-                return $"{cleanProductName}-{CommandLineHelper.Argument("buildNumber")}";
+                return $"{CleanProductName}-{CommandLineHelper.Argument("buildNumber")}";
             }
         }
 
@@ -65,7 +78,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}.exe";
+        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CleanProductName}.exe";
 #else
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #endif
