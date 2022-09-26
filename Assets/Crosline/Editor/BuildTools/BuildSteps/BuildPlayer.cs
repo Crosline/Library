@@ -16,10 +16,11 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             var target = CommonBuilder.Instance.BuildPlatform.ToBuildTarget();
             var buildOptions = CommonBuilder.Instance.buildOptions;
-            var buildPath = CommonBuilder.BuildFolder;
+            var buildPath = CommonBuilder.BuildPath;
+            var buildFolder = CommonBuilder.BuildFolder;
 
-            if (!Directory.Exists(buildPath)) {
-                Directory.CreateDirectory(buildPath);
+            if (!Directory.Exists(buildFolder)) {
+                Directory.CreateDirectory(buildFolder);
             }
 
             if (ActiveScenes == null || ActiveScenes.Length == 0) {
