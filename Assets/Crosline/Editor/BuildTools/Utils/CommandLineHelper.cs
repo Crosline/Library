@@ -22,12 +22,13 @@ namespace Crosline.BuildTools.Editor {
 
                     var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
 
-                    CroslineDebug.Log("[Builder] Debug: Adding command line arguments:.");
+                    string argsDebug = "";
                     foreach (var customArg in customArgs) {
                         var separatedArgs = customArg.Split(ARGS_EQUAL);
                         _commandLineArguments.Add(separatedArgs[0], separatedArgs[1]);
-                        CroslineDebug.Log($"k: {separatedArgs[0]}, v: {separatedArgs[1]}");
+                        argsDebug += $"k: {separatedArgs[0]}, v: {separatedArgs[1]}\n";
                     }
+                    CroslineDebug.Log($"[Builder] Debug: Adding command line arguments:\n{argsDebug}");
 
                 }
 
