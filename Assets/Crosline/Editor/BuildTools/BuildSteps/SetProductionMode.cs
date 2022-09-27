@@ -1,4 +1,5 @@
 ﻿using Crosline.UnityTools.Editor;
+using UnityEngine;
 
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class SetProductionMode : BuildStep {
@@ -11,19 +12,27 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             var isDebugMode = CommandLineHelper.ArgumentTrue("debugMode") || CommonBuilder.Instance.buildConfig.buildMode.Equals(BuildOptions.BuildMode.DEBUG);
 
-            if (isDebugMode)
+            if (isDebugMode) {
+                Debug.Log("[Builder][SetProductionMode] Debug: Debug Mode is enabled.");
                 DefineSymbolHelper.Add(DebugSymbol);
-            else
+            }
+            else {
+                Debug.Log("[Builder][SetProductionMode] Debug: Debug Mode is disabled.");
                 DefineSymbolHelper.Remove(DebugSymbol);
+            }
 
 
 
             var isTestEnvironment = CommandLineHelper.ArgumentTrue("testEnvironment");
 
-            if (isTestEnvironment)
+            if (isTestEnvironment) {
+                Debug.Log("[Builder][SetProductionMode] Debug: Test Mode is enabled.");
                 DefineSymbolHelper.Add(TestSymbol);
-            else
+            }
+            else {
+                Debug.Log("[Builder][SetProductionMode] Debug: Test Mode is disabled.");
                 DefineSymbolHelper.Remove(TestSymbol);
+            }
 
             DefineSymbolHelper.Set();
 

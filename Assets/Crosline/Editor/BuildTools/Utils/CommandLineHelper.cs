@@ -36,12 +36,21 @@ namespace Crosline.BuildTools.Editor {
         }
 
         public static string Argument(string arg) {
-            return Arguments.ContainsKey(arg) ? Arguments[arg] : "";
+            if (!Arguments.ContainsKey(arg)) {
+                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
+                return "";
+            }
+            
+            return Arguments[arg];
         }
 
         public static bool ArgumentTrue(string arg) {
-            return Arguments.ContainsKey(arg) && (Arguments[arg].Equals("true") || Arguments[arg].Equals("1"));
+            if (!Arguments.ContainsKey(arg)) {
+                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
+                return false;
+            }
 
+            return Arguments[arg].Equals("true") || Arguments[arg].Equals("1");
         }
 
         private static Dictionary<string, string> _commandLineArguments;
