@@ -28,15 +28,17 @@ namespace Crosline.BuildTools.Editor {
 
                     var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
 
+                    CroslineDebug.Log("[Builder] Debug: Adding command line arguments:.");
                     foreach (var customArg in customArgs) {
                         var separatedArgs = customArg.Split(ARGS_EQUAL);
                         _commandLineArguments.Add(separatedArgs[0], separatedArgs[1]);
+                        CroslineDebug.Log($"k: {separatedArgs[0]}, v: {separatedArgs[1]}");
                     }
 
                 }
 
                 if (_commandLineArguments.Count == 0)
-                    CroslineDebug.LogError("[Builder][CommandLineHelper] Error: Could not find any custom command line arguments.");
+                    CroslineDebug.LogError("[Builder] Error: Could not find any custom command line arguments.");
 
                 return _commandLineArguments;
             }
@@ -46,7 +48,7 @@ namespace Crosline.BuildTools.Editor {
             var dictionary = Arguments;
 
             if (!dictionary.ContainsKey(arg)) {
-                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
+                CroslineDebug.LogWarning($"[Builder] Warning: Command line argument: {arg} could not found.");
                 return "";
             }
             
@@ -57,7 +59,7 @@ namespace Crosline.BuildTools.Editor {
             var dictionary = Arguments;
 
             if (!dictionary.ContainsKey(arg)) {
-                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
+                CroslineDebug.LogWarning($"[Builder] Warning: Command line argument: {arg} could not found.");
                 return false;
             }
 
