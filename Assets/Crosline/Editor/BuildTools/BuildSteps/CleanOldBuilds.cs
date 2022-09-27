@@ -27,14 +27,17 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             if (CommonBuilder.Instance.BuildPlatform.HasFlag(BuildOptions.BuildPlatform.Mobile)) {
                 files = Directory.GetFiles(_buildFolder).ToList();
+                Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the Build Folder.");
                 files.Sort((f1, f2) => File.GetCreationTimeUtc(f1).CompareTo(File.GetCreationTimeUtc(f2)));
             }
             else {
                 files = Directory.GetDirectories(_buildFolder).ToList();
+                Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} directory found in the Build Folder.");
                 files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
             }
 
             Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the Build Folder.");
+            Debug.Log($"[Builder][CleanOldBuilds] Debug: Build Folder is: {_buildFolder}");
 
             if (files.Count >= _buildAmountToKeep)
                 for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
