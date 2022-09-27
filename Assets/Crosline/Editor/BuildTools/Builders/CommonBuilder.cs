@@ -24,7 +24,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows{SEPARATOR}{CommandLineHelper.Argument("buildNumber")}";
+        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
 #else
         public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
 #endif
@@ -78,7 +78,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CleanProductName}.exe";
+        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CommandLineHelper.Argument("buildNumber")}{SEPARATOR}{CleanProductName}.exe";
 #else
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #endif
