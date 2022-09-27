@@ -14,10 +14,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
         public override bool Execute() {
 
-            var target = CommonBuilder.Instance.BuildPlatform.ToBuildTarget();
-            var buildOptions = CommonBuilder.Instance.buildOptions;
-            var buildPath = CommonBuilder.BuildPath;
-            var buildFolder = CommonBuilder.BuildFolder;
+            var target = Builder.Instance.BuildPlatform.ToBuildTarget();
+            var buildOptions = Builder.Instance.buildOptions;
+            var buildPath = Builder.BuildPath;
+            var buildFolder = Builder.BuildFolder;
 
             if (!Directory.Exists(buildFolder)) {
                 Directory.CreateDirectory(buildFolder);
@@ -29,14 +29,14 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             }
 
             try {
-                CommonBuilder.Instance.buildReport = BuildPipeline.BuildPlayer(ActiveScenes, buildPath, target, buildOptions);
+                Builder.Instance.buildReport = BuildPipeline.BuildPlayer(ActiveScenes, buildPath, target, buildOptions);
             }
             catch (Exception e) {
                 Debug.LogError($"[Builder][BuildPlayer] Error: Build is failed with an exception\n{e}");
                 return false;
             }
 
-            var summary = CommonBuilder.Instance.buildReport.summary;
+            var summary = Builder.Instance.buildReport.summary;
 
             Debug.Log($"[Builder][BuildPlayer] Info: Build is completed\n" +
                       $"Build time: {summary.totalTime.TotalMinutes} minutes {summary.totalTime.Seconds} seconds\n" +

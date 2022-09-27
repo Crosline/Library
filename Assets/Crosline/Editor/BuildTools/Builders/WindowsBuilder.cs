@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Crosline.BuildTools.Editor {
-    public class WindowsBuilder : CommonBuilder {
+    public class WindowsBuilder : Builder {
 
         public WindowsBuilder() : base() {
             _buildStates = new();

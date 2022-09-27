@@ -2,7 +2,7 @@
 using Crosline.BuildTools.Editor.Settings;
 
 namespace Crosline.BuildTools.Editor {
-    public class AndroidBuilder : CommonBuilder {
+    public class AndroidBuilder : Builder {
 
         public AndroidBuilder() : base() {
             _buildStates = new();

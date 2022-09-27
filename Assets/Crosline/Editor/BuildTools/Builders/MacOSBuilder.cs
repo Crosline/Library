@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Crosline.BuildTools.Editor {
-    public class MacOSBuilder : CommonBuilder {
+    public class MacOSBuilder : Builder {
 
         public MacOSBuilder() : base() {
             _buildStates = new();

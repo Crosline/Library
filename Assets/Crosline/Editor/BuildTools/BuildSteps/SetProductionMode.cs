@@ -10,7 +10,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
         public override bool Execute() {
 
-            var isDebugMode = CommandLineHelper.ArgumentTrue("debugMode") || CommonBuilder.Instance.buildConfig.buildMode.Equals(BuildOptions.BuildMode.DEBUG);
+            var isDebugMode = CommandLineHelper.ArgumentTrue("debugMode") || Builder.Instance.buildConfig.buildMode.Equals(BuildOptions.BuildMode.DEBUG);
 
             if (isDebugMode) {
                 Debug.Log("[Builder][SetProductionMode] Debug: Debug Mode is enabled.");

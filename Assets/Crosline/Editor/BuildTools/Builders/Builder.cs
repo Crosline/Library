@@ -7,11 +7,11 @@ using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
 
 namespace Crosline.BuildTools.Editor {
-    public abstract class CommonBuilder : IBuilder {
+    public abstract class Builder : IBuilder {
 
-        public static CommonBuilder Instance => _instance;
+        public static Builder Instance => _instance;
 
-        private static CommonBuilder _instance = null;
+        private static Builder _instance = null;
 
         private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
 
@@ -96,27 +96,27 @@ namespace Crosline.BuildTools.Editor {
 
         protected List<BuildState> _buildStates = new List<BuildState>();
 
-        protected CommonBuilder() {
+        protected Builder() {
             _instance = this;
             LoadBuildConfig();
             buildConfig.platform = _buildPlatform;
         }
         
-        protected CommonBuilder(BuildOptions.BuildPlatform buildPlatform) {
+        protected Builder(BuildOptions.BuildPlatform buildPlatform) {
             _instance = this;
             LoadBuildConfig();
             _buildPlatform = buildPlatform;
             buildConfig.platform = _buildPlatform;
         }
 
-        protected CommonBuilder(List<BuildState> states, BuildConfigAsset buildConfigAsset) {
+        protected Builder(List<BuildState> states, BuildConfigAsset buildConfigAsset) {
             _instance = this;
             _buildStates = states;
             buildConfig = buildConfigAsset;
             _buildPlatform = buildConfig.platform;
         }
 
-        protected CommonBuilder(List<BuildState> states, string buildConfigPath = null) {
+        protected Builder(List<BuildState> states, string buildConfigPath = null) {
             _instance = this;
             _buildStates = states;
             buildConfig = LoadBuildConfig(buildConfigPath);

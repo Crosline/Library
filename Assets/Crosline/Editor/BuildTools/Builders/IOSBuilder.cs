@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Crosline.BuildTools.Editor {
-    public class IOSBuilder : CommonBuilder {
+    public class IOSBuilder : Builder {
 
         public IOSBuilder() : base() {
             _buildStates = new();

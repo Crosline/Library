@@ -12,7 +12,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
         public CleanOldBuilds(int buildAmountToKeep = 10) {
             _platform = BuildOptions.BuildPlatform.Generic;
-            _buildFolder = CommonBuilder.BuildFolder;
+            _buildFolder = Builder.BuildFolder;
             _buildAmountToKeep = buildAmountToKeep;
         }
 
@@ -25,7 +25,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             List<string> files;
 
-            if (CommonBuilder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
+            if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
                 files = Directory.GetFiles(_buildFolder).ToList();
                 files.Sort((f1, f2) => File.GetCreationTimeUtc(f1).CompareTo(File.GetCreationTimeUtc(f2)));
             }
@@ -39,7 +39,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             if (files.Count >= _buildAmountToKeep)
                 for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
-                    if (CommonBuilder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
+                    if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
                         File.Delete(files[i]);
                     }
                     else {

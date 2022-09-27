@@ -9,9 +9,7 @@ namespace Crosline.BuildTools.Editor {
         private static bool isOSX = false;
 #endif
 
-        //TODO - Crosline: Don't forget to implement an AutoBuilder after the builders.
-
-        private static CommonBuilder Builder;
+        private static Builder Builder;
 
         public static void Android() {
             if (Builder != null)

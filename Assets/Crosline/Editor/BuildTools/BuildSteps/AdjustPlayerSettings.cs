@@ -4,21 +4,21 @@ using UnityEngine;
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class AdjustPlayerSettings : BuildStep {
         public override bool Execute() {
-            PlayerSettings.bundleVersion = CommonBuilder.Instance.buildConfig.version;
-            var buildTargetGroup = CommonBuilder.Instance.BuildPlatform.ToBuildTargetGroup();
-            PlayerSettings.SetApplicationIdentifier(buildTargetGroup, CommonBuilder.Instance.buildConfig.bundle);
-            PlayerSettings.SetScriptingBackend(buildTargetGroup, CommonBuilder.Instance.buildConfig.backend);
+            PlayerSettings.bundleVersion = Builder.Instance.buildConfig.version;
+            var buildTargetGroup = Builder.Instance.BuildPlatform.ToBuildTargetGroup();
+            PlayerSettings.SetApplicationIdentifier(buildTargetGroup, Builder.Instance.buildConfig.bundle);
+            PlayerSettings.SetScriptingBackend(buildTargetGroup, Builder.Instance.buildConfig.backend);
 
-            PlayerSettings.defaultInterfaceOrientation = CommonBuilder.Instance.buildConfig.screenOrientation.ToUIOrientation();
-            Screen.orientation = CommonBuilder.Instance.buildConfig.screenOrientation;
+            PlayerSettings.defaultInterfaceOrientation = Builder.Instance.buildConfig.screenOrientation.ToUIOrientation();
+            Screen.orientation = Builder.Instance.buildConfig.screenOrientation;
 
-            if (CommonBuilder.Instance.buildConfig.backend.HasFlagAny(ScriptingImplementation.IL2CPP)) {
+            if (Builder.Instance.buildConfig.backend.HasFlagAny(ScriptingImplementation.IL2CPP)) {
                 PlayerSettings.stripEngineCode = true;
             }
 
-            switch (CommonBuilder.Instance.BuildPlatform) {
+            switch (Builder.Instance.BuildPlatform) {
                 case BuildOptions.BuildPlatform.Android:
-                    if (CommonBuilder.Instance.buildConfig is AndroidBuildConfigAsset androidConfig) {
+                    if (Builder.Instance.buildConfig is AndroidBuildConfigAsset androidConfig) {
                         PlayerSettings.Android.targetArchitectures = androidConfig.architecture;
                     }
 

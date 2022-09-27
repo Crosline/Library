@@ -1,7 +1,7 @@
 ﻿namespace Crosline.BuildTools.Editor {
     public interface IBuilder {
 
-        public static CommonBuilder Instance { get; }
+        public static Builder Instance { get; }
 
         public void StartBuild();
 

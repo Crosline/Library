@@ -20,7 +20,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
         }
 
         public override bool Execute() {
-            var buildReport = CommonBuilder.Instance.buildReport;
+            var buildReport = Builder.Instance.buildReport;
 
             if (buildReport.summary.totalErrors > 0) {
                 var errorMessages = buildReport.steps.SelectMany(x => x.messages).Where(x => x.type.HasFlagAny(LogType.Error));
