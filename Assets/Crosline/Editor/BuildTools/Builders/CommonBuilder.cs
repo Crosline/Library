@@ -152,7 +152,7 @@ namespace Crosline.BuildTools.Editor {
                     UnityEngine.Debug.Log($"[Builder] Info: Build Step {buildStep.Name} is started!");
 
                     if (buildStep.Execute()) {
-                        UnityEngine.Debug.Log($"[Builder] Debug: Build Step {buildStep.Name} is completed!");
+                        UnityEngine.Debug.Log($"[Builder]: Build Step {buildStep.Name} is completed!");
                     }
                     else {
                         UnityEngine.Debug.Log($"[Builder] Warning: Build Step {buildStep.Name} could not be completed!");
