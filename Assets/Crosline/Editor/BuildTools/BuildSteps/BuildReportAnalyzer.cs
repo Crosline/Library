@@ -23,7 +23,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             var buildReport = CommonBuilder.Instance.buildReport;
 
             if (buildReport.summary.totalErrors > 0) {
-                var errorMessages = buildReport.steps.SelectMany(x => x.messages).Where(x => x.type.HasFlag(LogType.Error));
+                var errorMessages = buildReport.steps.SelectMany(x => x.messages).Where(x => x.type.HasFlagAny(LogType.Error));
 
                 foreach (var error in errorMessages) {
                     var errorContent = error.content;

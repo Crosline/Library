@@ -12,7 +12,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             PlayerSettings.defaultInterfaceOrientation = CommonBuilder.Instance.buildConfig.screenOrientation.ToUIOrientation();
             Screen.orientation = CommonBuilder.Instance.buildConfig.screenOrientation;
 
-            if (CommonBuilder.Instance.buildConfig.backend.HasFlag(ScriptingImplementation.IL2CPP)) {
+            if (CommonBuilder.Instance.buildConfig.backend.HasFlagAny(ScriptingImplementation.IL2CPP)) {
                 PlayerSettings.stripEngineCode = true;
             }
 

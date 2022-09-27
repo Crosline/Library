@@ -46,7 +46,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             
             Debug.Log($"[Builder][BuildPlayer] Debug: Build is located at {summary.outputPath}\n");
 
-            return summary.result.HasFlag(BuildResult.Succeeded);
+            return summary.result.HasFlagAny(BuildResult.Succeeded);
         }
 
         private static string[] ActiveScenes {

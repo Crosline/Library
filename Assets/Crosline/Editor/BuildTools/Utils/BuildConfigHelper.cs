@@ -67,6 +67,12 @@ namespace Crosline.BuildTools.Editor {
             
             return default;
         }
+        
+        
+        public static bool HasFlagAny<T>(this T value, T flag) where T : System.Enum
+        {
+            return value.HasFlag(flag) || flag.HasFlag(value);
+        }
 
     }
 }

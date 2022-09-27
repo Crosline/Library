@@ -134,7 +134,7 @@ namespace Crosline.BuildTools.Editor {
 
         public void StartBuild(int callbackOrder) {
             foreach (var buildState in _buildStates) {
-                if (!buildState.BuildPlatform.HasFlag(_buildPlatform))
+                if (!buildState.BuildPlatform.HasFlagAny(_buildPlatform))
                     UnityEngine.Debug.Log($"[Builder] Error: Build State {buildState.Name} is not compatible with {_buildPlatform}.");
 
                 if (buildState.PostBuildCallback != callbackOrder)
@@ -145,7 +145,7 @@ namespace Crosline.BuildTools.Editor {
                 UnityEngine.Debug.Log($"[Builder] Info: Build State {buildState.Name} is started!");
 
                 foreach (var buildStep in buildSteps) {
-                    if (!buildStep.Platform.HasFlag(_buildPlatform)) {
+                    if (!buildStep.Platform.HasFlagAny(_buildPlatform)) {
                         UnityEngine.Debug.LogError($"[Builder] Error: Build Step {buildStep.Name} is not compatible with {_buildPlatform}.");
                     }
 
