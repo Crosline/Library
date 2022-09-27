@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880d6e9554e49d8459afafddbc194627, type: 3}
+  m_Script: {fileID: 11500000, guid: f30fc6624b50f074084f8d0753021764, type: 3}
   m_Name: BuildConfigAsset_Android
   m_EditorClassIdentifier: 
   platform: 3
@@ -21,3 +21,4 @@ MonoBehaviour:
   version: 0.1
   backend: 0
   stripping: 0
+  architecture: 1
