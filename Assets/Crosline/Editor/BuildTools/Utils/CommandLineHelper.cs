@@ -29,7 +29,7 @@ namespace Crosline.BuildTools.Editor {
                 }
 
                 if (_commandLineArguments.Count == 0)
-                    CroslineDebug.LogError("Could not find any custom command line arguments.");
+                    CroslineDebug.LogError("[Builder][CommandLineHelper] Error: Could not find any custom command line arguments.");
 
                 return _commandLineArguments;
             }

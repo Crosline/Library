@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class CleanOldBuilds : BuildStep {
@@ -17,7 +18,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
         public override bool Execute() {
             if (!Directory.Exists(_buildFolder)) {
-                UnityEngine.Debug.Log("Build folder cannot be founded.");
+                Debug.Log("[Builder] Warning: Build folder cannot be founded.");
 
                 return true;
             }

@@ -27,7 +27,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
                 foreach (var error in errorMessages) {
                     var errorContent = error.content;
-                    Debug.LogError(errorContent);
+                    Debug.LogError($"[Builder] Error: {errorContent}");
 
                     if (_criticalErrorMessages.Any(x => errorContent.Contains(x))) {
                         return false;

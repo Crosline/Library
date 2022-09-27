@@ -39,12 +39,12 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             var summary = CommonBuilder.Instance.buildReport.summary;
 
             Debug.Log($"[Builder][BuildPlayer] Info: Build is completed\n" +
-                      $"in {summary.totalTime.Minutes}minutes {summary.totalTime.Seconds}seconds\n" +
+                      $"Build time: {summary.totalTime.TotalMinutes} minutes {summary.totalTime.Seconds} seconds\n" +
                       $"Build Size: {summary.totalSize*Mathf.Pow(10, -6):0.00}\n" +
                       $"Total errors: {summary.totalErrors}\n" +
                       $"Total warnings: {summary.totalWarnings}\n");
             
-            Debug.Log($"[Builder][BuildPlayer] Build is located at {summary.outputPath}\n");
+            Debug.Log($"[Builder][BuildPlayer] Debug: Build is located at {summary.outputPath}\n");
 
             return summary.result.HasFlag(BuildResult.Succeeded);
         }

@@ -17,7 +17,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 File.WriteAllText(androidManifestPath, manifest);
             }
             catch (Exception e) {
-                Debug.Log($"[EnableAndroidDebug] Android Manifest could not be edited. {e}");
+                Debug.Log($"[Builder][EnableAndroidDebug] Error: Android Manifest could not be edited. {e}");
 
                 return false;
             }
