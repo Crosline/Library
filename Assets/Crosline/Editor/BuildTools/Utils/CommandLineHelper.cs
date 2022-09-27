@@ -20,11 +20,6 @@ namespace Crosline.BuildTools.Editor {
                 if (_commandLineArguments.Count == 0) {
                     var commandLineArgs = Environment.GetCommandLineArgs();
                     
-                    Debug.Log("[Builder][CommandLineHelper] Debug: commandLineArgs");
-
-                    foreach (var VARIABLE in commandLineArgs) {
-                        Debug.Log(VARIABLE);
-                    }
 
                     var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
 
