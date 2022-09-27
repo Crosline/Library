@@ -34,9 +34,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
             }
 
+            Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the Build Folder.");
 
             if (files.Count >= _buildAmountToKeep)
-                for (var i = files.Count - _buildAmountToKeep - 1; i > 0; i--)
+                for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
                     if (CommonBuilder.Instance.BuildPlatform.HasFlag(BuildOptions.BuildPlatform.Mobile)) {
                         File.Delete(files[i]);
                     }
