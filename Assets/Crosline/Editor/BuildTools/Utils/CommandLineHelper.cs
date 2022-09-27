@@ -19,7 +19,6 @@ namespace Crosline.BuildTools.Editor {
 
                 if (_commandLineArguments.Count == 0) {
                     var commandLineArgs = Environment.GetCommandLineArgs();
-                    
 
                     var customArgs = commandLineArgs.SkipWhile(x => !x.Equals(ARGS)).Skip(1).FirstOrDefault()?.Split(ARGS_SEPARATOR);
 
@@ -40,25 +39,21 @@ namespace Crosline.BuildTools.Editor {
         }
 
         public static string Argument(string arg) {
-            var dictionary = Arguments;
-
-            if (!dictionary.ContainsKey(arg)) {
-                CroslineDebug.LogWarning($"[Builder] Warning: Command line argument: {arg} could not found.");
+            if (!Arguments.ContainsKey(arg)) {
+                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
                 return "";
             }
             
-            return dictionary[arg];
+            return Arguments[arg];
         }
 
         public static bool ArgumentTrue(string arg) {
-            var dictionary = Arguments;
-
-            if (!dictionary.ContainsKey(arg)) {
-                CroslineDebug.LogWarning($"[Builder] Warning: Command line argument: {arg} could not found.");
+            if (!Arguments.ContainsKey(arg)) {
+                CroslineDebug.LogError($"[Builder][CommandLineHelper] Warning: Command line argument: {arg} could not found.");
                 return false;
             }
 
-            return dictionary[arg].Equals("true") || dictionary[arg].Equals("1");
+            return Arguments[arg].Equals("true") || Arguments[arg].Equals("1");
         }
 
         private static Dictionary<string, string> _commandLineArguments;
