@@ -62,7 +62,7 @@ namespace Crosline.BuildTools.Editor {
                 var path = $"{BuildFolder}{SEPARATOR}{BuildName}";
                 
                 if (CommandLineHelper.ArgumentTrue("export")) {
-                    return $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}{BuildFolder}{SEPARATOR}{BuildName}";
+                    return $"{BuildFolder}{SEPARATOR}{BuildName}";
                 }
                 
                 if (CommandLineHelper.ArgumentTrue("appBundle")) {
