@@ -11,7 +11,6 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = BuildOptions.BuildPlatform.Android;
 
             var steps = new BuildStep[] {
-                new TestStep(),
                 new SetAndroidSDKVariables(),
                 // new SetKeystorePass()
             };

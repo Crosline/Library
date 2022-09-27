@@ -16,7 +16,7 @@ namespace Crosline.BuildTools.Editor {
         private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
 
         #region Build Path and Name
-        [Obsolete] private static string MainBuildFolder => $"{Directory.GetParent(UnityEngine.Application.dataPath).FullName}{SEPARATOR}Builds";
+        [Obsolete] private static string MainBuildFolder => $"{CommandLineHelper.Argument("workspace")}{SEPARATOR}Builds";
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
