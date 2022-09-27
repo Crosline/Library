@@ -41,7 +41,13 @@ namespace Crosline.BuildTools.Editor {
             if (Builder != null)
                 return;
 
-            Builder = new WindowsBuilder();
+            Builder = new WindowsBuilder(
+                new PreBuild(),
+                new Build(),
+                new PostBuild(1000)
+            );
+            
+            Builder.StartBuild();
         }
 
         public static void MacOS() {
