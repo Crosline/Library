@@ -21,6 +21,10 @@ namespace Crosline.BuildTools.Editor.Settings {
             _buildConfigAsset.buildMode = (BuildOptions.BuildMode) EditorGUILayout.EnumPopup("Build Mode", _buildConfigAsset.buildMode);
             _buildConfigAsset.apiCompability = (BuildOptions.ApiCompability) EditorGUILayout.EnumPopup("API Compability", _buildConfigAsset.apiCompability);
 
+            if (_buildConfigAsset is AndroidBuildConfigAsset androidAsset) {
+                androidAsset.architecture = (AndroidArchitecture) EditorGUILayout.EnumPopup("Android Architecture", androidAsset.architecture);
+            }
+
             EditorGUILayout.EndVertical();
 
             if (buildConfigName != _buildConfigAsset.name) {
