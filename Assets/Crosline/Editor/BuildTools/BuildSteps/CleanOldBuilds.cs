@@ -38,6 +38,10 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the {buildFolder}");
 
+            foreach (var file in files) {
+                Debug.Log(file);
+            }
+
             if (files.Count >= _buildAmountToKeep)
                 for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
                     if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
