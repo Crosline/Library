@@ -24,10 +24,12 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             List<string> files;
 
             if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Android)) {
+                Debug.Log("[Builder] Error: blabla1");
                 files = Directory.GetFiles(buildFolder).ToList();
                 files.Sort((f1, f2) => File.GetCreationTimeUtc(f1).CompareTo(File.GetCreationTimeUtc(f2)));
             }
             else if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Standalone)) {
+                Debug.Log("[Builder] Error: blabla2");
                 files = Directory.GetDirectories(buildFolder).ToList();
                 files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
             }
