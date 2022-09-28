@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 880d6e9554e49d8459afafddbc194627, type: 3}
   m_Name: BuildConfigAsset_Windows
   m_EditorClassIdentifier: 
-  platform: 0
+  platform: 1
   screenOrientation: 0
   buildMode: 1
   apiCompability: 0
