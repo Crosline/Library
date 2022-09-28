@@ -6,18 +6,16 @@ using UnityEngine;
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class CleanOldBuilds : BuildStep {
 
-        private string _buildFolder;
-
         private int _buildAmountToKeep;
 
         public CleanOldBuilds(int buildAmountToKeep = 10) {
             _platform = BuildOptions.BuildPlatform.Generic;
-            _buildFolder = Builder.BuildFolder;
             _buildAmountToKeep = buildAmountToKeep;
         }
 
         public override bool Execute() {
-            if (!Directory.Exists(_buildFolder)) {
+            var buildFolder = Builder.BuildFolder;
+            if (!Directory.Exists(buildFolder)) {
                 Debug.Log("[Builder] Warning: Build folder cannot be founded.");
 
                 return true;
@@ -25,17 +23,21 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
 
             List<string> files;
 
-            if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
-                files = Directory.GetFiles(_buildFolder).ToList();
+            if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Android)) {
+                files = Directory.GetFiles(buildFolder).ToList();
                 files.Sort((f1, f2) => File.GetCreationTimeUtc(f1).CompareTo(File.GetCreationTimeUtc(f2)));
             }
-            else {
-                files = Directory.GetDirectories(_buildFolder).ToList();
+            else if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Standalone)) {
+                files = Directory.GetDirectories($"{buildFolder}{Path.DirectorySeparatorChar}").ToList();
                 files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
+            }
+            else {
+                Debug.Log($"[Builder][CleanOldBuilds] Debug: Skipping");
+                return true;
             }
 
             Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the Build Folder.");
-            Debug.Log($"[Builder][CleanOldBuilds] Debug: Build Folder is: {_buildFolder}");
+            Debug.Log($"[Builder][CleanOldBuilds] Debug: Build Folder is: {buildFolder}");
 
             if (files.Count >= _buildAmountToKeep)
                 for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
