@@ -36,7 +36,9 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 return true;
             }
 
-            Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the {buildFolder}");
+            Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found\n" +
+                      $"Path: {buildFolder}\n" +
+                      $"Platform: {Builder.Instance.BuildPlatform}");
 
             foreach (var file in files) {
                 Debug.Log(file);
