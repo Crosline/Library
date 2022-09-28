@@ -98,13 +98,14 @@ namespace Crosline.BuildTools.Editor {
 
         protected Builder() {
             _instance = this;
-            LoadBuildConfig();
+            buildConfig = LoadBuildConfig();
             buildConfig.platform = _buildPlatform;
         }
         
+        [Obsolete]
         protected Builder(BuildOptions.BuildPlatform buildPlatform) {
             _instance = this;
-            LoadBuildConfig();
+            buildConfig = LoadBuildConfig($"BuildConfigAsset_{buildPlatform.ToString()}");
             _buildPlatform = buildPlatform;
             buildConfig.platform = _buildPlatform;
         }
@@ -116,6 +117,7 @@ namespace Crosline.BuildTools.Editor {
             _buildPlatform = buildConfig.platform;
         }
 
+        [Obsolete]
         protected Builder(List<BuildState> states, string buildConfigPath = null) {
             _instance = this;
             _buildStates = states;
