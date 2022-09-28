@@ -28,7 +28,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 files.Sort((f1, f2) => File.GetCreationTimeUtc(f1).CompareTo(File.GetCreationTimeUtc(f2)));
             }
             else if (Builder.Instance.BuildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Standalone)) {
-                files = Directory.GetDirectories($"{buildFolder}{Path.DirectorySeparatorChar}").ToList();
+                files = Directory.GetDirectories(buildFolder).ToList();
                 files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
             }
             else {
@@ -36,8 +36,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                 return true;
             }
 
-            Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the Build Folder.");
-            Debug.Log($"[Builder][CleanOldBuilds] Debug: Build Folder is: {buildFolder}");
+            Debug.Log($"[Builder][CleanOldBuilds] Debug: {files.Count} file found in the {buildFolder}");
 
             if (files.Count >= _buildAmountToKeep)
                 for (var i = 0; i < files.Count - _buildAmountToKeep; i++)
