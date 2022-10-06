@@ -32,7 +32,7 @@ namespace Crosline.DebugTools {
 
         public static void Log(string log, string prefix = "") {
 #if CROSLINE_DEBUG
-            Debug.Log($"[{GetPrefix(prefix)}] {log}");
+            Debug.Log($"[{GetPrefix(prefix)}] <color=#C0C0C0>{log}");
 #endif
         }
 
@@ -57,6 +57,10 @@ namespace Crosline.DebugTools {
 
         private static string GetPrefix(string prefix) {
             return string.IsNullOrEmpty(prefix) ? DefaultPrefix : prefix;
+        }
+        
+        private static string GetStylizedPrefix(string prefix) {
+            return $"<size=14><color=#808080>{GetPrefix(prefix)}</size></color>";
         }
 #endif
     }
