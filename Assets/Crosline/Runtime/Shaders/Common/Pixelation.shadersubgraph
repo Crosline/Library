@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "f560da9a88f04cfcbb6ddf61e9d7fe58",
     "m_Properties": [
@@ -11,6 +11,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "8461c70850ed407a99a408ea6d1c32b0"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "8fc071f86e8f4dc0a78f2846224f8a4a"
@@ -154,10 +160,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Crosline/Sub Graphs/Common",
-    "m_ConcretePrecision": 1,
+    "m_GraphPrecision": 2,
     "m_PreviewMode": 1,
     "m_OutputNode": {
         "m_Id": "8fc071f86e8f4dc0a78f2846224f8a4a"
@@ -421,9 +428,13 @@
         "m_GuidSerialized": "1d145856-560a-4136-bf0c-9eb6c385305e"
     },
     "m_Name": "Input",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_54bbf92a6bc140309ce7ece3306f9ea5",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -652,6 +663,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "8461c70850ed407a99a408ea6d1c32b0",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "e1868948814d4c1d94b967a3a2825430"
+        },
+        {
+            "m_Id": "54bbf92a6bc140309ce7ece3306f9ea5"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.MultiplyNode",
     "m_ObjectId": "8bb38ce04fda422b9367eac9113f736e",
     "m_Group": {
@@ -849,9 +875,13 @@
         "m_GuidSerialized": "7534e399-b66c-445e-9aa9-cb3a382f709d"
     },
     "m_Name": "Pixelation",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_e1868948814d4c1d94b967a3a2825430",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,

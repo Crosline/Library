@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "45129993d6df4236ade7a7eec811c9a9",
     "m_Properties": [
@@ -8,6 +8,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "e2ca3b73bcc64956bb7b15a5ee47ea78"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "c5e0161f529d485494d4e1c7c5c50ff3"
@@ -227,10 +233,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Crosline/Sub Graphs/Common",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "c5e0161f529d485494d4e1c7c5c50ff3"
@@ -933,9 +940,13 @@
         "m_GuidSerialized": "f34b98c8-0026-4e47-b2d5-0a24d1c80149"
     },
     "m_Name": "Vector4",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_988773c651954ca89844f6490d74ff97",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1330,6 +1341,18 @@
         "y": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "e2ca3b73bcc64956bb7b15a5ee47ea78",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "988773c651954ca89844f6490d74ff97"
+        }
+    ]
 }
 
 {
