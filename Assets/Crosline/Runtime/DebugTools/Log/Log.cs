@@ -32,7 +32,7 @@ namespace Crosline.DebugTools {
 
         public static void Log(string log, string prefix = "") {
 #if CROSLINE_DEBUG
-            Debug.Log($"[{GetPrefix(prefix)}] <color=#C0C0C0>{log}");
+            Debug.Log($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 
