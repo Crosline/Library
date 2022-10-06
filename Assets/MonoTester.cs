@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using Crosline.BuildTools;
 using Crosline.DebugTools;
@@ -5,6 +6,7 @@ using Crosline.TestTools;
 using Crosline.UnityTools;
 using UnityEngine;
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 #endif
 
@@ -137,20 +139,50 @@ namespace Crosline {
         }
 
 #if UNITY_EDITOR
-        [MenuItem("Crosline/Test/LogDebug")]
+        [MenuItem("Crosline/Test/Log/Debug")]
         public static void TestLogDebug() {
             CroslineDebug.Log("Start");
         }
 
-        [MenuItem("Crosline/Test/LogWarning")]
+        [MenuItem("Crosline/Test/Log/Warning")]
         public static void TestLogWarning() {
             CroslineDebug.LogWarning("Start");
         }
 
-        [MenuItem("Crosline/Test/LogError")]
+        [MenuItem("Crosline/Test/Log/Error")]
         public static void TestLogError() {
             CroslineDebug.LogError("error");
         }
+        
+        [MenuItem("Crosline/Test/Directory/One")]
+        public static void TestDirectoryOne() {
+            var c = Path.DirectorySeparatorChar;
+            var files = Directory.GetDirectories($"C:{c}Directory{c}Test{c}").ToList();
+            files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
+            
+            Debug.Log(files.Count);
+        }
+        
+        [MenuItem("Crosline/Test/Directory/Two")]
+        public static void TestDirectoryTwo() {
+            var c = Path.DirectorySeparatorChar;
+            var files = Directory.GetDirectories($"C:{c}Directory{c}Test").ToList();
+            files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
+            
+            Debug.Log(files.Count);
+        }
+        
+        [MenuItem("Crosline/Test/Directory/Three")]
+        public static void TestDirectoryThree() {
+            var c = Path.DirectorySeparatorChar;
+            var files = Directory.GetDirectories($"C:{c}Directory{c}Test{c}1").ToList();
+            files.Sort((f1, f2) => Directory.GetCreationTimeUtc(f1).CompareTo(Directory.GetCreationTimeUtc(f2)));
+            
+            Debug.Log(files.Count);
+        }
+        
+        
+
 #endif
     }
 }

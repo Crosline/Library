@@ -1,13 +1,10 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Crosline.BuildTools {
     [CreateAssetMenu(fileName = "Build Config - Android", menuName = "Crosline/Build/Build Config Asset - Android")]
-    public class AndroidBuildConfigAsset : BuildConfigAsset {
+    public class AndroidBuildConfigAsset : MobileBuildConfigAsset {
         
-#if UNITY_EDITOR
-        public AndroidArchitecture architecture;
-#endif
+        public BuildOptions.Architecture architecture;
         
     }
 }

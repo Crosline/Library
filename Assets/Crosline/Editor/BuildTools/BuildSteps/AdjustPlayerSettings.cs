@@ -7,19 +7,21 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             PlayerSettings.bundleVersion = Builder.Instance.buildConfig.version;
             var buildTargetGroup = Builder.Instance.BuildPlatform.ToBuildTargetGroup();
             PlayerSettings.SetApplicationIdentifier(buildTargetGroup, Builder.Instance.buildConfig.bundle);
-            PlayerSettings.SetScriptingBackend(buildTargetGroup, Builder.Instance.buildConfig.backend);
+            PlayerSettings.SetScriptingBackend(buildTargetGroup, Builder.Instance.buildConfig.backend.ToScriptingImplementation());
 
-            PlayerSettings.defaultInterfaceOrientation = Builder.Instance.buildConfig.screenOrientation.ToUIOrientation();
-            Screen.orientation = Builder.Instance.buildConfig.screenOrientation;
+            if (Builder.Instance.buildConfig is MobileBuildConfigAsset mobileBuildConfigAsset) {
+                PlayerSettings.defaultInterfaceOrientation = mobileBuildConfigAsset.screenOrientation.ToUIOrientation();
+                Screen.orientation = mobileBuildConfigAsset.screenOrientation;
+            }
 
-            if (Builder.Instance.buildConfig.backend.HasFlagAny(ScriptingImplementation.IL2CPP)) {
+            if (Builder.Instance.buildConfig.backend.HasFlagAny(BuildOptions.ScriptingBackend.IL2CPP)) {
                 PlayerSettings.stripEngineCode = true;
             }
 
             switch (Builder.Instance.BuildPlatform) {
                 case BuildOptions.BuildPlatform.Android:
                     if (Builder.Instance.buildConfig is AndroidBuildConfigAsset androidConfig) {
-                        PlayerSettings.Android.targetArchitectures = androidConfig.architecture;
+                        PlayerSettings.Android.targetArchitectures = androidConfig.architecture.ToAndroidArchitecture();
                     }
 
                     break;

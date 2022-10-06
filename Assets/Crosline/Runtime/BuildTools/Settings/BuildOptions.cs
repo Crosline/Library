@@ -27,5 +27,23 @@
             DEBUG = 1 << 0,
             RELEASE = 1 << 1
         }
+        
+        public enum Architecture {
+            ARMv7 = 1 << 0,
+            ARM64 = 1 << 1
+        }
+        
+        public enum ManagedStrippingLevel {
+            Disabled = 0,
+            Low = 1 << 0,
+            Medium = 1 << 1,
+            High = 1 << 2,
+            Minimal = 1 << 3,
+        }
+        
+        public enum ScriptingBackend {
+            Mono = 1 << 0,
+            IL2CPP = 1 << 1
+        }
     }
 }

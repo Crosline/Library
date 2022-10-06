@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: BuildConfigAsset_Android
   m_EditorClassIdentifier: 
   platform: 8
-  screenOrientation: 3
   buildMode: 1
-  apiCompability: 0
-  compression: 0
+  apiCompability: 1
+  compression: 1
   bundle: com.crosline.library
   version: 0.1
-  backend: 0
+  backend: 1
   stripping: 0
+  screenOrientation: 3
   architecture: 1

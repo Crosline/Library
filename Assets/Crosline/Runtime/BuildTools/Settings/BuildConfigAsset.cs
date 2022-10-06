@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Crosline.BuildTools {
     [CreateAssetMenu(fileName = "Build Config", menuName = "Crosline/Build/Build Config Asset")]
@@ -7,11 +6,9 @@ namespace Crosline.BuildTools {
 
         public BuildOptions.BuildPlatform platform;
 
-        public ScreenOrientation screenOrientation;
+        public BuildOptions.BuildMode buildMode = BuildOptions.BuildMode.DEBUG;
 
-        public BuildOptions.BuildMode buildMode;
-
-        public BuildOptions.ApiCompability apiCompability;
+        public BuildOptions.ApiCompability apiCompability = BuildOptions.ApiCompability.NetStandard21;
 
         public BuildOptions.Compression compression = BuildOptions.Compression.None;
 
@@ -19,11 +16,9 @@ namespace Crosline.BuildTools {
 
         public string version = "0.1";
         
-#if UNITY_EDITOR
-        public ScriptingImplementation backend;
+        public BuildOptions.ScriptingBackend backend = BuildOptions.ScriptingBackend.Mono;
 
-        public ManagedStrippingLevel stripping = ManagedStrippingLevel.Disabled;
-#endif
+        public BuildOptions.ManagedStrippingLevel stripping = BuildOptions.ManagedStrippingLevel.Disabled;
 
     }
 }

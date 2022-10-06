@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: BuildConfigAsset_Windows
   m_EditorClassIdentifier: 
   platform: 1
-  screenOrientation: 0
   buildMode: 1
-  apiCompability: 0
-  compression: 0
+  apiCompability: 1
+  compression: 1
   bundle: com.crosline.library
   version: 0.1
-  backend: 0
+  backend: 1
   stripping: 0

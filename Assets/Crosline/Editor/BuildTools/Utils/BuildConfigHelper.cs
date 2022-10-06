@@ -51,8 +51,8 @@ namespace Crosline.BuildTools.Editor {
             return default;
         }
 
-        public static UIOrientation ToUIOrientation(this ScreenOrientation so) {
-            switch (so) {
+        public static UIOrientation ToUIOrientation(this ScreenOrientation orientation) {
+            switch (orientation) {
                 case ScreenOrientation.Portrait:
                     return UIOrientation.Portrait;
                 case ScreenOrientation.LandscapeLeft:
@@ -64,13 +64,34 @@ namespace Crosline.BuildTools.Editor {
                 case ScreenOrientation.PortraitUpsideDown:
                     return UIOrientation.PortraitUpsideDown;
             }
-            
+
             return default;
         }
-        
-        
-        public static bool HasFlagAny<T>(this T value, T flag) where T : System.Enum
-        {
+
+        public static ScriptingImplementation ToScriptingImplementation(this ScriptingBackend backend) {
+            switch (backend) {
+                case ScriptingBackend.IL2CPP:
+                    return ScriptingImplementation.IL2CPP;
+                case ScriptingBackend.Mono:
+                    return ScriptingImplementation.Mono2x;
+            }
+
+            return default;
+        }
+
+        public static AndroidArchitecture ToAndroidArchitecture(this Architecture architecture) {
+            switch (architecture) {
+                case Architecture.ARMv7:
+                    return AndroidArchitecture.ARMv7;
+                case Architecture.ARM64:
+                    return AndroidArchitecture.ARM64;
+            }
+
+            return default;
+        }
+
+
+        public static bool HasFlagAny<T>(this T value, T flag) where T : System.Enum {
             return value.HasFlag(flag) || flag.HasFlag(value);
         }
 

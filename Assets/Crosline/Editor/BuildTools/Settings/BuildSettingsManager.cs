@@ -15,7 +15,14 @@ namespace Crosline.BuildTools.Editor.Settings {
             buildConfigAsset = AssetDatabase.LoadAssetAtPath<BuildConfigAsset>(assetPath);
 
             if (buildConfigAsset == null) {
-                buildConfigAsset = ScriptableObject.CreateInstance<BuildConfigAsset>();
+                if (buildPlatform.Equals(BuildOptions.BuildPlatform.Android)) {
+                    buildConfigAsset = ScriptableObject.CreateInstance<AndroidBuildConfigAsset>();
+                } else if (buildPlatform.HasFlagAny(BuildOptions.BuildPlatform.Mobile)) {
+                    buildConfigAsset = ScriptableObject.CreateInstance<MobileBuildConfigAsset>();
+                }
+                else {
+                    buildConfigAsset = ScriptableObject.CreateInstance<BuildConfigAsset>();
+                }
                 buildConfigAsset.name = $"{name}";
                 buildConfigAsset.platform = buildPlatform;
 
