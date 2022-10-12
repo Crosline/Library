@@ -14,18 +14,8 @@ namespace Crosline.TestTools.Editor {
 
         private bool _isMethodRefreshed = false;
 
-        private static Texture2D _startIcon;
-        private static Texture2D _refreshIcon;
-        private static Texture2D _successIcon;
-        private static Texture2D _failIcon;
-
         private void OnEnable() {
             GetMethodInfos();
-
-            _startIcon = Resources.Load("Textures/start-32") as Texture2D;
-            _refreshIcon = Resources.Load("Textures/trash-32") as Texture2D;
-            _successIcon = Resources.Load("Textures/success-16") as Texture2D;
-            _failIcon = Resources.Load("Textures/warning-16") as Texture2D;
         }
 
         [MenuItem("Crosline/Subsystems/Benchmark")]
@@ -102,8 +92,8 @@ namespace Crosline.TestTools.Editor {
             EditorGUILayout.BeginHorizontal(GUI.skin.box);
 
 
-            GUILayout.Label(sec >= 0 ? _successIcon : _failIcon, GUILayout.Width(20), GUILayout.Height(40));
-
+            GUILayout.Label(sec >= -1 ? EditorGUIUtility.IconContent("d_console.erroricon.inactive.sml") : EditorGUIUtility.IconContent("d_console.erroricon"), GUILayout.Width(20), GUILayout.Height(40));
+            
             EditorGUILayout.BeginVertical(GUI.skin.box, GUILayout.MaxWidth(240), GUILayout.Height(40));
             EditorGUILayout.LabelField(method.Name, new GUIStyle() {
                 fontSize = 15,
@@ -127,14 +117,14 @@ namespace Crosline.TestTools.Editor {
                 EditorGUILayout.EndVertical();
             }
 
-            if (GUILayout.Button(_refreshIcon, GUILayout.Width(45), GUILayout.Height(45))) {
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_Refresh@2x"), GUILayout.Width(45), GUILayout.Height(45))) {
                 selectedMethod = method;
                 EditorApplication.update += RefreshMethodAfterUpdate;
             }
 
             EditorGUILayout.Separator();
 
-            if (GUILayout.Button(_startIcon, GUILayout.Width(45), GUILayout.Height(45))) {
+            if (GUILayout.Button(EditorGUIUtility.IconContent("d_PlayButton@2x"), GUILayout.Width(45), GUILayout.Height(45))) {
                 selectedMethod = method;
                 EditorApplication.update += RunMethodAfterUpdate;
             }
