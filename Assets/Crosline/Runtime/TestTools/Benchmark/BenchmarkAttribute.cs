@@ -5,14 +5,8 @@ namespace Crosline.TestTools {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class BenchmarkAttribute : MethodAttribute {
 
-        public readonly object[] Parameters;
+        public BenchmarkAttribute() : base() { }
 
-        public BenchmarkAttribute() {
-            Parameters = null;
-        }
-
-        public BenchmarkAttribute(params object[] parameters) {
-            Parameters = parameters;
-        }
+        public BenchmarkAttribute(params object[] parameters) : base(parameters) { }
     }
 }

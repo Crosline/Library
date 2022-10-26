@@ -24,7 +24,9 @@ namespace Crosline.ToolbarExtender.Editor {
 
         private static int lastInstanceID;
 
+#if UNITY_EDITOR
         private static readonly Type _toolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
+#endif
 
         private static HashSet<MethodInfo> _methods = new();
 
@@ -73,7 +75,7 @@ namespace Crosline.ToolbarExtender.Editor {
             iconVE.style.height = 16;
             iconVE.style.width = 16;
             iconVE.style.alignSelf = Align.Center;
-#else
+#elif UNITY_EDITOR
             iconVE.style.backgroundImage = Background.FromTexture2D(EditorGUIUtility.FindTexture(icon));
 #endif
             buttonVE.Add(iconVE);
