@@ -24,8 +24,11 @@ namespace Crosline.ToolbarExtender.Editor {
 
         private static int lastInstanceID;
 
+        private static readonly Type _toolbarType
 #if UNITY_EDITOR
-        private static readonly Type _toolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
+            = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
+#else
+            ;
 #endif
 
         private static HashSet<MethodInfo> _methods = new();
