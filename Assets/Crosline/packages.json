@@ -1,0 +1,20 @@
+{
+    "name": "com.crosline.library",
+    "version": "0.1.8",
+    "displayName": "Crosline Library",
+    "description": "Library made for faster development and easy to use systems.",
+    "unity": "2020.3",
+    "keywords": [
+      "ad",
+      "rocket"
+    ],
+    "dependencies": {
+      "com.unity.render-pipelines.universal": "10.6.0"
+    },
+    "author": {
+      "name": "Crosline",
+      "email": "cagkancaglayanel@gmail.com",
+      "url": "https://crosline.github.io"
+    }
+  }
+  
