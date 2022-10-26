@@ -5,7 +5,9 @@ using UnityEditor;
 
 namespace Crosline.ToolbarExtender.Editor {
     
+#if UNITY_EDITOR
     [InitializeOnLoad]
+#endif
     public static class ToolbarExtension {
         private static int _toolCount;
 
