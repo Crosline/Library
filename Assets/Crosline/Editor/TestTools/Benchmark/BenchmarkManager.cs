@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Crosline.DebugTools;
-using Crosline.UnityTools;
+using Crosline.UnityTools.Editor;
 
 namespace Crosline.TestTools.Editor {
     public static class BenchmarkManager {
