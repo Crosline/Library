@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Crosline.UnityTools;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,11 +29,15 @@ namespace Crosline.ToolbarExtender.Editor {
         private static HashSet<MethodInfo> _methods = new();
 
         internal void TryDrawToolbar() {
+#if UNITY_EDITOR
             EditorApplication.update += OnGUI;
+#endif
         }
 
         private void OnGUI() {
+#if UNITY_EDITOR
             EditorApplication.update -= OnGUI;
+#endif
 
             if (_currentToolbar == null) {
                 var toolbars = Resources.FindObjectsOfTypeAll(_toolbarType);
@@ -62,7 +68,7 @@ namespace Crosline.ToolbarExtender.Editor {
 
             var iconVE = new VisualElement();
             iconVE.AddToClassList("unity-editor-toolbar-element__icon");
-#if UNITY_2021_2_OR_NEWER
+#if UNITY_2021_2_OR_NEWER && UNITY_EDITOR
             iconVE.style.backgroundImage = Background.FromTexture2D((Texture2D)EditorGUIUtility.IconContent(icon).image);
             iconVE.style.height = 16;
             iconVE.style.width = 16;
