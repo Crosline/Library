@@ -3,7 +3,7 @@ using System.Text;
 using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
-using Crosline.ToolbarExtender.Editor;
+using Crosline.ToolbarExtender;
 using Crosline.UnityTools;
 using UnityEngine;
 #if UNITY_EDITOR

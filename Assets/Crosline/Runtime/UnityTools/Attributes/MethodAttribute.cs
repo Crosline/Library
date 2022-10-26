@@ -1,17 +1,16 @@
 ﻿using System;
-using Crosline.UnityTools.Attributes;
 
-namespace Crosline.TestTools {
+namespace Crosline.UnityTools.Attributes {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class BenchmarkAttribute : MethodAttribute {
+    public class MethodAttribute : Attribute {
 
         public readonly object[] Parameters;
 
-        public BenchmarkAttribute() {
+        public MethodAttribute() {
             Parameters = null;
         }
 
-        public BenchmarkAttribute(params object[] parameters) {
+        public MethodAttribute(params object[] parameters) {
             Parameters = parameters;
         }
     }
