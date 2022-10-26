@@ -39,14 +39,18 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
             var summary = Builder.Instance.buildReport.summary;
 
             Debug.Log($"[Builder][BuildPlayer] Info: Build is completed\n" +
-                      $"Build time: {summary.totalTime.TotalMinutes} minutes {summary.totalTime.Seconds} seconds\n" +
+                      $"Build time: {summary.totalTime.Minutes} minutes {summary.totalTime.Seconds} seconds\n" +
                       $"Build Size: {summary.totalSize*Mathf.Pow(10, -6):0.00}\n" +
                       $"Total errors: {summary.totalErrors}\n" +
                       $"Total warnings: {summary.totalWarnings}\n");
-            
+
+            if (!summary.result.HasFlagAny(BuildResult.Succeeded)) {
+                return false;
+            }
+
             Debug.Log($"[Builder][BuildPlayer] Debug: Build is located at {summary.outputPath}\n");
 
-            return summary.result.HasFlagAny(BuildResult.Succeeded);
+            return true;
         }
 
         private static string[] ActiveScenes {
