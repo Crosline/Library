@@ -50,7 +50,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                         File.Delete(files[i]);
                     }
                     else {
-                        Directory.Delete(files[i]);
+                        Directory.Delete(files[i], true);
                     }
 
             return true;
