@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Crosline.UnityTools.Editor;
+using Crosline.UnityTools;
 using UnityEditor;
 
 namespace Crosline.ToolbarExtender.Editor {
