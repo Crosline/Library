@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Crosline.UnityTools;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Crosline.UnityTools.Editor.ToolbarExtender {
+namespace Crosline.ToolbarExtender.Editor {
     public class ToolbarExtensionDrawer {
         private static GUIStyle _buttonStyle = null;
 
         private static ScriptableObject _currentToolbar;
-        private static VisualElement _leftParent;
-        private static VisualElement _rightParent;
+        private static Dictionary<ToolbarZone, VisualElement> _parents = new Dictionary<ToolbarZone, VisualElement>()
+        {
+            {ToolbarZone.ToolbarZoneLeftAlign, null},
+            {ToolbarZone.ToolbarZoneMiddleLeftAlign, null},
+            {ToolbarZone.ToolbarZoneMiddleRightAlign, null},
+            {ToolbarZone.ToolbarZoneRightAlign, null}
+        };
 
         private static int lastInstanceID;
 
@@ -35,8 +41,12 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
             if (_currentToolbar == null)
                 return;
 
-            PrepareParent(ref _leftParent, "ToolbarZoneLeftAlign");
-            PrepareParent(ref _rightParent, "ToolbarZoneRightAlign");
+            var tempParents = new Dictionary<ToolbarZone, VisualElement>(_parents);
+            foreach (var toolbarParent in _parents) {
+                tempParents[toolbarParent.Key] = PrepareParent(toolbarParent.Value, toolbarParent.Key);
+            }
+            
+            _parents = tempParents;
 
             AttachToolbars();
         }
@@ -76,30 +86,34 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
                 _methods.ToDictionary(method => method, method => method.GetCustomAttribute<ToolbarAttribute>());
 
             foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.order)) {
-                var parent = attr.Value.direction == Direction.Left ? _leftParent : _rightParent;
+                var parent = _parents[attr.Value.toolbarZone];
                 parent.Add(CreateToolbarButton(attr.Value.iconName, () => attr.Key.Invoke(null, null), attr.Value.toolTip));
+
+                _parents[attr.Value.toolbarZone] = parent;
             }
         }
 
-        private void PrepareParent(ref VisualElement parent, string toolbarZoneAlign) {
+        private VisualElement PrepareParent(VisualElement parent, ToolbarZone toolbarZoneAlign) {
             RemoveCurrentParent(ref parent);
             
             if (parent != null)
-                return;
+                return parent;
 
             var root = _currentToolbar.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.GetValue(_currentToolbar);
+                ?.GetValue(_currentToolbar) as VisualElement;
 
             if (root == null)
-                return;
+                return null;
 
-            var mRoot = root as VisualElement;
+            int flex = ToolbarZone.ToolbarZoneMiddleLeftAlign == toolbarZoneAlign
+                       || ToolbarZone.ToolbarZoneRightAlign == toolbarZoneAlign 
+                ? 1 : 0;
 
             parent = new VisualElement()
             {
                 style =
                 {
-                    flexGrow = 1,
+                    flexGrow = flex,
                     flexDirection = FlexDirection.Row
                 }
             };
@@ -108,12 +122,18 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
             {
                 style =
                 {
-                    flexGrow = 1
+                    flexGrow = flex,
                 }
             });
 
-            var toolbarZoneElement = mRoot.Q(toolbarZoneAlign);
+
+            var toolbarZoneName = ToolbarZone.Left.HasFlag(toolbarZoneAlign)
+                ? ToolbarZone.ToolbarZoneLeftAlign
+                : ToolbarZone.ToolbarZoneRightAlign;
+            
+            var toolbarZoneElement = root.Q(toolbarZoneName.ToString());
             toolbarZoneElement.Add(parent);
+            return parent;
         }
 
         private void RemoveCurrentParent(ref VisualElement parent) {

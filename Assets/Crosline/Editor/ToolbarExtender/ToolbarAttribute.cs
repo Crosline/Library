@@ -1,6 +1,7 @@
 ﻿using System;
+using Crosline.UnityTools;
 
-namespace Crosline.UnityTools.Editor.ToolbarExtender {
+namespace Crosline.ToolbarExtender.Editor {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class ToolbarAttribute : Attribute {
         internal string toolTip;
@@ -8,13 +9,13 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
         
         internal int order;
 
-        internal Direction direction;
+        internal ToolbarZone toolbarZone;
 
-        public ToolbarAttribute(Direction direction = Direction.Left, string toolTip = "", string iconName = "", int order = 0) {
+        public ToolbarAttribute(ToolbarZone toolbarZone = ToolbarZone.ToolbarZoneMiddleLeftAlign, string toolTip = "", string iconName = "", int order = 0) {
             this.toolTip = string.IsNullOrEmpty(toolTip) ? "X" : toolTip;
             this.iconName = string.IsNullOrEmpty(iconName) ? "d_Invalid" : iconName;
             this.order = order;
-            this.direction = direction;
+            this.toolbarZone = toolbarZone;
         }
 
     }

@@ -3,8 +3,8 @@ using System.Text;
 using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
+using Crosline.ToolbarExtender.Editor;
 using Crosline.UnityTools;
-using Crosline.UnityTools.Editor.ToolbarExtender;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.IO;
@@ -70,6 +70,7 @@ namespace Crosline {
         }
 
         [Benchmark]
+        [Toolbar]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
 
@@ -84,6 +85,7 @@ namespace Crosline {
                 var coca = string.Concat("its sometimes so ", 5, " but also ", Color.blue, " but not ", true, 5, " but also ", Color.blue, " but not ", true);
 
             }
+            
         }
         
         public void ConcatTestT() {
@@ -100,7 +102,7 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar(direction: Direction.Right)]
+        [Toolbar(toolTip: "hello", iconName: "d_PlayButton")]
         public void StringBuilderTest() {
             var sb = new StringBuilder();
 

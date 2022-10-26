@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Crosline.UnityTools.Editor;
 using UnityEditor;
 
-namespace Crosline.UnityTools.Editor.ToolbarExtender {
+namespace Crosline.ToolbarExtender.Editor {
     
     [InitializeOnLoad]
     public static class ToolbarExtension {
