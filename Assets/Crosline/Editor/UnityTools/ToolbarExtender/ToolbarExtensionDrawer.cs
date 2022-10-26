@@ -69,22 +69,6 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
             element.AddToClassList("unity-toolbar-button");
             element.AddToClassList("unity-editor-toolbar-element");
             element.RemoveFromClassList("unity-button");
-#if UNITY_2021_2_OR_NEWER
-            element.style.paddingRight = 8;
-            element.style.paddingLeft = 8;
-            element.style.justifyContent = Justify.Center;
-            element.style.display = DisplayStyle.Flex;
-            element.style.borderTopLeftRadius = 2;
-            element.style.borderTopRightRadius = 2;
-            element.style.borderBottomLeftRadius = 2;
-            element.style.borderBottomRightRadius = 2;
-
-            element.style.marginRight = 1;
-            element.style.marginLeft = 1;
-#else
-            element.style.marginRight = 2;
-            element.style.marginLeft = 2;
-#endif
         }
 
         private void AttachToolbars() {
@@ -93,7 +77,7 @@ namespace Crosline.UnityTools.Editor.ToolbarExtender {
 
             foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.order)) {
                 var parent = attr.Value.direction == Direction.Left ? _leftParent : _rightParent;
-                parent.Add(CreateToolbarButton(attr.Value.iconName, () => attr.Key.Invoke(null, null), attr.Value.toolName));
+                parent.Add(CreateToolbarButton(attr.Value.iconName, () => attr.Key.Invoke(null, null), attr.Value.toolTip));
             }
         }
 

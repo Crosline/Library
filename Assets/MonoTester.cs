@@ -4,6 +4,7 @@ using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.UnityTools;
+using Crosline.UnityTools.Editor.ToolbarExtender;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.IO;
@@ -77,7 +78,7 @@ namespace Crosline {
             }
         }
 
-        [Benchmark(5)]
+        [Benchmark()]
         public void ConcatTest() {
             for (int i = 0; i < 1000; i++) {
                 var coca = string.Concat("its sometimes so ", 5, " but also ", Color.blue, " but not ", true, 5, " but also ", Color.blue, " but not ", true);
@@ -91,14 +92,15 @@ namespace Crosline {
             }
         }
 
-        [Benchmark(5)]
+        [Benchmark()]
         public void StringDollarTest() {
             for (int i = 0; i < 1000; i++) {
                 var x = $"its sometimes so {5} but also {Color.blue} but not {true}{5} but also {Color.blue} but not {true}";
             }
         }
 
-        [Benchmark(5)]
+        [Benchmark]
+        [Toolbar(direction: Direction.Right)]
         public void StringBuilderTest() {
             var sb = new StringBuilder();
 
@@ -119,7 +121,8 @@ namespace Crosline {
             }
         }
 
-        [Benchmark(5)]
+        [Benchmark]
+        [Toolbar()]
         public void BruteStringTest() {
             for (int i = 0; i < 1000; i++) {
                 var br = "";
@@ -144,6 +147,7 @@ namespace Crosline {
             CroslineDebug.Log("Start");
         }
 
+        [Toolbar()]
         [MenuItem("Crosline/Test/Log/Warning")]
         public static void TestLogWarning() {
             CroslineDebug.LogWarning("Start");
