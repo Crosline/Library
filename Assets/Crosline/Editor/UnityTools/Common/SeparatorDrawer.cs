@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Crosline.UnityTools.Editor {
