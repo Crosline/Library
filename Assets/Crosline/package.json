@@ -1,6 +1,6 @@
 {
     "name": "com.crosline.library",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "displayName": "Crosline Library",
     "description": "Library made for faster development and easy to use systems.",
     "unity": "2020.3",
