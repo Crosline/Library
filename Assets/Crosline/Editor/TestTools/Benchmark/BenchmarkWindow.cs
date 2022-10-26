@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,20 @@ namespace Crosline.TestTools.Editor {
         public static BenchmarkWindow benchmarkWindow;
 
         private Vector2 _scrollPos = Vector2.zero;
+        
+        private string _iterationCount = "1";
+        
+        private int IterationCount
+         {
+             get
+             {
+                 int iteration = 1;
+
+                 int.TryParse(_iterationCount, out iteration);
+
+                 return iteration > 0 ? iteration : 1;
+             }
+        }
 
         private Dictionary<MethodInfo, long> methodInfos = new();
 
@@ -56,7 +71,7 @@ namespace Crosline.TestTools.Editor {
 
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
-            EditorGUILayout.LabelField("Method");
+            GUILayout.Label("Method");
 
             GUILayout.FlexibleSpace();
 
@@ -68,8 +83,12 @@ namespace Crosline.TestTools.Editor {
                 BenchmarkManager.FillMethodInfo();
             }
 
+            GUILayout.Label("Iteration", GUILayout.Width(50));
+            _iterationCount = GUILayout.TextField(_iterationCount, EditorStyles.toolbarTextField, GUILayout.Width(30));
+
             if (GUILayout.Button("Run All", EditorStyles.toolbarButton, GUILayout.Width(60))) {
-                BenchmarkManager.TestCachedMethods();
+
+                BenchmarkManager.TestCachedMethods(IterationCount);
             }
 
             EditorGUILayout.EndHorizontal();
@@ -83,7 +102,7 @@ namespace Crosline.TestTools.Editor {
 
         private void RunMethodAfterUpdate() {
             EditorApplication.update -= RunMethodAfterUpdate;
-            BenchmarkManager.TestMethod(selectedMethod);
+            BenchmarkManager.TestMethod(selectedMethod, IterationCount);
         }
 
         private MethodInfo selectedMethod;

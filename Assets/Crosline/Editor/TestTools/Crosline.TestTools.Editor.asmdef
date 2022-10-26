@@ -1,7 +1,7 @@
 {
     "name": "Crosline.TestTools.Editor",
     "rootNamespace": "",
-    "references": ["GUID:87a7613fa96932b4b967ec9582f897ab","GUID:88502a2f462e8ff41be8e59b0be6a136"],
+    "references": ["GUID:87a7613fa96932b4b967ec9582f897ab","GUID:88502a2f462e8ff41be8e59b0be6a136","GUID:b63e00805c290f34ea5f75d160e6d63a"],
     "includePlatforms": [
         "Editor"
     ],

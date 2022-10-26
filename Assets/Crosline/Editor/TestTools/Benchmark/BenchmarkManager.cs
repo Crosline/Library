@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Crosline.DebugTools;
+using Crosline.UnityTools.Editor;
 
 namespace Crosline.TestTools.Editor {
     public static class BenchmarkManager {
@@ -21,30 +22,12 @@ namespace Crosline.TestTools.Editor {
 
         private static Dictionary<MethodInfo, long> _methodInfos = new Dictionary<MethodInfo, long>();
 
-        private static string[] _excludedAssemblies = {
-            "System.",
-            "UnityEngine.",
-            "UnityEditor."
-        };
-
         public static void FillMethodInfo() {
             _methodInfos.Clear();
+            var foundedMethodInfos = AttributeFinder.TryFindMethodInfos<BenchmarkAttribute>();
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !x.FullName.Contains(_excludedAssemblies[0]) || !x.FullName.Contains(_excludedAssemblies[1]) ||
-                            !x.FullName.Contains(_excludedAssemblies[2])).ToArray();
-
-            foreach (Assembly ass in assemblies) {
-                var types = ass.GetTypes();
-
-                foreach (Type type in types) {
-                    var methods = type.GetMethods();
-
-                    foreach (MethodInfo methodInfo in methods)
-                        if (methodInfo.GetCustomAttribute<BenchmarkAttribute>() != null) {
-                            _methodInfos.Add(methodInfo, -1);
-                        }
-                }
+            foreach (var methodInfo in foundedMethodInfos) {
+                _methodInfos.Add(methodInfo, -1);
             }
 
             CroslineDebug.Log($"MethodCount is {_methodInfos.Count}");
@@ -60,15 +43,15 @@ namespace Crosline.TestTools.Editor {
             }
         }
 
-        public static void TestCachedMethods() {
+        public static void TestCachedMethods(int iteration = 1) {
             var methods = _methodInfos.Keys.ToArray();
 
             foreach (var method in methods) {
-                TestMethod(method);
+                TestMethod(method, iteration);
             }
         }
 
-        public static void TestMethod(MethodInfo method) {
+        public static void TestMethod(MethodInfo method, int iterationCount = 1) {
             Stopwatch stopWatch = new Stopwatch();
 
             GC.Collect();
@@ -81,16 +64,16 @@ namespace Crosline.TestTools.Editor {
                 object obj = Activator.CreateInstance(method.DeclaringType);
                 stopWatch.Start();
 
-                for (int i = 0; i < attribute.IterationCount; i++) {
+                for (int i = 0; i < iterationCount; i++) {
                     method.Invoke(obj, attribute.Parameters);
                 }
 
                 stopWatch.Stop();
 
                 CroslineDebug.LogWarning(
-                    $"[{method.GetType().Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds / attribute.IterationCount}ms");
+                    $"[{method.GetType().Name}:{method.Name}] executed in {stopWatch.ElapsedMilliseconds / iterationCount}ms");
 
-                _methodInfos[method] = stopWatch.ElapsedMilliseconds / attribute.IterationCount;
+                _methodInfos[method] = stopWatch.ElapsedMilliseconds / iterationCount;
             }
             catch (Exception e) {
                 CroslineDebug.LogError($"[{method.DeclaringType?.Name}:{method.Name}] could not be executed.\n{e}");
