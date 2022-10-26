@@ -24,7 +24,7 @@ namespace Crosline.TestTools.Editor {
 
         public static void FillMethodInfo() {
             _methodInfos.Clear();
-            var foundedMethodInfos = AttributeFinder.TryFindMethodInfos<BenchmarkAttribute>();
+            var foundedMethodInfos = AttributeFinder.TryFindMethods<BenchmarkAttribute>();
 
             foreach (var methodInfo in foundedMethodInfos) {
                 _methodInfos.Add(methodInfo, -1);

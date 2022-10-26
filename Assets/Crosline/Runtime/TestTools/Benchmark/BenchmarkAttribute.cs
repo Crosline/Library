@@ -10,7 +10,7 @@ namespace Crosline.TestTools {
             Parameters = null;
         }
 
-        public BenchmarkAttribute(int iteration = 1, params object[] parameters) {
+        public BenchmarkAttribute(params object[] parameters) {
             Parameters = parameters;
         }
     }
