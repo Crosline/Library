@@ -4,7 +4,7 @@ using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.ToolbarExtender;
-using Crosline.UnityTools;
+using Crosline.UnityTools.Attributes;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.IO;
