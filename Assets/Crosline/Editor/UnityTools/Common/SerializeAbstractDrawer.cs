@@ -11,6 +11,11 @@ namespace Crosline.UnityTools.Editor {
     public class SerializeAbstractDrawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             Type t = fieldInfo.FieldType;
+
+            if (t.IsArray) {
+                t = t.GetElementType();
+            }
+
             string typeName = property.managedReferenceValue?.GetType().Name ?? "Not set";
 
             Rect dropdownRect = position;
