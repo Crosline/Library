@@ -153,12 +153,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tstList:
-  - rid: 4606469475538305037
-  - rid: 4606469475538305038
-  - rid: 4606469475538305039
-  - rid: 4606469475538305042
-  - rid: 4606469475538305040
-  - rid: 4606469475538305041
+  - rid: 4606469475538305046
+  - rid: 4606469475538305047
+  tstLis2t:
+  - rid: -2
   test1: 0
   test2: 0
   test3: 0
@@ -169,36 +167,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4606469475538305037
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4606469475538305046
       type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
       data:
-        x: 0
-        hello: 0
-    - rid: 4606469475538305038
+        x: 1
+        hello: 1
+    - rid: 4606469475538305047
       type: {class: Test3, ns: Crosline, asm: Assembly-CSharp}
       data:
-        x: 0
-        me: 
-    - rid: 4606469475538305039
-      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
-      data:
-        x: 0
-        hello: 1
-    - rid: 4606469475538305040
-      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
-      data:
-        x: 0
-        hello: 1
-    - rid: 4606469475538305041
-      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
-      data:
-        x: 0
-        hello: 0
-    - rid: 4606469475538305042
-      type: {class: Test3, ns: Crosline, asm: Assembly-CSharp}
-      data:
-        x: 0
-        me: sadsadas
+        x: 5
+        me: hi
 --- !u!4 &394934067
 Transform:
   m_ObjectHideFlags: 0

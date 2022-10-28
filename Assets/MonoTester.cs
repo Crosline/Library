@@ -16,19 +16,40 @@ using UnityEditor;
 namespace Crosline {
     
     [Serializable]
-    public abstract class Test {
+    public abstract class Test : ITest {
 
         public int x;
         
         private int y;
+        
+        public virtual void prntme() {
+            Debug.Log("BLABLABLA" + x);
+        }
+    }
+    
+    public interface ITest {
+
+        public void prntme();
     }
 
     public class Test2 : Test {
         public bool hello;
+        
+        public override void prntme() {
+            Debug.Log("BLABLABLA" + hello);
+            
+            base.prntme();
+        }
     }
 
     public class Test3 : Test {
         public string me;
+        
+        public override void prntme() {
+            Debug.Log("BLABLABLA" + me);
+            
+            base.prntme();
+        }
     }
 
     public class MonoTester : MonoBehaviour {
@@ -41,7 +62,10 @@ namespace Crosline {
         };
 
         [SerializeField, SerializeReference, SerializeAbstract]
-        public Test[] tstList;
+        public ITest[] tstList;
+        
+        [SerializeField, SerializeReference, SerializeAbstract]
+        public List<ITest> tstLis2t;
 
         [SerializeField]
         private float test1;
@@ -66,6 +90,13 @@ namespace Crosline {
 
         private void Start() {
             CroslineDebug.LogError("hi");
+
+
+            CroslineDebug.Log("BLABLABLA==================");
+            foreach (var test in tstList) {
+                test.prntme();
+                CroslineDebug.Log("BLABLABLA==================");
+            }
         }
 
         private void OnDrawGizmosSelected() {
