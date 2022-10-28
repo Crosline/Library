@@ -1,10 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Crosline.BuildTools;
 using Crosline.DebugTools;
 using Crosline.TestTools;
 using Crosline.ToolbarExtender;
-using Crosline.UnityTools;
+using Crosline.UnityTools.Attributes;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.IO;
@@ -12,6 +14,44 @@ using UnityEditor;
 #endif
 
 namespace Crosline {
+    
+    [Serializable]
+    public abstract class Test : ITest {
+
+        public int x;
+        
+        private int y;
+        
+        public virtual void prntme() {
+            Debug.Log("BLABLABLA" + x);
+        }
+    }
+    
+    public interface ITest {
+
+        public void prntme();
+    }
+
+    public class Test2 : Test {
+        public bool hello;
+        
+        public override void prntme() {
+            Debug.Log("BLABLABLA" + hello);
+            
+            base.prntme();
+        }
+    }
+
+    public class Test3 : Test {
+        public string me;
+        
+        public override void prntme() {
+            Debug.Log("BLABLABLA" + me);
+            
+            base.prntme();
+        }
+    }
+
     public class MonoTester : MonoBehaviour {
         private Vector3[] testPath =
         {
@@ -20,6 +60,12 @@ namespace Crosline {
             Vector3.one * 2f,
             Vector3.one * 3f
         };
+
+        [SerializeField, SerializeReference, SerializeAbstract]
+        public ITest[] tstList;
+        
+        [SerializeField, SerializeReference, SerializeAbstract]
+        public List<ITest> tstLis2t;
 
         [SerializeField]
         private float test1;
@@ -44,6 +90,13 @@ namespace Crosline {
 
         private void Start() {
             CroslineDebug.LogError("hi");
+
+
+            CroslineDebug.Log("BLABLABLA==================");
+            foreach (var test in tstList) {
+                test.prntme();
+                CroslineDebug.Log("BLABLABLA==================");
+            }
         }
 
         private void OnDrawGizmosSelected() {
