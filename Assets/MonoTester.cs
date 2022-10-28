@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Crosline.BuildTools;
@@ -14,15 +15,22 @@ using UnityEditor;
 
 namespace Crosline {
     
+    [Serializable]
     public abstract class Test {
 
         public int x;
         
         private int y;
     }
-    
-    public class Test2 : Test{}
-    
+
+    public class Test2 : Test {
+        public bool hello;
+    }
+
+    public class Test3 : Test {
+        public string me;
+    }
+
     public class MonoTester : MonoBehaviour {
         private Vector3[] testPath =
         {
@@ -32,8 +40,8 @@ namespace Crosline {
             Vector3.one * 3f
         };
 
-        [SerializeReference, SerializeAbstract]
-        private Test2 tst2;
+        [SerializeField, SerializeReference, SerializeAbstract]
+        public Test[] tstList;
 
         [SerializeField]
         private float test1;

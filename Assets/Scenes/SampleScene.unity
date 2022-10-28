@@ -152,6 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6432b735a54c3b34a8181b03e3fabaa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tstList:
+  - rid: 4606469475538305037
+  - rid: 4606469475538305038
+  - rid: 4606469475538305039
+  - rid: 4606469475538305042
+  - rid: 4606469475538305040
+  - rid: 4606469475538305041
   test1: 0
   test2: 0
   test3: 0
@@ -159,6 +166,39 @@ MonoBehaviour:
   test5: 0
   test6: 0
   _buildConfigAsset: {fileID: 11400000, guid: e91e0ca788496964f86c802b4d7e4712, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4606469475538305037
+      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        hello: 0
+    - rid: 4606469475538305038
+      type: {class: Test3, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        me: 
+    - rid: 4606469475538305039
+      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        hello: 1
+    - rid: 4606469475538305040
+      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        hello: 1
+    - rid: 4606469475538305041
+      type: {class: Test2, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        hello: 0
+    - rid: 4606469475538305042
+      type: {class: Test3, ns: Crosline, asm: Assembly-CSharp}
+      data:
+        x: 0
+        me: sadsadas
 --- !u!4 &394934067
 Transform:
   m_ObjectHideFlags: 0
