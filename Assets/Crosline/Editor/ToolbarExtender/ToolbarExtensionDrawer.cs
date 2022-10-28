@@ -16,19 +16,19 @@ namespace Crosline.ToolbarExtender.Editor {
         private static ScriptableObject _currentToolbar;
         private static Dictionary<ToolbarZone, VisualElement> _parents = new Dictionary<ToolbarZone, VisualElement>()
         {
-            {ToolbarZone.ToolbarZoneLeftAlign, null},
-            {ToolbarZone.ToolbarZoneMiddleLeftAlign, null},
-            {ToolbarZone.ToolbarZoneMiddleRightAlign, null},
-            {ToolbarZone.ToolbarZoneRightAlign, null}
+            {ToolbarZone.LeftAlign, null},
+            {ToolbarZone.MiddleLeftAlign, null},
+            {ToolbarZone.MiddleRightAlign, null},
+            {ToolbarZone.RightAlign, null}
         };
 
         private static int lastInstanceID;
 
-        private static readonly Type _toolbarType
+        private static readonly Type
 #if UNITY_EDITOR
-            = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
+            _toolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
 #else
-            ;
+            _toolbarType;
 #endif
 
         private static HashSet<MethodInfo> _methods = new();
@@ -116,8 +116,8 @@ namespace Crosline.ToolbarExtender.Editor {
             if (root == null)
                 return null;
 
-            int flex = ToolbarZone.ToolbarZoneMiddleLeftAlign == toolbarZoneAlign
-                       || ToolbarZone.ToolbarZoneRightAlign == toolbarZoneAlign 
+            int flex = ToolbarZone.MiddleLeftAlign == toolbarZoneAlign
+                       || ToolbarZone.RightAlign == toolbarZoneAlign 
                 ? 1 : 0;
 
             parent = new VisualElement()
@@ -139,10 +139,10 @@ namespace Crosline.ToolbarExtender.Editor {
 
 
             var toolbarZoneName = ToolbarZone.Left.HasFlag(toolbarZoneAlign)
-                ? ToolbarZone.ToolbarZoneLeftAlign
-                : ToolbarZone.ToolbarZoneRightAlign;
+                ? "ToolbarZoneLeftAlign"
+                : "ToolbarZoneRightAlign";
             
-            var toolbarZoneElement = root.Q(toolbarZoneName.ToString());
+            var toolbarZoneElement = root.Q(toolbarZoneName);
             toolbarZoneElement.Add(parent);
             return parent;
         }
