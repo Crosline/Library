@@ -10,6 +10,7 @@ namespace Crosline.UnityTools.Editor {
     [CustomPropertyDrawer(typeof(ExpandableAttribute), true)]
     public class ExpandableAttributeDrawer : PropertyDrawer {
         #region Style Setup
+
         private static bool ENTER_CHILDREN = true;
 
         /// <summary>
@@ -25,12 +26,13 @@ namespace Crosline.UnityTools.Editor {
         /// <summary>
         /// The colour that is used to darken the background.
         /// </summary>
-        private static Color DARKEN_COLOUR = new(0.0f, 0.0f, 0.0f, 0.2f);
+        private static Color DARKEN_COLOUR = new Color(0.0f, 0.0f, 0.0f, 0.2f);
 
         /// <summary>
         /// The colour that is used to lighten the background.
         /// </summary>
-        private static Color LIGHTEN_COLOUR = new(1.0f, 1.0f, 1.0f, 0.2f);
+        private static Color LIGHTEN_COLOUR = new Color(1.0f, 1.0f, 1.0f, 0.2f);
+
         #endregion
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace Crosline.UnityTools.Editor {
         private UnityEditor.Editor _editor = null;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-            var totalHeight = 0.0f;
+            float totalHeight = 0.0f;
 
             totalHeight += EditorGUIUtility.singleLineHeight;
 
@@ -55,7 +57,7 @@ namespace Crosline.UnityTools.Editor {
             if (_editor == null)
                 return totalHeight;
 
-            var field = _editor.serializedObject.GetIterator();
+            SerializedProperty field = _editor.serializedObject.GetIterator();
 
             field.NextVisible(true);
 
@@ -69,8 +71,9 @@ namespace Crosline.UnityTools.Editor {
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-            var fieldRect = new Rect(position);
+            Rect fieldRect = new Rect(position);
             fieldRect.height = EditorGUIUtility.singleLineHeight;
+            fieldRect.xMax -= OUTER_SPACING;
 
             EditorGUI.PropertyField(fieldRect, property, label, true);
 
@@ -93,16 +96,18 @@ namespace Crosline.UnityTools.Editor {
 
 
             #region Format Field Rects
-            var propertyRects = new List<Rect>();
-            var marchingRect = new Rect(fieldRect);
 
-            var bodyRect = new Rect(fieldRect);
-            bodyRect.xMin += EditorGUI.indentLevel * 18;
+            var propertyRects = new List<Rect>();
+            Rect marchingRect = new Rect(fieldRect);
+            marchingRect.xMax -= INNER_SPACING;
+
+            Rect bodyRect = new Rect(fieldRect);
+            bodyRect.xMin += EditorGUI.indentLevel * 14;
 
             bodyRect.yMin += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing
                                                                + OUTER_SPACING;
 
-            var field = _editor.serializedObject.GetIterator();
+            SerializedProperty field = _editor.serializedObject.GetIterator();
             field.NextVisible(true);
 
             marchingRect.y += INNER_SPACING + OUTER_SPACING;
@@ -116,14 +121,16 @@ namespace Crosline.UnityTools.Editor {
             marchingRect.y += INNER_SPACING;
 
             bodyRect.yMax = marchingRect.yMax;
+
             #endregion
 
-            DrawBackground(bodyRect);
+            EditorGUI.HelpBox(bodyRect, "", MessageType.None);
 
             #region Draw Fields
+
             EditorGUI.indentLevel++;
 
-            var index = 0;
+            int index = 0;
             field = _editor.serializedObject.GetIterator();
             field.NextVisible(true);
 
@@ -134,26 +141,20 @@ namespace Crosline.UnityTools.Editor {
                 }
                 catch (StackOverflowException) {
                     field.objectReferenceValue = null;
-                    CroslineDebug.LogError("StackOverflowException detected. Avoid using the same object inside a nested structure.");
+                    CroslineDebug.LogError(
+                        "StackOverflowException detected. Avoid using the same object inside a nested structure.");
                 }
 
                 index++;
             }
 
             EditorGUI.indentLevel--;
+
             #endregion
 
 
             if (_editor.serializedObject.hasModifiedProperties)
                 _editor.serializedObject.ApplyModifiedProperties();
-        }
-
-        /// <summary>
-        /// Draws the Background
-        /// </summary>
-        /// <param name="rect">The Rect where the background is drawn.</param>
-        private void DrawBackground(Rect rect) {
-            EditorGUI.HelpBox(rect, "", MessageType.None);
         }
     }
 }
