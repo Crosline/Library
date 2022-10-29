@@ -9,19 +9,8 @@ using UnityEditor;
 namespace Crosline.UnityTools.Editor {
     [CustomPropertyDrawer(typeof(ExpandableAttribute), true)]
     public class ExpandableAttributeDrawer : PropertyDrawer {
-        // Use the following area to change the style of the expandable ScriptableObject drawers;
         #region Style Setup
-        private enum BackgroundStyles {
-            None,
-            HelpBox,
-            Darken,
-            Lighten
-        }
-
-        /// <summary>
-        /// Whether the default editor Script field should be shown.
-        /// </summary>
-        private static bool SHOW_SCRIPT_FIELD = false;
+        private static bool ENTER_CHILDREN = true;
 
         /// <summary>
         /// The spacing on the inside of the background rect.
@@ -32,11 +21,6 @@ namespace Crosline.UnityTools.Editor {
         /// The spacing on the outside of the background rect.
         /// </summary>
         private static float OUTER_SPACING = 4.0f;
-
-        /// <summary>
-        /// The style the background uses.
-        /// </summary>
-        private static BackgroundStyles BACKGROUND_STYLE = BackgroundStyles.HelpBox;
 
         /// <summary>
         /// The colour that is used to darken the background.
@@ -75,9 +59,6 @@ namespace Crosline.UnityTools.Editor {
 
             field.NextVisible(true);
 
-            if (SHOW_SCRIPT_FIELD)
-                totalHeight += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
             while (field.NextVisible(true))
                 totalHeight += EditorGUI.GetPropertyHeight(field, true) + EditorGUIUtility.standardVerticalSpacing;
 
@@ -111,7 +92,7 @@ namespace Crosline.UnityTools.Editor {
             }
 
 
-        #region Format Field Rects
+            #region Format Field Rects
             var propertyRects = new List<Rect>();
             var marchingRect = new Rect(fieldRect);
 
@@ -126,12 +107,7 @@ namespace Crosline.UnityTools.Editor {
 
             marchingRect.y += INNER_SPACING + OUTER_SPACING;
 
-            if (SHOW_SCRIPT_FIELD) {
-                propertyRects.Add(marchingRect);
-                marchingRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            }
-
-            while (field.NextVisible(true)) {
+            while (field.NextVisible(ENTER_CHILDREN)) {
                 marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
                 marchingRect.height = EditorGUI.GetPropertyHeight(field, true);
                 propertyRects.Add(marchingRect);
@@ -140,27 +116,19 @@ namespace Crosline.UnityTools.Editor {
             marchingRect.y += INNER_SPACING;
 
             bodyRect.yMax = marchingRect.yMax;
-        #endregion
+            #endregion
 
             DrawBackground(bodyRect);
 
-        #region Draw Fields
+            #region Draw Fields
             EditorGUI.indentLevel++;
 
             var index = 0;
             field = _editor.serializedObject.GetIterator();
             field.NextVisible(true);
 
-            if (SHOW_SCRIPT_FIELD) {
-                //Show the disabled script field
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUI.PropertyField(propertyRects[index], field, true);
-                EditorGUI.EndDisabledGroup();
-                index++;
-            }
-
             //Replacement for "editor.OnInspectorGUI ();" so we have more control on how we draw the editor
-            while (field.NextVisible(true)) {
+            while (field.NextVisible(ENTER_CHILDREN)) {
                 try {
                     EditorGUI.PropertyField(propertyRects[index], field, true);
                 }
@@ -173,7 +141,7 @@ namespace Crosline.UnityTools.Editor {
             }
 
             EditorGUI.indentLevel--;
-        #endregion
+            #endregion
 
 
             if (_editor.serializedObject.hasModifiedProperties)
@@ -185,23 +153,7 @@ namespace Crosline.UnityTools.Editor {
         /// </summary>
         /// <param name="rect">The Rect where the background is drawn.</param>
         private void DrawBackground(Rect rect) {
-            switch (BACKGROUND_STYLE) {
-
-                case BackgroundStyles.HelpBox:
-                    EditorGUI.HelpBox(rect, "", MessageType.None);
-
-                    break;
-
-                case BackgroundStyles.Darken:
-                    EditorGUI.DrawRect(rect, DARKEN_COLOUR);
-
-                    break;
-
-                case BackgroundStyles.Lighten:
-                    EditorGUI.DrawRect(rect, LIGHTEN_COLOUR);
-
-                    break;
-            }
+            EditorGUI.HelpBox(rect, "", MessageType.None);
         }
     }
 }
