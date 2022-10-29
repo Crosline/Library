@@ -1,11 +1,15 @@
-#if CROSLINE_DEBUG
+#if CROSLINE_DEBUG || UNITY_EDITOR
+#define DEBUG_EDITOR
+#endif
+
+#if DEBUG_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 #endif
 
 namespace Crosline.DebugTools {
     public static partial class CroslineDebug {
-#if CROSLINE_DEBUG
+#if DEBUG_EDITOR
         private static string DefaultPrefix {
             get {
                 var stackTraceOutput = StackTraceUtility.ExtractStackTrace().Split('\n')[4];
@@ -31,23 +35,23 @@ namespace Crosline.DebugTools {
 #endif
 
         public static void Log(string log, string prefix = "") {
-#if CROSLINE_DEBUG
+#if DEBUG_EDITOR
             Debug.Log($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 
         public static void LogWarning(string log, string prefix = "") {
-#if CROSLINE_DEBUG
+#if DEBUG_EDITOR
             Debug.LogWarning($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
 
         public static void LogError(string log, string prefix = "") {
-#if CROSLINE_DEBUG
+#if DEBUG_EDITOR
             Debug.LogError($"[{GetPrefix(prefix)}] {log}");
 #endif
         }
-#if CROSLINE_DEBUG
+#if DEBUG_EDITOR
         private static string Reverse(this string s) {
             char[] c = s.ToCharArray();
             System.Array.Reverse(c);
