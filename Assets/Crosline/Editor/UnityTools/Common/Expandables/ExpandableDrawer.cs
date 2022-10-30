@@ -23,16 +23,6 @@ namespace Crosline.UnityTools.Editor {
         /// </summary>
         private static float OUTER_SPACING = 4.0f;
 
-        /// <summary>
-        /// The colour that is used to darken the background.
-        /// </summary>
-        private static Color DARKEN_COLOUR = new Color(0.0f, 0.0f, 0.0f, 0.2f);
-
-        /// <summary>
-        /// The colour that is used to lighten the background.
-        /// </summary>
-        private static Color LIGHTEN_COLOUR = new Color(1.0f, 1.0f, 1.0f, 0.2f);
-
         #endregion
 
         /// <summary>
@@ -61,9 +51,11 @@ namespace Crosline.UnityTools.Editor {
 
             field.NextVisible(true);
 
-            while (field.NextVisible(true))
+            while (field.NextVisible(ENTER_CHILDREN)) {
+                if (field.depth > 0)
+                    continue;
                 totalHeight += EditorGUI.GetPropertyHeight(field, true) + EditorGUIUtility.standardVerticalSpacing;
-
+            }
             totalHeight += INNER_SPACING * 2;
             totalHeight += OUTER_SPACING * 2;
 
@@ -75,7 +67,7 @@ namespace Crosline.UnityTools.Editor {
             fieldRect.height = EditorGUIUtility.singleLineHeight;
             fieldRect.xMax -= OUTER_SPACING;
 
-            EditorGUI.PropertyField(fieldRect, property, label, true);
+            EditorGUI.PropertyField(fieldRect, property, label, false);
 
             if (property.objectReferenceValue == null)
                 return;
@@ -113,6 +105,8 @@ namespace Crosline.UnityTools.Editor {
             marchingRect.y += INNER_SPACING + OUTER_SPACING;
 
             while (field.NextVisible(ENTER_CHILDREN)) {
+                if (field.depth > 0)
+                    continue;
                 marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
                 marchingRect.height = EditorGUI.GetPropertyHeight(field, true);
                 propertyRects.Add(marchingRect);
@@ -130,13 +124,15 @@ namespace Crosline.UnityTools.Editor {
 
             EditorGUI.indentLevel++;
 
-            int index = 0;
             field = _editor.serializedObject.GetIterator();
             field.NextVisible(true);
 
             //Replacement for "editor.OnInspectorGUI ();" so we have more control on how we draw the editor
-            while (field.NextVisible(ENTER_CHILDREN)) {
+
+            for (int index = 0; field.NextVisible(ENTER_CHILDREN); index++) {
                 try {
+                    if (field.depth > 0)
+                        continue;
                     EditorGUI.PropertyField(propertyRects[index], field, true);
                 }
                 catch (StackOverflowException) {
@@ -144,8 +140,6 @@ namespace Crosline.UnityTools.Editor {
                     CroslineDebug.LogError(
                         "StackOverflowException detected. Avoid using the same object inside a nested structure.");
                 }
-
-                index++;
             }
 
             EditorGUI.indentLevel--;
