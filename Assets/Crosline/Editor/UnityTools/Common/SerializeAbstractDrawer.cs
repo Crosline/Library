@@ -12,7 +12,7 @@ namespace Crosline.UnityTools.Editor {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             Type t = fieldInfo.FieldType;
 
-            if (t.IsArray) {
+            if (t.HasElementType) {
                 t = t.GetElementType();
             }
 

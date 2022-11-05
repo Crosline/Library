@@ -76,7 +76,7 @@ namespace Crosline.BuildTools.Editor {
             }
         }
 #elif UNITY_IOS
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+        public static string BuildPath => $"{BuildFolder}";
 #elif UNITY_STANDALONE_WIN
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CommandLineHelper.Argument("buildNumber")}{SEPARATOR}{CleanProductName}.exe";
 #else

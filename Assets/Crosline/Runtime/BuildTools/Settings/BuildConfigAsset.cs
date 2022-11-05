@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Crosline.BuildTools {
-    [CreateAssetMenu(fileName = "Build Config", menuName = "Crosline/Build/Build Config Asset")]
+    [CreateAssetMenu(fileName = "Build Config", menuName = "Crosline/Build/Build Config/Default")]
     public class BuildConfigAsset : ScriptableObject {
 
         public BuildOptions.BuildPlatform platform;
