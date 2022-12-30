@@ -52,7 +52,7 @@ namespace Crosline.UnityTools.Editor {
             field.NextVisible(true);
 
             while (field.NextVisible(ENTER_CHILDREN)) {
-                if (field.depth > 0)
+                if (field.depth > 0 && !ENTER_CHILDREN)
                     continue;
                 totalHeight += EditorGUI.GetPropertyHeight(field, true) + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -67,7 +67,7 @@ namespace Crosline.UnityTools.Editor {
             fieldRect.height = EditorGUIUtility.singleLineHeight;
             fieldRect.xMax -= OUTER_SPACING;
 
-            EditorGUI.PropertyField(fieldRect, property, label, false);
+            EditorGUI.PropertyField(fieldRect, property, label, ENTER_CHILDREN);
 
             if (property.objectReferenceValue == null)
                 return;
@@ -105,7 +105,7 @@ namespace Crosline.UnityTools.Editor {
             marchingRect.y += INNER_SPACING + OUTER_SPACING;
 
             while (field.NextVisible(ENTER_CHILDREN)) {
-                if (field.depth > 0)
+                if (field.depth > 0 && !ENTER_CHILDREN)
                     continue;
                 marchingRect.y += marchingRect.height + EditorGUIUtility.standardVerticalSpacing;
                 marchingRect.height = EditorGUI.GetPropertyHeight(field, true);
@@ -131,9 +131,9 @@ namespace Crosline.UnityTools.Editor {
 
             for (int index = 0; field.NextVisible(ENTER_CHILDREN); index++) {
                 try {
-                    if (field.depth > 0)
+                    if (field.depth > 0 && !ENTER_CHILDREN)
                         continue;
-                    EditorGUI.PropertyField(propertyRects[index], field, true);
+                    EditorGUI.PropertyField(propertyRects[index], field, ENTER_CHILDREN);
                 }
                 catch (StackOverflowException) {
                     field.objectReferenceValue = null;
