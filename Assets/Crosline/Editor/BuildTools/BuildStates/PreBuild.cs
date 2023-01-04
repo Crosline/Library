@@ -14,6 +14,7 @@ namespace Crosline.BuildTools.Editor {
             _buildSteps = new List<BuildStep>() {
                 new CleanOldBuilds(),
                 new SwitchActiveBuildTarget(),
+                new CheckActiveBuildTarget(),
                 new AdjustPlayerSettings(),
                 new AdjustBuildOptions(),
                 new SetProductionMode()
