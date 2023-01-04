@@ -69,12 +69,14 @@ namespace Crosline.CroslineLibrary.Editor {
             if (settings == null) {
                 return false;
             }
-
+            
             settings.Save();
+            
+            if (settings.Version.Equals("development"))
+                return true;
 
-            if (settings.Version == _latestVersion) {
+            if (settings.Version == _latestVersion)
                 return false;
-            }
 
             var manifestContent = string.Empty;
 
@@ -110,6 +112,11 @@ namespace Crosline.CroslineLibrary.Editor {
             if (settings == null) {
                 return false;
             }
+            
+            settings.Save();
+
+            if (settings.Version.Equals("development"))
+                return true;
 
             settings.Version = "0.0.0";
             settings.Save();
