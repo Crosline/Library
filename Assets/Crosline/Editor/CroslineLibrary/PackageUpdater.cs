@@ -130,7 +130,7 @@ namespace Crosline.CroslineLibrary.Editor {
 
                     var hashIndex = line.IndexOf('#');
                     var lastPart = line.Substring(hashIndex + 1);
-                    _currentVersion = lastPart.Replace("\"", string.Empty);
+                    _currentVersion = lastPart.Replace("\"", string.Empty).Replace(",", string.Empty);
                     settings.Version = _currentVersion;
                     settings.Save();
 
