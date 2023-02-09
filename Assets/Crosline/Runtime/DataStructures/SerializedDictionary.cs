@@ -54,5 +54,4 @@ namespace Crosline.DataStructures {
             }
         }
     }
-
 }
