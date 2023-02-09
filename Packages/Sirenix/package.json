@@ -1,0 +1,17 @@
+{
+    "name": "com.sirenix.odin",
+    "version": "1.0.0",
+    "displayName": "Odin Inspector",
+    "description": "I don't like Unity's inspector",
+    "unity": "2020.3",
+    "keywords": [
+      "odin",
+      "inspector"
+    ],
+    "author": {
+      "name": "Crosline",
+      "email": "cagkancaglayanel@gmail.com",
+      "url": "https://crosline.github.io"
+    }
+  }
+  
