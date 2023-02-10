@@ -37,7 +37,7 @@ namespace Crosline.UnityTools.Editor {
                 foreach (Type type in GetClasses(t)) {
                     menu.AddItem(new GUIContent(type.Name), typeName == type.Name, () =>
                     {
-                        property.managedReferenceValue = type.GetConstructor(Type.EmptyTypes).Invoke(null);
+                        property.managedReferenceValue = type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
                         property.serializedObject.ApplyModifiedProperties();
                     });
                 }

@@ -61,11 +61,17 @@ namespace Crosline {
             Vector3.one * 3f
         };
 
-        [SerializeField, SerializeReference, SerializeAbstract]
+        [SerializeReference]
         public ITest[] tstList;
         
-        [SerializeField, SerializeReference, SerializeAbstract]
+        [SerializeReference]
         public List<ITest> tstLis2t;
+        
+        [SerializeField, SerializeReference]
+        public Test[] AtstList;
+        
+        [SerializeField, SerializeReference]
+        public List<Test> AtstLis2t;
 
         [SerializeField]
         private float test1;
