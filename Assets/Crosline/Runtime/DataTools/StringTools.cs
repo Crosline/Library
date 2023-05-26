@@ -14,5 +14,12 @@ namespace Crosline.DataTools {
         {
             return (text.Length - text.Replace(subString, "").Length) / subString.Length;
         }
+
+        private static string Reverse(this string s) {
+            char[] c = s.ToCharArray();
+            System.Array.Reverse(c);
+
+            return new string(c);
+        }
     }
 }

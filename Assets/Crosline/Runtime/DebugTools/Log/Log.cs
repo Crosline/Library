@@ -52,13 +52,6 @@ namespace Crosline.DebugTools {
 #endif
         }
 #if DEBUG_EDITOR
-        private static string Reverse(this string s) {
-            char[] c = s.ToCharArray();
-            System.Array.Reverse(c);
-
-            return new string(c);
-        }
-
         private static string GetPrefix(string prefix) {
             return string.IsNullOrEmpty(prefix) ? DefaultPrefix : prefix;
         }
