@@ -15,12 +15,12 @@ namespace Crosline.DebugTools {
 #endif
         }
 
-        public static void AssertException(bool condition, string log, System.Exception e, string prefix = "") {
+        public static void AssertException(bool condition, System.Exception e, string prefix = "") {
 #if DEBUG_EDITOR
             if (condition)
                 return;
 
-            Debug.Assert(false, $"[{GetPrefix(prefix)}] {log}");
+            Debug.Assert(false, $"[{GetPrefix(prefix)}] {e.Message}");
 
             throw e;
 #endif
