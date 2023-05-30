@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Crosline.UnityTools.Editor {
     [CustomPropertyDrawer(typeof(SerializeAbstractAttribute))]
+    [Obsolete("Obsolete")]
     public class SerializeAbstractDrawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             Type t = fieldInfo.FieldType;

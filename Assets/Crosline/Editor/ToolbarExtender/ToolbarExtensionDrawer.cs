@@ -11,7 +11,6 @@ using UnityEngine.UIElements;
 
 namespace Crosline.ToolbarExtender.Editor {
     public class ToolbarExtensionDrawer {
-        private static GUIStyle _buttonStyle = null;
 
         private static ScriptableObject _currentToolbar;
         private static Dictionary<ToolbarZone, VisualElement> _parents = new Dictionary<ToolbarZone, VisualElement>()
