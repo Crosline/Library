@@ -86,8 +86,11 @@ namespace Crosline.BuildTools.Editor.Settings {
                 _selectedCustomName = "";
             }
 
-            if (GUILayout.Button("Build", EditorStyles.toolbarButton))
-                _error = "Build is not implemented yet."; //TODO - Crosline: Don't forget to connect build to here.
+            if (GUILayout.Button("Build", EditorStyles.toolbarButton)) {
+                if (!AutoBuilder.TryBuild(_selectedBuildPlatform)) {
+                    _error = "Build failed";
+                }
+            }
 
             if (GUILayout.Button("Create", EditorStyles.toolbarButton))
                 GetConfigWithCustomName(_selectedCustomName, _selectedBuildPlatform);
