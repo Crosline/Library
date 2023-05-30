@@ -37,8 +37,8 @@ namespace Crosline.SystemTools {
 
 
         public static string MakeRelativePath(this string basePath, string filePath, bool ensureSucceeded = false) {
-            CroslineDebug.AssertException(string.IsNullOrEmpty(basePath), new ArgumentNullException(nameof(basePath)));
-            CroslineDebug.AssertException(string.IsNullOrEmpty(filePath), new ArgumentNullException(nameof(filePath)));
+            CroslineDebug.AssertException(!string.IsNullOrEmpty(basePath), new ArgumentNullException(nameof(basePath)));
+            CroslineDebug.AssertException(!string.IsNullOrEmpty(filePath), new ArgumentNullException(nameof(filePath)));
 
             var fromUri = new Uri(basePath!);
             var toUri = new Uri(filePath!);
