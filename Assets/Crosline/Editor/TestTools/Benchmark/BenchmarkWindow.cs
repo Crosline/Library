@@ -33,7 +33,7 @@ namespace Crosline.TestTools.Editor {
             GetMethodInfos();
         }
 
-        [MenuItem("Crosline/Subsystems/Benchmark")]
+        [MenuItem("Crosline/Benchmark", false, 50)]
         public static void Initialize() {
             benchmarkWindow = (BenchmarkWindow) GetWindow(typeof(BenchmarkWindow), false, "Benchmark");
             benchmarkWindow.Show();

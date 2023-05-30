@@ -1,3 +1,4 @@
+// Thanks to Panteon's MidCore team
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +13,7 @@ using FilePathAttribute = UnityEditor.FilePathAttribute;
 namespace UnityTools.Editor {
     [FilePath("Assets/Crosline/Editor/TodoHelper/Config/TodoHelper.asset", FilePathAttribute.Location.ProjectFolder)]
     public class TodoHelper : ScriptableSingleton<TodoHelper> {
-        [SerializeField]
-        private TodoHelperConfiguration Configuration;
+        [SerializeField] private TodoHelperConfiguration Configuration;
 
         [HideIf("@IsTodoListNull")]
         [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true,
@@ -21,23 +21,26 @@ namespace UnityTools.Editor {
         [ShowInInspector]
         public Dictionary<string, TodoData.TodoLists> TodoList = new Dictionary<string, TodoData.TodoLists>();
 
-        public bool IsTodoListNull => TodoList == null;
         private static string ApplicationPath => Application.dataPath;
 
         public static bool IsCountingTodos;
 
-        [MenuItem("Panteon/Todo Helper/Settings", false, 0)]
+        [MenuItem("Crosline/Todo Helper/Settings", false, 0)]
         public static void SelectConfigurationTool() {
             Selection.activeObject = ScriptableSingleton<TodoHelperConfiguration>.instance;
         }
 
-        [MenuItem("Panteon/Todo Helper/Show Todo", false, 50)]
+        [MenuItem("Crosline/Todo Helper/Show Todo", false, 0)]
         public static void SelectTodoAsset() {
             Selection.activeObject = ScriptableSingleton<TodoHelper>.instance;
         }
 
         [Button(ButtonSizes.Gigantic)]
         public void SearchForTodo() {
+            if (IsCountingTodos) {
+                return;
+            }
+
             IsCountingTodos = true;
 
             TodoList = new Dictionary<string, TodoData.TodoLists>(Configuration.AssigneeNames.Length);

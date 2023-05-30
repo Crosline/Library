@@ -11,7 +11,7 @@ namespace Crosline.BuildTools.Editor.Settings {
 
         private SerializedObject _serializedObject;
 
-        [MenuItem("Crosline/Subsystems/Build Settings")]
+        [MenuItem("Crosline/Build Settings", false, 50)]
         public static void Initialize() {
             buildSettingsWindow = (BuildSettingsWindow) GetWindow(typeof(BuildSettingsWindow), false, "Build Settings");
             buildSettingsWindow.Show();
