@@ -22,6 +22,11 @@ namespace Crosline.SystemTools {
             return !Path.IsPathRooted(path);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsFullPath(this string path) {
+            return Path.IsPathRooted(path);
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string FixDirectorySeparatorChars(this string path, bool isReverse = false) {
