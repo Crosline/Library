@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Distortion
   m_Shader: {fileID: -6465566751694194690, guid: cab1e8dd0a47a014eb65f119dab6ebf9, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -17,6 +19,7 @@ Material:
   m_CustomRenderQueue: 2998
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -55,6 +58,8 @@ Material:
     - Vector1_8de36707e08f45c994fc1efb88735f77: 1.68
     - Vector1_c08a5f6cb5af4346a20911acfcabca47: 50
     - _IsClosed: 0
+    - _QueueControl: 1
+    - _QueueOffset: 0
     m_Colors:
     - Color_042b1ebbaa8f4cb899b3c6152748d937: {r: 0.052064814, g: 0.35210878, b: 0.8490566, a: 1}
     - Color_eba335c49e9a43baa210e3f1a695a16f: {r: 0, g: 1, b: 0.28723717, a: 0}
@@ -73,4 +78,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 7
