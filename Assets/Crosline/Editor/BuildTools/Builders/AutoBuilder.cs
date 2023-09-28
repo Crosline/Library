@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace Crosline.BuildTools.Editor {
-    public class AutoBuilder {
+    public static class AutoBuilder {
 #if UNITY_EDITOR_OSX
         private const bool IsOSX = true;
 #else
