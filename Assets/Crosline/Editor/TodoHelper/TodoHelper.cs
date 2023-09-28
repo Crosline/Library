@@ -21,6 +21,8 @@ namespace UnityTools.Editor {
         [ShowInInspector]
         public Dictionary<string, TodoData.TodoLists> TodoList = new Dictionary<string, TodoData.TodoLists>();
 
+        private bool IsTodoListNull => TodoList == null;
+
         private static string ApplicationPath => Application.dataPath;
 
         public static bool IsCountingTodos;
