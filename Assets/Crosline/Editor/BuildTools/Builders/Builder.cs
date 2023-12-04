@@ -171,27 +171,32 @@ namespace Crosline.BuildTools.Editor {
         #region PostProcessBuild Starters
         [PostProcessBuild(1)]
         public static void OnPostProcessBuild1(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(1);
+            if (Instance != null)
+                Instance.StartBuild(1);
         }
 
         [PostProcessBuild(100)]
         public static void OnPostProcessBuild100(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(100);
+            if (Instance != null)
+                Instance.StartBuild(100);
         }
 
         [PostProcessBuild(300)]
         public static void OnPostProcessBuild300(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(300);
+            if (Instance != null)
+                Instance.StartBuild(300);
         }
 
         [PostProcessBuild(500)]
         public static void OnPostProcessBuild500(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(500);
+            if (Instance != null)
+                Instance.StartBuild(500);
         }
 
         [PostProcessBuild(1000)]
         public static void OnPostProcessBuild1000(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(1000);
+            if (Instance != null)
+                Instance.StartBuild(1000);
         }
         #endregion
 
