@@ -20,13 +20,13 @@ namespace Crosline.BuildTools.Editor {
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Android";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Android";
 #elif UNITY_IOS
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}IOS";
 #elif UNITY_STANDALONE_WIN
         public static string BuildFolder => $"{MainBuildFolder}{Separator}Windows";
 #else
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Unknown";
 #endif
         public static string CleanProductName {
             get {
