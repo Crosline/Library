@@ -20,13 +20,13 @@ namespace Crosline.BuildTools.Editor {
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Android";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Android";
 #elif UNITY_IOS
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}IOS";
 #elif UNITY_STANDALONE_WIN
         public static string BuildFolder => $"{MainBuildFolder}{Separator}Windows";
 #else
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Unknown";
 #endif
         public static string CleanProductName {
             get {
@@ -59,10 +59,10 @@ namespace Crosline.BuildTools.Editor {
 #if UNITY_ANDROID
         public static string BuildPath {
             get {
-                var path = $"{BuildFolder}{SEPARATOR}{BuildName}";
+                var path = $"{BuildFolder}{Separator}{BuildName}";
                 
                 if (CommandLineHelper.ArgumentTrue("export")) {
-                    return $"{BuildFolder}{SEPARATOR}{BuildName}";
+                    return $"{BuildFolder}{Separator}{BuildName}";
                 }
                 
                 if (CommandLineHelper.ArgumentTrue("appBundle")) {
@@ -80,7 +80,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_STANDALONE_WIN
         public static string BuildPath => $"{BuildFolder}{Separator}{CommandLineHelper.Argument("buildNumber")}{Separator}{CleanProductName}.exe";
 #else
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+        public static string BuildPath => $"{BuildFolder}{Separator}{BuildName}";
 #endif
         #endregion
 
