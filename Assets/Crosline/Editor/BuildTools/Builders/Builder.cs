@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Crosline.SystemTools;
 using Crosline.BuildTools.Editor.Settings;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -13,10 +13,10 @@ namespace Crosline.BuildTools.Editor {
 
         private static Builder _instance = null;
 
-        private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
+        private static readonly char Separator = PathTools.DirectorySeparatorChar;
 
         #region Build Path and Name
-        [Obsolete] private static string MainBuildFolder => $"{CommandLineHelper.Argument("workspace")}{SEPARATOR}Builds";
+        [Obsolete] private static string MainBuildFolder => $"{CommandLineHelper.Argument("workspace")}{Separator}Builds";
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
@@ -24,7 +24,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Windows";
 #else
         public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
 #endif
@@ -78,7 +78,7 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildPath => $"{BuildFolder}";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CommandLineHelper.Argument("buildNumber")}{SEPARATOR}{CleanProductName}.exe";
+        public static string BuildPath => $"{BuildFolder}{Separator}{CommandLineHelper.Argument("buildNumber")}{Separator}{CleanProductName}.exe";
 #else
         public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
 #endif
