@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c696fb39695d9246acb892cf0beb38e, type: 3}
   m_Name: LifecycleSettings
   m_EditorClassIdentifier: 
-  <GameSystems>k__BackingField: []
+  <GameSystems>k__BackingField:
+  - rid: 2189041376506413058
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2189041376506413058
+      type: {class: UISystem, ns: Crosline.Game.Lifecycle, asm: Crosline}
+      data: 
