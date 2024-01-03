@@ -1,0 +1,17 @@
+{
+    "name": "Crosline.Game.ScreenManager",
+    "rootNamespace": "",
+    "references": [
+        "GUID:69f2e5b9f98f25e4a95afa79df64e477",
+        "GUID:c3a0a14e82b9deb4ebde6eeaa46f465b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

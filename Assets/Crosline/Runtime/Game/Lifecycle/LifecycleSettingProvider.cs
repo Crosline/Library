@@ -1,51 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Crosline.Game.Lifecycle {
-    public class LifecycleSettingProvider : SettingsProvider {
+    public class LifecycleSettingProvider {
 
-        private SerializedObject _lifecycleSettingsSO;
+        private static SerializedObject _lifecycleSettingsSO;
 
-        private LifecycleSettings _lifecycleSettings;
+        private static Vector2 _scrollPos;
 
-        private Vector2 _scrollPos;
-
-        public LifecycleSettingProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(
-            path,
-            scopes,
-            keywords) {
+        private static void OnActivate(string searchContext, VisualElement rootElement) {
+            _lifecycleSettingsSO = new SerializedObject(LifecycleSettings.GetOrCreateDefault());
         }
 
-        public override void OnActivate(string searchContext, VisualElement rootElement) {
-            _lifecycleSettings = AssetDatabase.LoadAssetAtPath<LifecycleSettings>(LifecycleSettings.SettingsPath);
-            _lifecycleSettingsSO = new SerializedObject(_lifecycleSettings);
-        }
+        private static void OnGUI(string searchContext) {
+            _lifecycleSettingsSO.Update();
 
-        public override void OnGUI(string searchContext) {
-            base.OnGUI(searchContext);
-            
-            EditorGUILayout.LabelField("ANNEn");
-            return;
+            EditorGUILayout.PropertyField(_lifecycleSettingsSO.FindProperty("_gameSystems"), new GUIContent("Game Systems"), true);
 
-            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
-
-            SerializedProperty iterator = _lifecycleSettingsSO.GetIterator();
-            bool enterChildren = true;
-            while (iterator.NextVisible(enterChildren))
-            {
-                enterChildren = false;
-                EditorGUILayout.PropertyField(iterator, true);
-            }
-
-            _lifecycleSettingsSO.ApplyModifiedProperties();
-
-            if (!GUI.changed) return;
-
-
-            EditorUtility.SetDirty(_lifecycleSettingsSO.targetObject);
+            _lifecycleSettingsSO.ApplyModifiedPropertiesWithoutUndo();
         }
 
         [SettingsProvider]
@@ -60,7 +33,9 @@ namespace Crosline.Game.Lifecycle {
                     "update",
                     "mono",
                     "singleton"
-                }
+                },
+                activateHandler = OnActivate,
+                guiHandler = OnGUI
             };
 
             return provider;

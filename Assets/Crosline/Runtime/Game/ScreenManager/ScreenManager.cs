@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
+using Crosline.Game.Lifecycle;
 
-namespace Crosline.Game.Lifecycle {
-    public class UISystem : GameSystemBase, IUpdateListener {
+namespace Crosline.Game.ScreenManager {
+    public class ScreenManager : GameSystemBase, IUpdateListener {
 
         public override Task Initialize() {
             throw new System.NotImplementedException();

@@ -1,0 +1,14 @@
+{
+    "name": "Crosline.Game.Lifecycle",
+    "rootNamespace": "",
+    "references": ["GUID:c3a0a14e82b9deb4ebde6eeaa46f465b"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
