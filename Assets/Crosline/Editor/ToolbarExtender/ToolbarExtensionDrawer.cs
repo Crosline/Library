@@ -115,8 +115,7 @@ namespace Crosline.ToolbarExtender.Editor {
             if (root == null)
                 return null;
 
-            int flex = ToolbarZone.MiddleLeftAlign == toolbarZoneAlign
-                       || ToolbarZone.RightAlign == toolbarZoneAlign 
+            int flex = ToolbarZone.Middle.HasFlag(toolbarZoneAlign)
                 ? 1 : 0;
 
             parent = new VisualElement()
