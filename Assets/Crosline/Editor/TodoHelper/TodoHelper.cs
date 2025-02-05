@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using Crosline.DataTools;
 using Crosline.SystemTools;
-using Sirenix.OdinInspector;
-using Sirenix.Utilities;
+// using Sirenix.OdinInspector;
+// using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 using FilePathAttribute = UnityEditor.FilePathAttribute;
@@ -15,10 +15,10 @@ namespace UnityTools.Editor {
     public class TodoHelper : ScriptableSingleton<TodoHelper> {
         [SerializeField] private TodoHelperConfiguration Configuration;
 
-        [HideIf("@IsTodoListNull")]
-        [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true,
-            KeyLabel = "Assignee", ValueLabel = "Todo Lists")]
-        [ShowInInspector]
+        // [HideIf("@IsTodoListNull")]
+        // [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true,
+            // KeyLabel = "Assignee", ValueLabel = "Todo Lists")]
+        // [ShowInInspector]
         public Dictionary<string, TodoData.TodoLists> TodoList = new Dictionary<string, TodoData.TodoLists>();
 
         private bool IsTodoListNull => TodoList == null;
@@ -37,7 +37,7 @@ namespace UnityTools.Editor {
             Selection.activeObject = ScriptableSingleton<TodoHelper>.instance;
         }
 
-        [Button(ButtonSizes.Gigantic)]
+        // [Button(ButtonSizes.Gigantic)]
         public void SearchForTodo() {
             if (IsCountingTodos) {
                 return;
@@ -121,7 +121,7 @@ namespace UnityTools.Editor {
 
 
                 var topic = GetTopic(removedTodoHeader);
-                if (topic.IsNullOrWhitespace()) topic = "Uncategorized";
+                if (string.IsNullOrWhiteSpace(topic)) topic = "Uncategorized";
 
 
                 TodoData.TodoListData todoListToAdd;

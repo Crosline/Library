@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
+// using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,8 +21,8 @@ public struct TodoData {
     }
 
     public struct TodoListData {
-        [ListDrawerSettings(HideAddButton = true, HideRemoveButton = true, DraggableItems = false,
-            NumberOfItemsPerPage = 1000)]
+        // [ListDrawerSettings(HideAddButton = true, HideRemoveButton = true, DraggableItems = false,
+            // NumberOfItemsPerPage = 1000)]
         public List<TodoData> TodoList;
 
         public TodoListData(List<TodoData> todoList) {
@@ -32,8 +32,8 @@ public struct TodoData {
 
 
     public struct TodoLists {
-        [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true, KeyLabel = "Topic",
-            ValueLabel = "To do")]
+        // [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true, KeyLabel = "Topic",
+            // ValueLabel = "To do")]
         public Dictionary<string, TodoListData> TodoByTopic;
 
         [HideInInspector] public List<string> Topics;
@@ -64,7 +64,7 @@ public struct TodoData {
         }
     }
 
-    [OnInspectorGUI]
+    // [OnInspectorGUI]
     private void DrawTextAsButton() {
         if (GUILayout.Button(Todo, ButtonStyle)) GotoContext();
     }
