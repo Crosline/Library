@@ -36,19 +36,19 @@ namespace Crosline.DebugTools {
 
         public static void Log(string log, string prefix = "") {
 #if DEBUG_EDITOR
-            Debug.Log($"[{GetPrefix(prefix)}] {log}");
+            Debug.Log(BuildLog(log, prefix));
 #endif
         }
 
         public static void LogWarning(string log, string prefix = "") {
 #if DEBUG_EDITOR
-            Debug.LogWarning($"[{GetPrefix(prefix)}] {log}");
+            Debug.LogWarning(BuildLog(log, prefix));
 #endif
         }
 
         public static void LogError(string log, string prefix = "") {
 #if DEBUG_EDITOR
-            Debug.LogError($"[{GetPrefix(prefix)}] {log}");
+            Debug.LogError(BuildLog(log, prefix));
 #endif
         }
 #if DEBUG_EDITOR
@@ -58,6 +58,10 @@ namespace Crosline.DebugTools {
         
         private static string GetStylizedPrefix(string prefix) {
             return $"<size=14><color=#808080>{GetPrefix(prefix)}</size></color>";
+        }
+        
+        private static string BuildLog(string log, string prefix) {
+            return $"[{GetPrefix(prefix)}] {log}";
         }
 #endif
     }
