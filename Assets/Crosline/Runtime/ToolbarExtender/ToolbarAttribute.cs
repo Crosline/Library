@@ -4,37 +4,21 @@ using Crosline.UnityTools.Attributes;
 
 namespace Crosline.ToolbarExtender {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class ToolbarAttribute : MethodAttribute {
-        public string toolTip;
-        public string iconName;
-        
-        public int order;
+    public abstract class ToolbarAttribute : MethodAttribute {
+        public ToolbarIcon ToolbarIcon { get; private set; }
+        public string Label { get; private set; }
+        public int Order { get; private set; }
+        public ToolbarZone ToolbarZone { get; private set; }
+        public string ToolTip { get; private set; }
 
-        public ToolbarZone toolbarZone;
-        
-        public ToolbarAttribute(params object[] parameters) : base(parameters) {
-            
-            this.toolTip = "";
-            this.iconName = string.IsNullOrEmpty(iconName) ? "d_BuildSettings.Broadcom" : iconName;
-            this.order = 0;
-            this.toolbarZone = ToolbarZone.RightAlign;
-        }
+        protected ToolbarAttribute(string label = null, ToolbarIcon toolbarIcon = ToolbarIcon.Default,
+            int order = 0, ToolbarZone toolbarZone = ToolbarZone.MiddleRightAlign, string toolTip = null, params object[] parameters) : base(parameters) {
 
-        public ToolbarAttribute(string iconName = "", params object[] parameters) : base(parameters) {
-            
-            this.toolTip = "";
-            this.iconName = string.IsNullOrEmpty(iconName) ? "d_BuildSettings.Broadcom" : iconName;
-            this.order = 0;
-            this.toolbarZone = ToolbarZone.RightAlign;
-        }
-        
-        public ToolbarAttribute(ToolbarZone toolbarZone = ToolbarZone.MiddleLeftAlign,
-            string toolTip = "", string iconName = "", int order = 0, params object[] parameters) : base(parameters) {
-            
-            this.toolTip = toolTip;
-            this.iconName = string.IsNullOrEmpty(iconName) ? "d_BuildSettings.Broadcom" : iconName;
-            this.order = order;
-            this.toolbarZone = toolbarZone;
+            Label = label;
+            ToolbarIcon = toolbarIcon;
+            Order = order;
+            ToolbarZone = toolbarZone;
+            ToolTip = toolTip;
         }
 
     }

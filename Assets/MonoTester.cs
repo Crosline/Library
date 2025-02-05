@@ -42,6 +42,7 @@ namespace Crosline {
         }
     }
 
+    [Serializable]
     public class Test3 : Test {
         public string me;
         
@@ -86,13 +87,18 @@ namespace Crosline {
         [Separator(20)]
         [SerializeField]
         private float test5;
-        [Separator(30)]
-        [SerializeField]
-        private float test6;
         [Separator]
         [Expandable]
         [SerializeField]
         private BuildConfigAsset _buildConfigAsset;
+        [Separator]
+        [Expandable]
+        [SerializeField]
+        private Vector3 _testVector;
+        [Separator]
+        [Expandable]
+        [SerializeField]
+        private Test3 _test3Class;
 
         private void Start() {
             CroslineDebug.LogError("hi");
@@ -129,7 +135,6 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
 
@@ -161,7 +166,6 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar(toolTip: "hello", iconName: "d_PlayButton")]
         public void StringBuilderTest() {
             var sb = new StringBuilder();
 
@@ -183,7 +187,6 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar()]
         public void BruteStringTest() {
             for (int i = 0; i < 1000; i++) {
                 var br = "";
@@ -208,7 +211,6 @@ namespace Crosline {
             CroslineDebug.Log("Start");
         }
 
-        [Toolbar()]
         [MenuItem("Crosline/Test/Log/Warning")]
         public static void TestLogWarning() {
             CroslineDebug.LogWarning("Start");

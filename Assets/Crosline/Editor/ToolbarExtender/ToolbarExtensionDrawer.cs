@@ -12,25 +12,20 @@ using UnityEngine.UIElements;
 namespace Crosline.ToolbarExtender.Editor {
     public class ToolbarExtensionDrawer {
 
-        private static ScriptableObject _currentToolbar;
-        private static Dictionary<ToolbarZone, VisualElement> _parents = new Dictionary<ToolbarZone, VisualElement>()
-        {
-            {ToolbarZone.LeftAlign, null},
-            {ToolbarZone.MiddleLeftAlign, null},
-            {ToolbarZone.MiddleRightAlign, null},
-            {ToolbarZone.RightAlign, null}
-        };
+        private ScriptableObject _currentToolbar;
+        private VisualElement _root;
+        private Dictionary<ToolbarZone, VisualElement> _parents;
 
-        private static int lastInstanceID;
+        private int lastInstanceID;
 
-        private static readonly Type
+        private readonly Type
 #if UNITY_EDITOR
             _toolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
 #else
             _toolbarType;
 #endif
 
-        private static HashSet<MethodInfo> _methods = new();
+        private HashSet<MethodInfo> _methods = new();
 
         internal void TryDrawToolbar() {
 #if UNITY_EDITOR
@@ -51,12 +46,31 @@ namespace Crosline.ToolbarExtender.Editor {
             if (_currentToolbar == null)
                 return;
 
-            var tempParents = new Dictionary<ToolbarZone, VisualElement>(_parents);
-            foreach (var toolbarParent in _parents) {
-                tempParents[toolbarParent.Key] = PrepareParent(toolbarParent.Value, toolbarParent.Key);
+            if (_root == null) {
+                _root = _currentToolbar.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)
+                    ?.GetValue(_currentToolbar) as VisualElement;
             }
-            
-            _parents = tempParents;
+
+            if (_root == null)
+                return;
+
+
+            if (_parents == null) {
+                var tempParents = new Dictionary<ToolbarZone, VisualElement> {
+                    {ToolbarZone.LeftAlign, null},
+                    {ToolbarZone.MiddleLeftAlign, null},
+                    {ToolbarZone.MiddleRightAlign, null},
+                    {ToolbarZone.RightAlign, null}
+                };
+
+                _parents = new Dictionary<ToolbarZone, VisualElement>(tempParents);
+
+                foreach (var toolbarParent in _parents) {
+                    tempParents[toolbarParent.Key] = PrepareParent(toolbarParent.Value, toolbarParent.Key);
+                }
+
+                _parents = tempParents;
+            }
 
             AttachToolbars();
         }
@@ -67,13 +81,14 @@ namespace Crosline.ToolbarExtender.Editor {
 
         private VisualElement CreateToolbarButton(string icon, Action onClick, string tooltip = null) {
             var buttonVE = new Button(onClick);
+            buttonVE.text = icon;
             buttonVE.tooltip = tooltip;
             FitChildrenStyle(buttonVE);
 
             var iconVE = new VisualElement();
             iconVE.AddToClassList("unity-editor-toolbar-element__icon");
 #if UNITY_2021_2_OR_NEWER && UNITY_EDITOR
-            iconVE.style.backgroundImage = Background.FromTexture2D((Texture2D)EditorGUIUtility.IconContent(icon).image);
+            // iconVE.style.backgroundImage = Background.FromTexture2D((Texture2D)EditorGUIUtility.IconContent(icon).image);
             iconVE.style.height = 16;
             iconVE.style.width = 16;
             iconVE.style.alignSelf = Align.Center;
@@ -95,42 +110,32 @@ namespace Crosline.ToolbarExtender.Editor {
             var toolbarButtons =
                 _methods.ToDictionary(method => method, method => method.GetCustomAttribute<ToolbarAttribute>());
 
-            foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.order)) {
-                var parent = _parents[attr.Value.toolbarZone];
-                parent.Add(CreateToolbarButton(attr.Value.iconName, () => attr.Key.Invoke(null, null), attr.Value.toolTip));
+            foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.Order)) {
+                var parent = _parents[attr.Value.ToolbarZone];
+                parent.Add(CreateToolbarButton(attr.Value.Label, () => attr.Key.Invoke(null, null), attr.Value.ToolTip));
 
-                _parents[attr.Value.toolbarZone] = parent;
+                _parents[attr.Value.ToolbarZone] = parent;
             }
         }
 
         private VisualElement PrepareParent(VisualElement parent, ToolbarZone toolbarZoneAlign) {
             RemoveCurrentParent(ref parent);
-            
+
             if (parent != null)
                 return parent;
-
-            var root = _currentToolbar.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.GetValue(_currentToolbar) as VisualElement;
-
-            if (root == null)
-                return null;
 
             int flex = ToolbarZone.Middle.HasFlag(toolbarZoneAlign)
                 ? 1 : 0;
 
-            parent = new VisualElement()
-            {
-                style =
-                {
+            parent = new VisualElement() {
+                style = {
                     flexGrow = flex,
                     flexDirection = FlexDirection.Row
                 }
             };
 
-            parent.Add(new VisualElement()
-            {
-                style =
-                {
+            parent.Add(new VisualElement() {
+                style = {
                     flexGrow = flex,
                 }
             });
@@ -139,8 +144,8 @@ namespace Crosline.ToolbarExtender.Editor {
             var toolbarZoneName = ToolbarZone.Left.HasFlag(toolbarZoneAlign)
                 ? "ToolbarZoneLeftAlign"
                 : "ToolbarZoneRightAlign";
-            
-            var toolbarZoneElement = root.Q(toolbarZoneName);
+
+            var toolbarZoneElement = _root.Q(toolbarZoneName);
             toolbarZoneElement.Add(parent);
             return parent;
         }
