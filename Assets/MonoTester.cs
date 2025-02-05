@@ -92,11 +92,6 @@ namespace Crosline {
         [SerializeField]
         private BuildConfigAsset _buildConfigAsset;
         [Separator]
-        [Expandable]
-        [SerializeField]
-        private Vector3 _testVector;
-        [Separator]
-        [Expandable]
         [SerializeField]
         private Test3 _test3Class;
 
