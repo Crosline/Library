@@ -113,10 +113,10 @@ namespace Crosline {
 
         [Benchmark]
         [ToolbarButton(label: "test")]
-        public void BenchmarkTest1() {
-            byte[] b = new byte[100000000];
+        public static void BenchmarkTest1() {
+            var b = new byte[100000000];
 
-            for (int i = 0; i < 100000000; i++) {
+            for (var i = 0; i < 100000000; i++) {
                 b[i] = 0x00000001;
             }
         }
