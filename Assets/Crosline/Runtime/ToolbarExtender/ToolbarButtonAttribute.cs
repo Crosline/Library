@@ -2,10 +2,16 @@
 
 namespace Crosline.ToolbarExtender {
     public class ToolbarButtonAttribute : ToolbarAttribute {
-        public ToolbarButtonAttribute(string label = null, ToolbarIcon toolbarIcon = ToolbarIcon.Default, int order = 0,
-            ToolbarZone toolbarZone = ToolbarZone.MiddleRightAlign, string toolTip = null, params object[] parameters)
-            : base(label, toolbarIcon, order, toolbarZone, toolTip, parameters) {
-            
-        }
+        public ToolbarButtonAttribute(ToolbarIcon toolbarIcon = ToolbarIcon.Default,
+            string label = null,
+            int order = 0,
+            ToolbarZone toolbarZone = ToolbarZone.LeftAlign,
+            string toolTip = null,
+            object[] parameters = null) : base(toolbarIcon,
+            label,
+            order,
+            toolbarZone,
+            toolTip,
+            parameters) { }
     }
 }

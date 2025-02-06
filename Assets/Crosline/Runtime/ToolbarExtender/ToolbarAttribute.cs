@@ -11,11 +11,15 @@ namespace Crosline.ToolbarExtender {
         public ToolbarZone ToolbarZone { get; private set; }
         public string ToolTip { get; private set; }
 
-        protected ToolbarAttribute(string label = null, ToolbarIcon toolbarIcon = ToolbarIcon.Default,
-            int order = 0, ToolbarZone toolbarZone = ToolbarZone.MiddleRightAlign, string toolTip = null, params object[] parameters) : base(parameters) {
+        protected ToolbarAttribute(ToolbarIcon toolbarIcon = ToolbarIcon.Default,
+            string label = null,
+            int order = 0,
+            ToolbarZone toolbarZone = ToolbarZone.Left,
+            string toolTip = null,
+            object[] parameters = null) : base(parameters) {
 
-            Label = label;
             ToolbarIcon = toolbarIcon;
+            Label = label;
             Order = order;
             ToolbarZone = toolbarZone;
             ToolTip = toolTip;

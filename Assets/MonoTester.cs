@@ -112,6 +112,7 @@ namespace Crosline {
         }
 
         [Benchmark]
+        [ToolbarButton(label: "test")]
         public void BenchmarkTest1() {
             byte[] b = new byte[100000000];
 

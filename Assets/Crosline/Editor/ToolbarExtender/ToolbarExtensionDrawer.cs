@@ -108,7 +108,7 @@ namespace Crosline.ToolbarExtender.Editor {
 
         private void AttachToolbars() {
             var toolbarButtons =
-                _methods.ToDictionary(method => method, method => method.GetCustomAttribute<ToolbarAttribute>());
+                _methods.ToDictionary(method => method, method => method.GetCustomAttribute<ToolbarButtonAttribute>());
 
             foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.Order)) {
                 var parent = _parents[attr.Value.ToolbarZone];
