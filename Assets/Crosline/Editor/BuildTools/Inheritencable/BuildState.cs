@@ -1,8 +1,6 @@
 ﻿namespace Crosline.BuildTools.Editor {
     public abstract class BuildState {
-        public static BuildState Instance => _instance;
-
-        private static BuildState _instance = null;
+        public static BuildState Instance { get; private set; }
 
         public string Name => _name;
 
@@ -22,11 +20,11 @@
 
         protected BuildState(System.Collections.Generic.List<BuildSteps.BuildStep> buildSteps) {
             _buildSteps = buildSteps;
-            _instance = this;
+            Instance = this;
         }
 
         protected BuildState() {
-            _instance = this;
+            Instance = this;
         }
 
         public void StartState() {
