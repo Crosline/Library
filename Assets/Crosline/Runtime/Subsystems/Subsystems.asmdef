@@ -1,11 +1,13 @@
 {
-    "name": "Crosline.DataStructures",
-    "rootNamespace": "",
-    "references": [],
+    "name": "Subsystems",
+    "rootNamespace": "Subsystems",
+    "references": [
+        "Serializables"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
+    "overrideReferences": true,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
