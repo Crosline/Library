@@ -159,6 +159,9 @@ namespace Crosline {
             for (int i = 0; i < 1000; i++) {
                 var x = $"its sometimes so {5} but also {Color.blue} but not {true}{5} but also {Color.blue} but not {true}";
             }
+            
+            CroslineDebug.Log("[asd]Hello");
+            CroslineDebug.LogError("[asd]Hello");
         }
 
         [Benchmark]
