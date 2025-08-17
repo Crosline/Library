@@ -19,6 +19,10 @@ namespace Crosline.BuildTools {
         public BuildOptions.ScriptingBackend backend = BuildOptions.ScriptingBackend.Mono;
 
         public BuildOptions.ManagedStrippingLevel stripping = BuildOptions.ManagedStrippingLevel.Disabled;
+        
+        public string[] defineSymbolsToAdd = new string[0];
+        public string[] defineSymbolsToRemove = new string[0];
+        public string[] excludedFiles = new string[0];
 
     }
 }

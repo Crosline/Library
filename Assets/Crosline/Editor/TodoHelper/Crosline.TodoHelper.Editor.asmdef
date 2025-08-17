@@ -1,0 +1,21 @@
+{
+    "name": "Crosline.TodoHelper.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:88502a2f462e8ff41be8e59b0be6a136",
+        "GUID:cdc875374697c7b4b9e3cf2fb168944f",
+        "GUID:19ac59f3492347646bd5d5e75ab6d6b6",
+        "GUID:b63e00805c290f34ea5f75d160e6d63a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

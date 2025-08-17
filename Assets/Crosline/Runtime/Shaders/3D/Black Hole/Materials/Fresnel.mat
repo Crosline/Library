@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -22,6 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Fresnel
   m_Shader: {fileID: -6465566751694194690, guid: 2ed7872a23f87b14bae5f1e4dc1cce0e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -29,7 +31,9 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2999
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -66,6 +70,9 @@ Material:
     - Vector1_844e60bc10e545d29ebf7b46b92a02d5: 0
     - Vector1_ad48317e1d034dc1b32f39bccc333697: 0
     - _IsClosed: 1
+    - _QueueControl: 1
+    - _QueueOffset: 0
     m_Colors:
     - Color_813cc1a9e39b443991833f5398309f70: {r: 0, g: 0.3295609, b: 0.98113203, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

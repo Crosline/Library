@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Crosline.UnityTools;
@@ -11,76 +12,88 @@ using UnityEngine.UIElements;
 
 namespace Crosline.ToolbarExtender.Editor {
     public class ToolbarExtensionDrawer {
-        private static GUIStyle _buttonStyle = null;
 
-        private static ScriptableObject _currentToolbar;
-        private static Dictionary<ToolbarZone, VisualElement> _parents = new Dictionary<ToolbarZone, VisualElement>()
-        {
-            {ToolbarZone.LeftAlign, null},
-            {ToolbarZone.MiddleLeftAlign, null},
-            {ToolbarZone.MiddleRightAlign, null},
-            {ToolbarZone.RightAlign, null}
-        };
+        private ScriptableObject _currentToolbar;
+        private VisualElement _root;
+        private Dictionary<ToolbarZone, VisualElement> _parents;
 
-        private static int lastInstanceID;
+        private int _lastInstanceID;
 
-        private static readonly Type
-#if UNITY_EDITOR
+        private readonly Type
             _toolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
-#else
-            _toolbarType;
-#endif
 
-        private static HashSet<MethodInfo> _methods = new();
+        private HashSet<MethodInfo> _methods;
 
         internal void TryDrawToolbar() {
-#if UNITY_EDITOR
-            EditorApplication.update += OnGUI;
-#endif
+            EditorApplication.delayCall += () =>
+            {
+                Initialize();
+
+                EditorApplication.delayCall += OnGUI;
+            };
         }
 
-        private void OnGUI() {
-#if UNITY_EDITOR
-            EditorApplication.update -= OnGUI;
-#endif
+        private void Initialize() {
+            var toolbars = Resources.FindObjectsOfTypeAll(_toolbarType);
+            _currentToolbar = toolbars.Length > 0 ? (ScriptableObject)toolbars[0] : null;
 
-            if (_currentToolbar == null) {
-                var toolbars = Resources.FindObjectsOfTypeAll(_toolbarType);
-                _currentToolbar = toolbars.Length > 0 ? (ScriptableObject)toolbars[0] : null;
-            }
+            _root = _currentToolbar?.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.GetValue(_currentToolbar) as VisualElement;
 
-            if (_currentToolbar == null)
-                return;
+            var tempParents = new Dictionary<ToolbarZone, VisualElement> {
+                {ToolbarZone.LeftAlign, null},
+                {ToolbarZone.MiddleLeftAlign, null},
+                {ToolbarZone.MiddleRightAlign, null},
+                {ToolbarZone.RightAlign, null}
+            };
 
-            var tempParents = new Dictionary<ToolbarZone, VisualElement>(_parents);
+            _parents = new Dictionary<ToolbarZone, VisualElement>(tempParents);
+
             foreach (var toolbarParent in _parents) {
                 tempParents[toolbarParent.Key] = PrepareParent(toolbarParent.Value, toolbarParent.Key);
             }
-            
-            _parents = tempParents;
 
-            AttachToolbars();
+            _parents = new Dictionary<ToolbarZone, VisualElement>(tempParents);
+        }
+
+        private void OnGUI() {
+            if (_currentToolbar == null)
+                return;
+
+            if (_root == null)
+                return;
+
+            if (_parents == null)
+                return;
+
+            AttachToolbars<ToolbarButtonAttribute>();
         }
 
         public void SetAvailableMethods(IEnumerable<MethodInfo> methods) {
             _methods = new HashSet<MethodInfo>(methods);
         }
 
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         private VisualElement CreateToolbarButton(string icon, Action onClick, string tooltip = null) {
             var buttonVE = new Button(onClick);
+
+            buttonVE.text = icon;
             buttonVE.tooltip = tooltip;
+
             FitChildrenStyle(buttonVE);
+
 
             var iconVE = new VisualElement();
             iconVE.AddToClassList("unity-editor-toolbar-element__icon");
 #if UNITY_2021_2_OR_NEWER && UNITY_EDITOR
-            iconVE.style.backgroundImage = Background.FromTexture2D((Texture2D)EditorGUIUtility.IconContent(icon).image);
+            // iconVE.style.backgroundImage = Background.FromTexture2D((Texture2D)EditorGUIUtility.IconContent(icon).image);
             iconVE.style.height = 16;
             iconVE.style.width = 16;
             iconVE.style.alignSelf = Align.Center;
 #elif UNITY_EDITOR
             iconVE.style.backgroundImage = Background.FromTexture2D(EditorGUIUtility.FindTexture(icon));
 #endif
+
             buttonVE.Add(iconVE);
 
             return buttonVE;
@@ -92,47 +105,43 @@ namespace Crosline.ToolbarExtender.Editor {
             element.RemoveFromClassList("unity-button");
         }
 
-        private void AttachToolbars() {
+        private void AttachToolbars<T>() where T : ToolbarAttribute {
             var toolbarButtons =
-                _methods.ToDictionary(method => method, method => method.GetCustomAttribute<ToolbarAttribute>());
+                _methods.ToDictionary(method => method, method => method.GetCustomAttribute<T>());
+            
+            foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.Order)) {
 
-            foreach (var attr in toolbarButtons.OrderByDescending(x => x.Value.order)) {
-                var parent = _parents[attr.Value.toolbarZone];
-                parent.Add(CreateToolbarButton(attr.Value.iconName, () => attr.Key.Invoke(null, null), attr.Value.toolTip));
+                if (!attr.Key.IsStatic) {
+                    throw new InvalidOperationException(
+                        $"Method {attr.Key.Name} is not a static method. Please, use static methods.");
+                }
 
-                _parents[attr.Value.toolbarZone] = parent;
+                var parent = _parents[attr.Value.ToolbarZone];
+                var toolbarElement = attr.Value.CreateVisualElement();
+                parent.Add(CreateToolbarButton(attr.Value.Label, () => attr.Key.Invoke(null, null), attr.Value.ToolTip));
+
+                _parents[attr.Value.ToolbarZone] = parent;
             }
         }
 
         private VisualElement PrepareParent(VisualElement parent, ToolbarZone toolbarZoneAlign) {
             RemoveCurrentParent(ref parent);
-            
+
             if (parent != null)
                 return parent;
 
-            var root = _currentToolbar.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.GetValue(_currentToolbar) as VisualElement;
-
-            if (root == null)
-                return null;
-
-            int flex = ToolbarZone.MiddleLeftAlign == toolbarZoneAlign
-                       || ToolbarZone.RightAlign == toolbarZoneAlign 
+            var flex = ToolbarZone.Middle.HasFlag(toolbarZoneAlign)
                 ? 1 : 0;
 
-            parent = new VisualElement()
-            {
-                style =
-                {
+            parent = new VisualElement() {
+                style = {
                     flexGrow = flex,
                     flexDirection = FlexDirection.Row
                 }
             };
 
-            parent.Add(new VisualElement()
-            {
-                style =
-                {
+            parent.Add(new VisualElement() {
+                style = {
                     flexGrow = flex,
                 }
             });
@@ -141,18 +150,20 @@ namespace Crosline.ToolbarExtender.Editor {
             var toolbarZoneName = ToolbarZone.Left.HasFlag(toolbarZoneAlign)
                 ? "ToolbarZoneLeftAlign"
                 : "ToolbarZoneRightAlign";
-            
-            var toolbarZoneElement = root.Q(toolbarZoneName);
+
+            var toolbarZoneElement = _root.Q(toolbarZoneName);
+
             toolbarZoneElement.Add(parent);
             return parent;
         }
 
         private void RemoveCurrentParent(ref VisualElement parent) {
-            if (parent != null && _currentToolbar.GetInstanceID() != lastInstanceID) {
-                parent.RemoveFromHierarchy();
-                parent = null;
-                lastInstanceID = _currentToolbar.GetInstanceID();
-            }
+            if (parent == null || _currentToolbar.GetInstanceID() == _lastInstanceID)
+                return;
+
+            parent.RemoveFromHierarchy();
+            parent = null;
+            _lastInstanceID = _currentToolbar.GetInstanceID();
         }
     }
 }

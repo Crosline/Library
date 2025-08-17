@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Crosline.SystemTools;
 using Crosline.BuildTools.Editor.Settings;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -13,20 +13,20 @@ namespace Crosline.BuildTools.Editor {
 
         private static Builder _instance = null;
 
-        private static readonly char SEPARATOR = Path.DirectorySeparatorChar;
+        private static readonly char Separator = PathTools.DirectorySeparatorChar;
 
         #region Build Path and Name
-        [Obsolete] private static string MainBuildFolder => $"{CommandLineHelper.Argument("workspace")}{SEPARATOR}Builds";
+        [Obsolete] private static string MainBuildFolder => $"{CommandLineHelper.Argument("workspace")}{Separator}Builds";
 
 #pragma warning disable CS0612
 #if UNITY_ANDROID
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Android";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Android";
 #elif UNITY_IOS
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}IOS";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}IOS";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Windows";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Windows";
 #else
-        public static string BuildFolder => $"{MainBuildFolder}{SEPARATOR}Unknown";
+        public static string BuildFolder => $"{MainBuildFolder}{Separator}Unknown";
 #endif
         public static string CleanProductName {
             get {
@@ -59,10 +59,10 @@ namespace Crosline.BuildTools.Editor {
 #if UNITY_ANDROID
         public static string BuildPath {
             get {
-                var path = $"{BuildFolder}{SEPARATOR}{BuildName}";
+                var path = $"{BuildFolder}{Separator}{BuildName}";
                 
                 if (CommandLineHelper.ArgumentTrue("export")) {
-                    return $"{BuildFolder}{SEPARATOR}{BuildName}";
+                    return $"{BuildFolder}{Separator}{BuildName}";
                 }
                 
                 if (CommandLineHelper.ArgumentTrue("appBundle")) {
@@ -78,9 +78,9 @@ namespace Crosline.BuildTools.Editor {
 #elif UNITY_IOS
         public static string BuildPath => $"{BuildFolder}";
 #elif UNITY_STANDALONE_WIN
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{CommandLineHelper.Argument("buildNumber")}{SEPARATOR}{CleanProductName}.exe";
+        public static string BuildPath => $"{BuildFolder}{Separator}{CommandLineHelper.Argument("buildNumber")}{Separator}{CleanProductName}.exe";
 #else
-        public static string BuildPath => $"{BuildFolder}{SEPARATOR}{BuildName}";
+        public static string BuildPath => $"{BuildFolder}{Separator}{BuildName}";
 #endif
         #endregion
 
@@ -171,27 +171,32 @@ namespace Crosline.BuildTools.Editor {
         #region PostProcessBuild Starters
         [PostProcessBuild(1)]
         public static void OnPostProcessBuild1(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(1);
+            if (Instance != null)
+                Instance.StartBuild(1);
         }
 
         [PostProcessBuild(100)]
         public static void OnPostProcessBuild100(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(100);
+            if (Instance != null)
+                Instance.StartBuild(100);
         }
 
         [PostProcessBuild(300)]
         public static void OnPostProcessBuild300(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(300);
+            if (Instance != null)
+                Instance.StartBuild(300);
         }
 
         [PostProcessBuild(500)]
         public static void OnPostProcessBuild500(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(500);
+            if (Instance != null)
+                Instance.StartBuild(500);
         }
 
         [PostProcessBuild(1000)]
         public static void OnPostProcessBuild1000(BuildTarget target, string pathToBuiltProject) {
-            Instance.StartBuild(1000);
+            if (Instance != null)
+                Instance.StartBuild(1000);
         }
         #endregion
 

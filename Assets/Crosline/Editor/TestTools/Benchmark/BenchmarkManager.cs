@@ -52,19 +52,19 @@ namespace Crosline.TestTools.Editor {
         }
 
         public static void TestMethod(MethodInfo method, int iterationCount = 1) {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
 
-            BenchmarkAttribute attribute = method.GetCustomAttribute<BenchmarkAttribute>();
+            var attribute = method.GetCustomAttribute<BenchmarkAttribute>();
 
             try {
-                object obj = Activator.CreateInstance(method.DeclaringType);
+                var obj = Activator.CreateInstance(method.DeclaringType);
                 stopWatch.Start();
 
-                for (int i = 0; i < iterationCount; i++) {
+                for (var i = 0; i < iterationCount; i++) {
                     method.Invoke(obj, attribute.Parameters);
                 }
 

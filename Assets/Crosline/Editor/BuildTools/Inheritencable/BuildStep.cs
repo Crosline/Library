@@ -3,7 +3,7 @@
     public abstract class BuildStep {
         public string Name => _name;
 
-        protected string _name;
+        private string _name;
 
         public bool IsCritical => _isCritical;
 

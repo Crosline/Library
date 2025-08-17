@@ -42,6 +42,7 @@ namespace Crosline {
         }
     }
 
+    [Serializable]
     public class Test3 : Test {
         public string me;
         
@@ -61,11 +62,17 @@ namespace Crosline {
             Vector3.one * 3f
         };
 
-        [SerializeField, SerializeReference, SerializeAbstract]
+        [SerializeReference]
         public ITest[] tstList;
         
-        [SerializeField, SerializeReference, SerializeAbstract]
+        [SerializeReference]
         public List<ITest> tstLis2t;
+        
+        [SerializeField, SerializeReference]
+        public Test[] AtstList;
+        
+        [SerializeField, SerializeReference]
+        public List<Test> AtstLis2t;
 
         [SerializeField]
         private float test1;
@@ -80,13 +87,13 @@ namespace Crosline {
         [Separator(20)]
         [SerializeField]
         private float test5;
-        [Separator(30)]
-        [SerializeField]
-        private float test6;
         [Separator]
         [Expandable]
         [SerializeField]
         private BuildConfigAsset _buildConfigAsset;
+        [Separator]
+        [SerializeField]
+        private Test3 _test3Class;
 
         private void Start() {
             CroslineDebug.LogError("hi");
@@ -105,10 +112,11 @@ namespace Crosline {
         }
 
         [Benchmark]
-        public void BenchmarkTest1() {
-            byte[] b = new byte[100000000];
+        [ToolbarButton(label: "test")]
+        public static void BenchmarkTest1() {
+            var b = new byte[100000000];
 
-            for (int i = 0; i < 100000000; i++) {
+            for (var i = 0; i < 100000000; i++) {
                 b[i] = 0x00000001;
             }
         }
@@ -123,7 +131,6 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar]
         public void BenchmarkTest3(int size) {
             byte[] b = new byte[size];
 
@@ -152,10 +159,12 @@ namespace Crosline {
             for (int i = 0; i < 1000; i++) {
                 var x = $"its sometimes so {5} but also {Color.blue} but not {true}{5} but also {Color.blue} but not {true}";
             }
+            
+            CroslineDebug.Log("[asd]Hello");
+            CroslineDebug.LogError("[asd]Hello");
         }
 
         [Benchmark]
-        [Toolbar(toolTip: "hello", iconName: "d_PlayButton")]
         public void StringBuilderTest() {
             var sb = new StringBuilder();
 
@@ -177,7 +186,6 @@ namespace Crosline {
         }
 
         [Benchmark]
-        [Toolbar()]
         public void BruteStringTest() {
             for (int i = 0; i < 1000; i++) {
                 var br = "";
@@ -202,7 +210,6 @@ namespace Crosline {
             CroslineDebug.Log("Start");
         }
 
-        [Toolbar()]
         [MenuItem("Crosline/Test/Log/Warning")]
         public static void TestLogWarning() {
             CroslineDebug.LogWarning("Start");

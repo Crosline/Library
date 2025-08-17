@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Crosline.CroslineLibrary.Editor {
     [FilePath("ProjectSettings/CroslineLibrarySettings.asset", FilePathAttribute.Location.ProjectFolder)]
-    
     internal class CroslineLibrarySettings : ScriptableSingleton<CroslineLibrarySettings> {
         [field: SerializeField, ReadOnly] public string Version = "0.0.0";
         

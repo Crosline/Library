@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace Crosline.TestTools.Editor {
             GetMethodInfos();
         }
 
-        [MenuItem("Crosline/Subsystems/Benchmark")]
+        [MenuItem("Crosline/Benchmark", false, 50)]
         public static void Initialize() {
             benchmarkWindow = (BenchmarkWindow) GetWindow(typeof(BenchmarkWindow), false, "Benchmark");
             benchmarkWindow.Show();
@@ -54,10 +55,20 @@ namespace Crosline.TestTools.Editor {
 
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
             EditorGUILayout.BeginVertical();
+            
+            var groupedMethod = methodInfos.GroupBy(x => x.Key.DeclaringType!.Name)
+                .ToDictionary(x => x.Key, x => x.ToList());
 
-            foreach (var method in methodInfos) {
-                DrawMethodInfo(method.Key, method.Value);
+            
+            foreach (var methodGroup in groupedMethod) {
+                GUILayout.Label(methodGroup.Key, EditorStyles.boldLabel);
+                var methods = methodGroup.Value;
+                foreach (var method in methods) {
+                    DrawMethodInfo(method.Key, method.Value);
+                }
+                EditorGUILayout.Space();
             }
+
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
@@ -71,7 +82,7 @@ namespace Crosline.TestTools.Editor {
 
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
-            GUILayout.Label("Method");
+            GUILayout.Label("");
 
             GUILayout.FlexibleSpace();
 

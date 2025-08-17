@@ -1,0 +1,16 @@
+{
+    "name": "Crosline.SystemTools",
+    "rootNamespace": "",
+    "references": [
+        "GUID:88502a2f462e8ff41be8e59b0be6a136"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

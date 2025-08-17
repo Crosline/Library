@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Crosline.UnityTools.Editor {
     [CustomPropertyDrawer(typeof(SerializeAbstractAttribute))]
+    [Obsolete("Obsolete")]
     public class SerializeAbstractDrawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             Type t = fieldInfo.FieldType;
@@ -37,7 +38,7 @@ namespace Crosline.UnityTools.Editor {
                 foreach (Type type in GetClasses(t)) {
                     menu.AddItem(new GUIContent(type.Name), typeName == type.Name, () =>
                     {
-                        property.managedReferenceValue = type.GetConstructor(Type.EmptyTypes).Invoke(null);
+                        property.managedReferenceValue = type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
                         property.serializedObject.ApplyModifiedProperties();
                     });
                 }

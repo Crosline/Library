@@ -4,9 +4,7 @@ using UnityEngine;
 namespace Crosline.BuildTools.Editor.BuildSteps {
     public class BuildReportAnalyzer : BuildStep {
 
-        private bool _useCriticalErrorMessages = false;
-
-        private string[] _criticalErrorMessages = new[] {
+        private readonly string[] _criticalErrorMessages = new[] {
             "Error building Player",
             "Gradle",
             "Unity3d command line execution failed with status",

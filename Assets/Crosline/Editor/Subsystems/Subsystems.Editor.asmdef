@@ -1,0 +1,18 @@
+﻿{
+  "name": "Subsystems.Editor",
+  "rootNamespace": "Subsystems.Editor",
+  "references": [
+    "Subsystems"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
