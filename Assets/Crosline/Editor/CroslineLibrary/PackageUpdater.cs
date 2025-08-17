@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
@@ -37,6 +37,13 @@ namespace Crosline.CroslineLibrary.Editor {
             GUILayout.Label($"Latest Version: {_latestVersion}");
             GUILayout.Label($"Current Version: {_currentVersion}");
             GUILayout.EndVertical();
+            
+            if (_currentVersion.Equals("development")) {
+                if (GUILayout.Button("Increase And Commit")) {
+                    IncreaseManifestAndCommit();
+                }
+                return;
+            }
 
             if (_currentVersion == _latestVersion) {
                 GUILayout.Label("There is nothing to update.");
@@ -60,6 +67,39 @@ namespace Crosline.CroslineLibrary.Editor {
             if (GUILayout.Button("Try Update")) {
                 TryUpdateVersion();
             }
+
+
+        }
+
+        private void IncreaseManifestAndCommit() {
+            const string path = "Assets/Crosline/package.json";
+            var file = File.ReadAllText(path);
+            
+            const string pattern = "\"version\": \"(.*)\",";
+            var match = Regex.Match(file, pattern);
+            
+            var versionStr = match.Success ? match.Groups[1].Value : "0.0.0";
+            var versionStrSplit = versionStr.Split('.');
+            var tinyVersion = int.Parse(versionStrSplit[2]);
+            var minorVersion = int.Parse(versionStrSplit[1]);
+            var majorVersion = int.Parse(versionStrSplit[0]);
+            
+            tinyVersion++;
+            
+            if (tinyVersion == 99) {
+                tinyVersion = 0;
+                minorVersion++;
+            }
+
+            if (minorVersion == 99) {
+                minorVersion = 0;
+                majorVersion++;
+            }
+
+            var newVersion = $"{majorVersion}.{minorVersion}.{tinyVersion}";
+            var replacedText = Regex.Replace(file, pattern, $"\"version\": \"{newVersion}\",");
+            
+            File.WriteAllText(path, replacedText);
         }
 
 
@@ -115,8 +155,10 @@ namespace Crosline.CroslineLibrary.Editor {
             
             settings.Save();
 
-            if (settings.Version.Equals("development"))
+            if (settings.Version.Equals("development")) {
+                _currentVersion = settings.Version;
                 return true;
+            }
 
             settings.Version = "0.0.0";
             settings.Save();
