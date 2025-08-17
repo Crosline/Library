@@ -1,6 +1,6 @@
 {
   "name": "com.crosline.library",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "displayName": "Crosline Library",
   "description": "Library made for faster development and easy to use systems.",
   "unity": "2020.3",
@@ -10,6 +10,7 @@
     "attributes"
   ],
   "dependencies": {
+    "com.unity.feature.development": "1.0.2",
     "com.unity.render-pipelines.universal": "17.0.4"
   },
   "author": {
