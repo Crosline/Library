@@ -9,31 +9,24 @@ using FilePathAttribute = UnityEditor.FilePathAttribute;
 namespace UnityTools.Editor {
     [FilePath("Assets/Crosline/Editor/TodoHelper/Config/TodoHelperConfiguration.asset", FilePathAttribute.Location.ProjectFolder)]
     public class TodoHelperConfiguration : ScriptableSingleton<TodoHelperConfiguration> {
-        // [NonSerialized] [ShowInInspector] [TitleGroup("Local Assignee")]
         public string LocalAssignee;
 
-        // [Title("Configuration")] 
         public string[] AssigneeNames;
 
         public string[] FoldersToSearchTodo;
 
         public string[] PossibleIgnoreCaseTodoTypings;
 
-        // [TitleGroup("Local Assignee")]
-        // [Button]
         private void SaveLocalAssigneeName() {
-            EditorPrefs.SetString("LocalAssignee", LocalAssignee);
+            EditorPrefs.SetString("Crosline_LocalAssignee", LocalAssignee);
             EditorApplication.update.Invoke();
         }
 
-        // [OnInspectorInit]
-        private void GetSavedLocalAssignee() {
-            LocalAssignee = EditorPrefs.GetString("LocalAssignee");
-
-            // if (LocalAssignee.IsNullOrWhitespace()) {
-                // Debug.LogError("Assign your local assignee name from todo helper configuration", this);
-            // }
+        private void GetSavedLocalAssigneeName() {
+            LocalAssignee = EditorPrefs.GetString("Crosline_LocalAssignee");
         }
+
+        #region Settings Provider
 
         [SettingsProvider]
         public static SettingsProvider CreateCustomToolbarSettingProvider() {
@@ -47,7 +40,31 @@ namespace UnityTools.Editor {
                 }
             };
 
+            instance.GetSavedLocalAssigneeName();
+
+            provider.guiHandler += GuiHandler;
+
             return provider;
         }
+
+        private static SerializedObject GetSerializedSettings() {
+            return new SerializedObject(instance);
+        }
+
+        private static void GuiHandler(string searchContext) {
+            var settings = GetSerializedSettings();
+            
+            EditorGUILayout.PropertyField(settings.FindProperty("LocalAssignee"), new GUIContent("Local Assignee"));
+            EditorGUILayout.PropertyField(settings.FindProperty("AssigneeNames"), new GUIContent("Assignee Names"));
+            EditorGUILayout.PropertyField(settings.FindProperty("FoldersToSearchTodo"), new GUIContent("Folders To Search Todo"));
+            EditorGUILayout.PropertyField(settings.FindProperty("PossibleIgnoreCaseTodoTypings"), new GUIContent("Possible IgnoreCase Todo Typings"));
+
+            if (settings.hasModifiedProperties) {
+                settings.ApplyModifiedPropertiesWithoutUndo();
+                instance.SaveLocalAssigneeName();
+            }
+        }
+        
+        #endregion
     }
 }

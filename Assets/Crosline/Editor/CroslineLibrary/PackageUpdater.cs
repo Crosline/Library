@@ -32,7 +32,11 @@ namespace Crosline.CroslineLibrary.Editor {
         }
 
         private void OnGUI() {
-            GUILayout.FlexibleSpace();
+            
+            GUILayout.BeginVertical();
+            GUILayout.Label($"Latest Version: {_latestVersion}");
+            GUILayout.Label($"Current Version: {_currentVersion}");
+            GUILayout.EndVertical();
 
             if (_currentVersion == _latestVersion) {
                 GUILayout.Label("There is nothing to update.");
@@ -53,13 +57,9 @@ namespace Crosline.CroslineLibrary.Editor {
                 MakeRequest();
             }
 
-            GUILayout.FlexibleSpace();
-
             if (GUILayout.Button("Try Update")) {
                 TryUpdateVersion();
             }
-
-            GUILayout.FlexibleSpace();
         }
 
 
