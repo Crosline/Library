@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using Crosline.UnityTools.Editor;
 // using Sirenix.OdinInspector;
 // using Sirenix.Utilities;
 using UnityEditor;
@@ -7,8 +9,8 @@ using UnityEngine;
 using FilePathAttribute = UnityEditor.FilePathAttribute;
 
 namespace UnityTools.Editor {
-    [FilePath("Assets/Crosline/Editor/TodoHelper/Config/TodoHelperConfiguration.asset", FilePathAttribute.Location.ProjectFolder)]
-    public class TodoHelperConfiguration : ScriptableSingleton<TodoHelperConfiguration> {
+    [FilePath("Assets/Settings/Resources/TodoHelper/TodoHelperConfiguration.asset", FilePathAttribute.Location.ProjectFolder)]
+    public class TodoHelperConfiguration : CroslineScriptableSingleton<TodoHelperConfiguration> {
         public string LocalAssignee;
 
         public string[] AssigneeNames;
@@ -16,6 +18,44 @@ namespace UnityTools.Editor {
         public string[] FoldersToSearchTodo;
 
         public string[] PossibleIgnoreCaseTodoTypings;
+
+        #region AssetCreation
+
+        protected override string AssetDirectory => "Assets/Settings/Resources/TodoHelper";
+        protected override void SetDefaults() {
+            instance.PossibleIgnoreCaseTodoTypings = new[] {
+                "//TODO",
+                "// TODO",
+                "//TO DO",
+                "// TO DO",
+            };
+        }
+
+        // internal static TodoHelperConfiguration GetOrCreate() {
+        //     var instance = ScriptableSingleton<TodoHelperConfiguration>.instance;
+        //
+        //     const string directory = "Assets/Settings/Resources/TodoHelper";
+        //
+        //     if (instance != null)
+        //         return instance;
+        //
+        //     if (!Directory.Exists(directory))
+        //         Directory.CreateDirectory(directory);
+        //         
+        //     instance = CreateInstance<TodoHelperConfiguration>();
+        //
+        //     instance.PossibleIgnoreCaseTodoTypings = new[] {
+        //         "//TODO",
+        //         "// TODO",
+        //         "//TO DO",
+        //         "// TO DO",
+        //     };
+        //         
+        //     AssetDatabase.CreateAsset(instance, $"directory/TodoHelperConfiguration.asset");
+        //
+        //     return instance;
+        // }
+        #endregion
 
         private void SaveLocalAssigneeName() {
             EditorPrefs.SetString("Crosline_LocalAssignee", LocalAssignee);

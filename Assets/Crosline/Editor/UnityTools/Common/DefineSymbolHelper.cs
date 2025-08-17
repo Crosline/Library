@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Build;
 
 namespace Crosline.UnityTools.Editor {
-    public class DefineSymbolHelper {
+    public static class DefineSymbolHelper {
 
         private const char ARGS_SEPARATOR = ';';
 

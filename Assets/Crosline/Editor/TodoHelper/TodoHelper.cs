@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Crosline.DataTools;
 using Crosline.SystemTools;
+using Crosline.UnityTools.Editor;
 // using Sirenix.OdinInspector;
 // using Sirenix.Utilities;
 using UnityEditor;
@@ -11,47 +12,56 @@ using UnityEngine;
 using FilePathAttribute = UnityEditor.FilePathAttribute;
 
 namespace UnityTools.Editor {
-    [FilePath("Assets/Crosline/Editor/TodoHelper/Config/TodoHelper.asset", FilePathAttribute.Location.ProjectFolder)]
-    public class TodoHelper : ScriptableSingleton<TodoHelper> {
+    [FilePath("Assets/Settings/Resources/TodoHelper/TodoHelper.asset", FilePathAttribute.Location.ProjectFolder)]
+    public class TodoHelper : CroslineScriptableSingleton<TodoHelper> {
         [SerializeField] private TodoHelperConfiguration Configuration;
 
-        // [HideIf("@IsTodoListNull")]
-        // [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.OneLine, IsReadOnly = true,
-            // KeyLabel = "Assignee", ValueLabel = "Todo Lists")]
-        // [ShowInInspector]
-        public Dictionary<string, TodoData.TodoLists> TodoList = new Dictionary<string, TodoData.TodoLists>();
-
-        private bool IsTodoListNull => TodoList == null;
-
+        private Dictionary<string, TodoData.TodoLists> _todoList = new Dictionary<string, TodoData.TodoLists>();
         private static string ApplicationPath => Application.dataPath;
 
-        public static bool IsCountingTodos;
+        private static bool _isCountingTodos;
+        
+        [InitializeOnLoadMethod]
+        private static void CreateIfNotExists() {
+            EditorApplication.delayCall += (() =>
+            {
+                GetOrCreate();
+            });
+        }
 
-        [MenuItem("Crosline/Todo Helper/Settings", false, 0)]
+        protected override string AssetDirectory => "Assets/Settings/Resources/TodoHelper";
+
+        protected override void SetDefaults() {
+            var todoHelper = TodoHelperConfiguration.GetOrCreate();
+            Configuration = todoHelper;
+        }
+        
+
+        [MenuItem("Crosline/Todo Helper/Select Todo Config", false, 0)]
         public static void SelectConfigurationTool() {
             Selection.activeObject = ScriptableSingleton<TodoHelperConfiguration>.instance;
         }
 
-        [MenuItem("Crosline/Todo Helper/Show Todo", false, 0)]
+        [MenuItem("Crosline/Todo Helper/Select Helper", false, 0)]
         public static void SelectTodoAsset() {
             Selection.activeObject = ScriptableSingleton<TodoHelper>.instance;
         }
 
         // [Button(ButtonSizes.Gigantic)]
         public void SearchForTodo() {
-            if (IsCountingTodos) {
+            if (_isCountingTodos) {
                 return;
             }
 
-            IsCountingTodos = true;
+            _isCountingTodos = true;
 
-            TodoList = new Dictionary<string, TodoData.TodoLists>(Configuration.AssigneeNames.Length);
+            _todoList = new Dictionary<string, TodoData.TodoLists>(Configuration.AssigneeNames.Length);
 
             foreach (var assigneeName in Configuration.AssigneeNames)
-                TodoList.Add(assigneeName,
+                _todoList.Add(assigneeName,
                     new TodoData.TodoLists(new Dictionary<string, TodoData.TodoListData>(1000), new List<string>(1000)));
 
-            TodoList.Add("Unassigned",
+            _todoList.Add("Unassigned",
                 new TodoData.TodoLists(new Dictionary<string, TodoData.TodoListData>(1000), new List<string>(1000)));
 
             foreach (var directoryPath in Configuration.FoldersToSearchTodo) {
@@ -108,7 +118,7 @@ namespace UnityTools.Editor {
                     // var open = f.Open(FileMode.Open);
                 }
 
-                IsCountingTodos = false;
+                _isCountingTodos = false;
             }
 
 
@@ -126,13 +136,13 @@ namespace UnityTools.Editor {
 
                 TodoData.TodoListData todoListToAdd;
 
-                if (TodoList[assigneeName].Topics.Contains(topic)) {
-                    todoListToAdd = TodoList[assigneeName].TodoByTopic[topic];
+                if (_todoList[assigneeName].Topics.Contains(topic)) {
+                    todoListToAdd = _todoList[assigneeName].TodoByTopic[topic];
                 }
                 else {
-                    TodoList[assigneeName].Topics.Add(topic);
-                    TodoList[assigneeName].TodoByTopic.Add(topic, new TodoData.TodoListData(new List<TodoData>()));
-                    todoListToAdd = TodoList[assigneeName].TodoByTopic[topic];
+                    _todoList[assigneeName].Topics.Add(topic);
+                    _todoList[assigneeName].TodoByTopic.Add(topic, new TodoData.TodoListData(new List<TodoData>()));
+                    todoListToAdd = _todoList[assigneeName].TodoByTopic[topic];
                 }
 
                 var occurenceAmount = 0;
@@ -176,7 +186,7 @@ namespace UnityTools.Editor {
         public int GetTodoCount(string assignee) {
             var count = 0;
 
-            if (TodoList.TryGetValue(assignee, out var todoLists))
+            if (_todoList.TryGetValue(assignee, out var todoLists))
                 foreach (var todoList in todoLists.TodoByTopic)
                 foreach (var todoData in todoList.Value.TodoList)
                     if (todoData.TodoHeader.Contains(_criticalTodoTag, StringComparison.InvariantCultureIgnoreCase) ||
