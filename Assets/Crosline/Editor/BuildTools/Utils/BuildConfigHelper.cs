@@ -1,9 +1,28 @@
 ﻿using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 using static Crosline.BuildTools.BuildOptions;
 
 namespace Crosline.BuildTools.Editor {
     public static class BuildConfigConverter {
+        
+        
+        public static NamedBuildTarget ToNamedBuildTarget(this BuildPlatform platform) {
+            switch (platform) {
+                case BuildPlatform.Android:
+                    return NamedBuildTarget.Android;
+
+                case BuildPlatform.IOS:
+                    return NamedBuildTarget.iOS;
+
+                case BuildPlatform.Windows:
+                case BuildPlatform.MacOS:
+                case BuildPlatform.Linux:
+                    return NamedBuildTarget.Standalone;
+            }
+
+            return default;
+        }
 
         public static BuildTarget ToBuildTarget(this BuildPlatform platform) {
             switch (platform) {

@@ -5,9 +5,9 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
     public class AdjustPlayerSettings : BuildStep {
         public override bool Execute() {
             PlayerSettings.bundleVersion = Builder.Instance.buildConfig.version;
-            var buildTargetGroup = Builder.Instance.BuildPlatform.ToBuildTargetGroup();
-            PlayerSettings.SetApplicationIdentifier(buildTargetGroup, Builder.Instance.buildConfig.bundle);
-            PlayerSettings.SetScriptingBackend(buildTargetGroup, Builder.Instance.buildConfig.backend.ToScriptingImplementation());
+            var namedBuildTarget = Builder.Instance.BuildPlatform.ToNamedBuildTarget();
+            PlayerSettings.SetApplicationIdentifier(namedBuildTarget, Builder.Instance.buildConfig.bundle);
+            PlayerSettings.SetScriptingBackend(namedBuildTarget, Builder.Instance.buildConfig.backend.ToScriptingImplementation());
 
             if (Builder.Instance.buildConfig is MobileBuildConfigAsset mobileBuildConfigAsset) {
                 PlayerSettings.defaultInterfaceOrientation = mobileBuildConfigAsset.screenOrientation.ToUIOrientation();
@@ -27,8 +27,6 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                     break;
 
                 case BuildOptions.BuildPlatform.IOS:
-                    PlayerSettings.SetIncrementalIl2CppBuild(buildTargetGroup, !CommandLineHelper.ArgumentTrue("cleanBuild"));
-
                     PlayerSettings.iOS.scriptCallOptimization = ScriptCallOptimizationLevel.FastButNoExceptions;
                     PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                     PlayerSettings.iOS.requiresFullScreen = true;
@@ -38,11 +36,7 @@ namespace Crosline.BuildTools.Editor.BuildSteps {
                     break;
 
                 case BuildOptions.BuildPlatform.Windows:
-                    break;
-
                 case BuildOptions.BuildPlatform.MacOS:
-                    break;
-
                 case BuildOptions.BuildPlatform.Linux:
                     break;
 
