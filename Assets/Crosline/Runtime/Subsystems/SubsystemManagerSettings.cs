@@ -1,4 +1,7 @@
-﻿using Serializables;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using Serializables;
 using UnityEngine;
 
 namespace Subsystems.Core
@@ -15,13 +18,22 @@ namespace Subsystems.Core
             if (settings == null)
             {
                 settings = CreateInstance<SubsystemManagerSettings>();
-#if UNITY_EDITOR
-                UnityEditor.AssetDatabase.CreateAsset(settings,
-                    $"Assets/Settings/Resources/{nameof(SubsystemManagerSettings)}.asset");
-#endif
+
+                settings.Subsystems = Array.Empty<SerializableType<GameSubsystem>>();
+                
+                CreateSettingsAsset(settings);
             }
 
             return settings;
+        }
+
+        [Conditional("UNITY_EDITOR")]
+        private static void CreateSettingsAsset(SubsystemManagerSettings settings) {
+            if (!Directory.Exists("Assets/Settings/Resources"))
+                Directory.CreateDirectory("Assets/Settings/Resources");
+
+            UnityEditor.AssetDatabase.CreateAsset(settings,
+                $"Assets/Settings/Resources/{nameof(SubsystemManagerSettings)}.asset");
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Subsystems.Core
     {
         private void Awake()
         {
-            if (SubsystemManager.Instance == null)
+            if (!SubsystemManager.IsInitialized)
                 return;
 
             SubsystemManager.OnAwake();
@@ -14,7 +14,7 @@ namespace Subsystems.Core
 
         private void OnDestroy()
         {
-            if (SubsystemManager.Instance == null)
+            if (!SubsystemManager.IsInitialized)
                 return;
 
             SubsystemManager.OnDestroy();
@@ -22,7 +22,7 @@ namespace Subsystems.Core
 
         private void OnApplicationFocus(bool hasFocus)
         {
-            if (SubsystemManager.Instance == null)
+            if (!SubsystemManager.IsInitialized)
                 return;
 
             SubsystemManager.OnApplicationFocus(hasFocus);
@@ -30,7 +30,7 @@ namespace Subsystems.Core
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            if (SubsystemManager.Instance == null)
+            if (!SubsystemManager.IsInitialized)
                 return;
 
             SubsystemManager.OnApplicationPause(pauseStatus);

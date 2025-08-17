@@ -16,28 +16,8 @@ namespace Subsystems.Core.Editor
 
         private void OnGUI()
         {
-            if (SubsystemManager.Instance == null)
-            {
-                GUILayout.Label("Subsystem Manager is not initialized.");
-
-                EditorGUILayout.Space();
-
-                if (GUILayout.Button("Force Initialize"))
-                {
-                    SubsystemManager.ForceInitialize_Editor();
-                }
-
+            if (OnGUI_EditMode())
                 return;
-            }
-
-            if (!Application.isPlaying)
-            {
-                GUILayout.Label("Subsystem Manager is initialized in Editor mode.");
-                if (GUILayout.Button("Force Delete"))
-                {
-                    SubsystemManager.ForceShutdown_Editor();
-                }
-            }
 
             var subsystems = SubsystemManager.Subsystems;
             if (subsystems == null || subsystems.Count == 0)
@@ -62,6 +42,35 @@ namespace Subsystems.Core.Editor
             }
 
             GUILayout.EndScrollView();
+        }
+
+        private static bool OnGUI_EditMode() {
+            if (Application.isPlaying)
+                return false;
+
+            if (SubsystemManager.IsInitialized)
+            {
+                GUILayout.Label("Subsystem Manager is initialized in Editor mode.");
+                if (GUILayout.Button("Shutdown"))
+                {
+                    SubsystemManager.ForceShutdown_Editor();
+                }
+
+                return true;
+            }
+            
+            
+            GUILayout.Label("Subsystem Manager is not initialized.");
+            
+            EditorGUILayout.Space();
+            
+            if (GUILayout.Button("Initialize"))
+            {
+                SubsystemManager.ForceInitialize_Editor();
+            }
+
+            
+            return true;
         }
 
 

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Subsystems.Core
 {
-    public sealed class SubsystemManager
+    public static class SubsystemManager
     {
         private static SubsystemManagerMonoHelper _monoHelper;
 
@@ -15,16 +16,16 @@ namespace Subsystems.Core
         private static CancellationTokenSource _cancellationTokenSource;
 
         private static List<Type> _subsystemTypes;
-        private static List<GameSubsystem> _subsystems;
-        internal static List<GameSubsystem> Subsystems => _subsystems;
-        internal static SubsystemManager Instance { get; private set; }
+        internal static List<GameSubsystem> Subsystems { get; private set; }
+        
+        public static bool IsInitialized { get; private set; }
 
 
-        public static bool TryGetInstanceWithoutError<TSubsystem>(out TSubsystem subsystem) where TSubsystem : GameSubsystem
+        public static bool TryGet<TSubsystem>(out TSubsystem subsystem) where TSubsystem : GameSubsystem
         {
             try
             {
-                subsystem = TryGetInstance<TSubsystem>();
+                subsystem = Get<TSubsystem>();
                 return subsystem != null;
             }
             catch 
@@ -34,44 +35,27 @@ namespace Subsystems.Core
             }
         }
 
-        public static TSubsystem TryGetInstance<TSubsystem>() where TSubsystem : GameSubsystem
+        public static TSubsystem Get<TSubsystem>() where TSubsystem : GameSubsystem
         {
             var typeIndex = _subsystemTypes.IndexOf(typeof(TSubsystem));
             if (typeIndex == -1)
                 throw new ArgumentException($"Subsystem of type {typeof(TSubsystem)} not found");
 
-            return _subsystems[typeIndex] as TSubsystem;
-        }
-
-        public static bool TryRegister<TSubsystem>(TSubsystem gameSubsystem) where TSubsystem : GameSubsystem
-        {
-            return TryRegister(typeof(TSubsystem), gameSubsystem);
+            return Subsystems[typeIndex] as TSubsystem;
         }
 
         private static bool TryRegister(Type type, GameSubsystem gameSubsystem)
         {
             if (_subsystemTypes.Contains(type)) return false;
 
-            _subsystems.Add(gameSubsystem);
+            Subsystems.Add(gameSubsystem);
             _subsystemTypes.Add(type);
             return true;
         }
 
-        public static bool TryUnregister<TSubsystem>(TSubsystem gameSubsystem) where TSubsystem : GameSubsystem
-        {
-            if (!_subsystemTypes.Contains(typeof(TSubsystem))) return false;
-
-            _subsystems.Remove(gameSubsystem);
-            _subsystemTypes.Remove(typeof(TSubsystem));
-            return true;
-        }
-
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void OnBeforeSceneLoad()
         {
-            if (Instance != null) return;
-
             Application.quitting += OnApplicationQuit;
             Initialize();
         }
@@ -85,11 +69,10 @@ namespace Subsystems.Core
 
         private static void Initialize()
         {
-            Instance = new SubsystemManager();
             _cancellationTokenSource = new CancellationTokenSource();
             _settings = SubsystemManagerSettings.GetOrCreate();
 
-            _subsystems = new List<GameSubsystem>();
+            Subsystems = new List<GameSubsystem>();
             _subsystemTypes = new List<Type>();
 
             foreach (var gameSubsystem in _settings.Subsystems)
@@ -108,11 +91,13 @@ namespace Subsystems.Core
 
             _monoHelper = new GameObject(nameof(SubsystemManagerMonoHelper))
                 .AddComponent<SubsystemManagerMonoHelper>();
+
+            IsInitialized = true;
         }
 
         private static void Shutdown()
         {
-            Instance = null;
+            IsInitialized = false;
 
             if (_cancellationTokenSource != null)
             {
@@ -121,10 +106,10 @@ namespace Subsystems.Core
                 _cancellationTokenSource = null;
             }
 
-            foreach (var singleton in _subsystems) singleton.Shutdown();
+            foreach (var singleton in Subsystems) singleton.Shutdown();
 
-            _subsystems.Clear();
-            _subsystems = null;
+            Subsystems.Clear();
+            Subsystems = null;
 
             _subsystemTypes.Clear();
             _subsystemTypes = null;
@@ -135,7 +120,7 @@ namespace Subsystems.Core
 
         internal static void OnAwake()
         {
-            foreach (var singleton in _subsystems)
+            foreach (var singleton in Subsystems)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 singleton.OnAwake();
@@ -144,7 +129,7 @@ namespace Subsystems.Core
 
         internal static void OnDestroy()
         {
-            foreach (var singleton in _subsystems)
+            foreach (var singleton in Subsystems)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 singleton.OnDestroy();
@@ -153,7 +138,7 @@ namespace Subsystems.Core
 
         internal static void OnApplicationFocus(bool hasFocus)
         {
-            foreach (var singleton in _subsystems)
+            foreach (var singleton in Subsystems)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 singleton.OnApplicationFocus(hasFocus);
@@ -162,7 +147,7 @@ namespace Subsystems.Core
 
         internal static void OnApplicationPause(bool hasPaused)
         {
-            foreach (var singleton in _subsystems)
+            foreach (var singleton in Subsystems)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 singleton.OnApplicationPause(hasPaused);
@@ -171,7 +156,7 @@ namespace Subsystems.Core
 
         private static void __OnApplicationQuit()
         {
-            foreach (var singleton in _subsystems)
+            foreach (var singleton in Subsystems)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 singleton.OnApplicationQuit();
@@ -181,26 +166,24 @@ namespace Subsystems.Core
 
         #region Editor Callbacks
 
-#if UNITY_EDITOR
+        [Conditional("UNITY_EDITOR")]
         internal static void ForceInitialize_Editor()
         {
             if (Application.isPlaying) return;
-            if (Instance != null) return;
             Initialize();
 
-            UnityEditor.EditorApplication.delayCall += () => Object.Destroy(_monoHelper.gameObject);
+            UnityEditor.EditorApplication.delayCall += () => Object.DestroyImmediate(_monoHelper.gameObject);
 
             UnityEditor.EditorApplication.playModeStateChanged += _ => { OnApplicationQuit(); };
         }
 
+        [Conditional("UNITY_EDITOR")]
         internal static void ForceShutdown_Editor()
         {
             if (Application.isPlaying) return;
-            if (Instance == null) return;
 
             OnApplicationQuit();
         }
-#endif
 
         #endregion
     }
